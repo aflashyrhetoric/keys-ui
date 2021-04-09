@@ -1,5 +1,6 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -10,20 +11,34 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>{/* project:mk */}</h1>
 
         <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
+          project:mk
+          <br />
+          v0.1a
         </p>
 
         <div className={styles.grid}>
-          <Link href="/quiz" className={styles.card}>
-            <h3>Quiz &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <Link href="/quiz/s">
+            <h3>Take the quiz &rarr;</h3>
+            <p>
+              Personalized recommendations to help you find products that
+              complement your workflow and aesthetic.
+            </p>
           </Link>
+
+          <a
+            href="https://nextjs.org/docs"
+            className={styles.card}
+            style={{ opacity: 0.5 }}
+          >
+            <h3>(COMING SOON) Keyboard Configurator &rarr;</h3>
+            <p>
+              <strong>Already a pro?</strong> Create a build with the
+              configurator.
+            </p>
+          </a>
         </div>
       </main>
 
