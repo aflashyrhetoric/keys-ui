@@ -1,5 +1,6 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -21,8 +22,10 @@ export default function Home() {
 
         <div className={styles.grid}>
           <Link href="/quiz" className={styles.card}>
-            <h3>Quiz &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+            <div className={styles.card}>
+              <h3>Quiz &rarr;</h3>
+              <p>THE REST OF THIS PAGE IS UNDER CONSTRUCTION</p>
+            </div>
           </Link>
         </div>
       </main>
