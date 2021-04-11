@@ -6,10 +6,16 @@ import quizStyles from "../styles/Quiz.module.scss"
 
 import Questions, { Question } from "data/questions"
 import Page from "templates/page"
+import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 
 export default function Quiz() {
   const [started, setStarted] = useState(false)
   const [formState, setFormState] = useState({})
+  const [questionIndex, setQuestionIndex] = useState(0)
+
+  const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
+  const moveToNextQuestion = () => setQuestionIndex(questionIndex + 1)
+  const canContinue = () => !!questions[questionIndex + 1]
 
   const questions: Question[] = Questions()
 
@@ -34,22 +40,17 @@ export default function Quiz() {
           )}
 
           {started &&
-            questions.map((q) => (
-              <div>
-                <h3>{q.question}</h3>
-                {q.choices.map((choice) => (
-                  <ul className={quizStyles.choiceContainer}>
-                    <li
-                      className={quizStyles.choice}
-                      onClick={() =>
-                        setFormState({ ...formState, [q.key]: choice.value })
-                      }
-                    >
-                      {choice.text}
-                    </li>
-                  </ul>
-                ))}
-              </div>
+            [questions[questionIndex]].map((q) => (
+              <MultipleChoiceQuestion
+                question={q}
+                formState={formState}
+                setFormState={setFormState}
+                questionIndex={questionIndex}
+                setQuestionIndex={setQuestionIndex}
+                canContinue={canContinue}
+                moveToNextQuestion={moveToNextQuestion}
+                moveToPreviousQuestion={moveToPreviousQuestion}
+              />
             ))}
         </div>
       </main>
