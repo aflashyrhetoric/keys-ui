@@ -10,6 +10,7 @@ export interface Choice {
   text: string
   value: any
   toString?: Function
+  pictorial: boolean
 }
 
 const getQuestions = (): Question[] => {
@@ -24,9 +25,10 @@ const getQuestions = (): Question[] => {
   const addQ = (text: string, key: string, choices) =>
     add(q(text, key, choices))
 
-  const choice = (text: any, value: any, toString?: Function) => ({
+  const choice = (text: any, value: any, pictorial, toString?: Function) => ({
     text,
     value,
+    pictorial,
     toString,
   })
 
