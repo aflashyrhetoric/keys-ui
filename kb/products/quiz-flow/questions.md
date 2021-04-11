@@ -14,8 +14,8 @@
 1. Keyboard layout selection
   - Do you need a numpad?
   - Will you need to use this keyboard with a Mac, or a PC, or both?
-  - Pic: Color group of frame color
   - Is wireless functionality important to you?
+  - Pic: Color group of frame color
 2. Switch Selection
   - Click the Switch you like the best
 3. Keycap selection

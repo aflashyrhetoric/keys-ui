@@ -36,38 +36,39 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
 
   return (
     <div className={quizStyles.question}>
-      <h3>
-        {questionIndex + 1}. {text}
-      </h3>
-      <ul className={quizStyles.choiceContainer}>
-        {choices.map((choice) => {
-          const isCurrentlySelected =
-            formState && formState[key] === choice.value && quizStyles.chosen
+      <div>
+        <h3>
+          {questionIndex + 1}. {text}
+        </h3>
+        <ul className={quizStyles.choiceContainer}>
+          {choices.map((choice) => {
+            const isCurrentlySelected =
+              formState && formState[key] === choice.value && quizStyles.chosen
 
-          return (
-            <li
-              key={choice.value}
-              className={classnames(
-                quizStyles.choice,
-                isCurrentlySelected && quizStyles.chosen,
-              )}
-              onClick={() => {
-                setFormState({ ...formState, [key]: choice.value })
+            return (
+              <li
+                key={choice.value}
+                className={classnames(
+                  quizStyles.choice,
+                  isCurrentlySelected && quizStyles.chosen,
+                )}
+                onClick={() => {
+                  setFormState({ ...formState, [key]: choice.value })
 
-                if (canContinue()) {
-                  moveToNextQuestion()
-                }
-              }}
-            >
-              {choice.text}
+                  if (canContinue()) {
+                    moveToNextQuestion()
+                  }
+                }}
+              >
+                {choice.text}
 
-              {isCurrentlySelected && <FiCheck />}
-            </li>
-          )
-        })}
-      </ul>
+                {isCurrentlySelected && <FiCheck />}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
 
-      <div style={{ marginBottom: "10px" }} />
       <div className={quizStyles.buttonSet}>
         {questionIndex > 0 && (
           <button

@@ -35,7 +35,7 @@ export default function Quiz() {
         <div className={styles.grid}>
           {!started && (
             <div className={quizStyles.button} onClick={() => setStarted(true)}>
-              <h3>Start quiz &rarr;</h3>
+              <span>Start quiz &rarr;</span>
             </div>
           )}
 

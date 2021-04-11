@@ -24,21 +24,26 @@ const getQuestions = (): Question[] => {
   const addQ = (text: string, key: string, choices) =>
     add(q(text, key, choices))
 
-  const c = (text: string, value: any, toString?: Function) => ({
+  const choice = (text: any, value: any, toString?: Function) => ({
     text,
     value,
     toString,
   })
 
   addQ("Do you want or require a numpad?", "numpad", [
-    c("Yes", true),
-    c("No", false),
+    choice("Yes", true),
+    choice("No", false),
   ])
 
-  addQ("macOS or Windows? (Or both?)", "compatible_oses", [
-    c("Windows", "windows"),
-    c("Mac", "mac"),
-    c("Both", "both"),
+  addQ("macOS or PC? (Or both?)", "compatible_oses", [
+    choice("Windows", "windows"),
+    choice("Mac", "mac"),
+    choice("Both", "both"),
+  ])
+
+  addQ("Do you need Bluetooth capability?", "bluetooth", [
+    choice("Yes, I need to be able to use the keyboard wirelessly.", true),
+    choice("Nope - with or without is fine.", false),
   ])
 
   return questions
