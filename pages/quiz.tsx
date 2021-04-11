@@ -4,11 +4,14 @@ import Link from "next/link"
 import styles from "../styles/Home.module.css"
 import quizStyles from "../styles/Quiz.module.scss"
 
-import Questions from "data/questions"
+import Questions, { Question } from "data/questions"
 import Page from "templates/page"
 
-export default function Home() {
+export default function Quiz() {
   const [started, setStarted] = useState(false)
+  const [formState, setFormState] = useState({})
+
+  const questions: Question[] = Questions()
 
   return (
     <Page>
@@ -25,22 +28,29 @@ export default function Home() {
 
         <div className={styles.grid}>
           {!started && (
-            <div
-              className={quizStyles.question}
-              onClick={() => setStarted(true)}
-            >
+            <div className={quizStyles.button} onClick={() => setStarted(true)}>
               <h3>Start quiz &rarr;</h3>
             </div>
           )}
 
-          {started && (
-            <div
-              className={quizStyles.question}
-              onClick={() => setStarted(true)}
-            >
-              <h3>{Questions()[0].question}</h3>
-            </div>
-          )}
+          {started &&
+            questions.map((q) => (
+              <div>
+                <h3>{q.question}</h3>
+                {q.choices.map((choice) => (
+                  <ul className={quizStyles.choiceContainer}>
+                    <li
+                      className={quizStyles.choice}
+                      onClick={() =>
+                        setFormState({ ...formState, [q.key]: choice.value })
+                      }
+                    >
+                      {choice.text}
+                    </li>
+                  </ul>
+                ))}
+              </div>
+            ))}
         </div>
       </main>
     </Page>

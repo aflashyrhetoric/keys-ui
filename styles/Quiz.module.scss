@@ -1,4 +1,4 @@
-.question {
+@mixin general-ui {
   background: white;
   padding: 0.5rem;
   padding: {
@@ -6,18 +6,41 @@
     right: 2rem;
   }
   border-radius: 3px;
-  box-shadow: 0 2px 4px 2px rgba(0,0,0, 0.20);
+}
+
+.card {
+  @include general-ui();
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+  @include general-ui();
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
   transition: box-shadow 200ms ease;
   cursor: pointer;
-    
+
   &:hover {
-    box-shadow: 0 2px 4px 2px rgba(0,0,0, 0.10);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   }
   &:active {
-    box-shadow: 0 2px 2px 2px rgba(0,0,0, 0.05);
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.05);
   }
 
   h3 {
-    user-select: none;;
+    user-select: none;
+  }
+}
+
+.choiceContainer {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.choice {
+  @include general-ui();
+  padding-left: 1rem;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
   }
 }
