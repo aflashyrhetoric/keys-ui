@@ -42,6 +42,7 @@ export default function Quiz() {
           {started &&
             [questions[questionIndex]].map((q) => (
               <MultipleChoiceQuestion
+                key={q.key}
                 question={q}
                 formState={formState}
                 setFormState={setFormState}

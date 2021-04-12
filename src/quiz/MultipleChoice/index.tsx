@@ -32,7 +32,7 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
 }: Props) => {
   // const [something, setSomething] = useState(props.something);
 
-  const { text, key, choices } = question
+  const { text, key, choices, pictorial } = question
 
   return (
     <div className={quizStyles.question}>
@@ -40,27 +40,42 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
         <h3>
           {questionIndex + 1}. {text}
         </h3>
-        <ul className={quizStyles.choiceContainer}>
+        <ul
+          className={classnames(
+            quizStyles.choiceContainer,
+            pictorial && quizStyles.pictorialChoiceContainer,
+          )}
+        >
           {choices.map((choice) => {
+            const { text, value, imgPath } = choice
+
             const isCurrentlySelected =
-              formState && formState[key] === choice.value && quizStyles.chosen
+              formState && formState[key] === value && quizStyles.chosen
 
             return (
               <li
-                key={choice.value}
+                key={value}
                 className={classnames(
                   quizStyles.choice,
+                  pictorial && quizStyles.imageChoice,
                   isCurrentlySelected && quizStyles.chosen,
                 )}
+                style={
+                  pictorial
+                    ? {
+                        background: `url('/choice-images/${imgPath}.png')`,
+                      }
+                    : {}
+                }
                 onClick={() => {
-                  setFormState({ ...formState, [key]: choice.value })
+                  setFormState({ ...formState, [key]: value })
 
                   if (canContinue()) {
                     moveToNextQuestion()
                   }
                 }}
               >
-                {choice.text}
+                {text}
 
                 {isCurrentlySelected && <FiCheck />}
               </li>

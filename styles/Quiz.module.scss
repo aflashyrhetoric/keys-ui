@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 @mixin general-ui {
   background: white;
   padding: 0.5rem;
@@ -38,9 +40,13 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  width: 540px;
   max-width: 80%;
   min-height: 300px;
+
+  @include bp(md) {
+    width: 900px;
+  }
+
   h3 {
     font-weight: bold;
   }
@@ -50,11 +56,18 @@
   padding-left: 0;
   list-style-type: none;
 }
+.pictorialChoiceContainer {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 540px;
+  justify-content: space-between;
+}
 
 .choice {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px;
 
   @include general-ui();
   padding-left: 1rem;
@@ -66,6 +79,11 @@
     padding-left: 1.4rem;
     background: rgba(0, 0, 0, 0.05);
   }
+}
+
+.imageChoice {
+  width: 280px;
+  height: 280px;
 }
 
 $green: #edfff0;

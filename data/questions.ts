@@ -4,31 +4,43 @@ export interface Question {
   text: string
   key: string
   choices: Choice[]
+  pictorial: boolean
 }
 
 export interface Choice {
   text: string
   value: any
+  imgPath: string
   toString?: Function
-  pictorial: boolean
 }
 
 const getQuestions = (): Question[] => {
   const questions: Question[] = []
   const add = (x: Question) => questions.push(x)
-  const q = (text: string, key: string, choices: Choice[]) => ({
+  const q = (
+    text: string,
+    key: string,
+    choices: Choice[],
+    pictorial = false,
+  ) => ({
     text,
     key,
     choices,
+    pictorial,
   })
 
-  const addQ = (text: string, key: string, choices) =>
-    add(q(text, key, choices))
+  const addQ = (text: string, key: string, choices, pictorial = false) =>
+    add(q(text, key, choices, pictorial))
 
-  const choice = (text: any, value: any, pictorial, toString?: Function) => ({
+  const choice = (
+    text: any,
+    value: any,
+    imgPath = "default",
+    toString?: Function,
+  ) => ({
     text,
     value,
-    pictorial,
+    imgPath,
     toString,
   })
 
@@ -47,6 +59,16 @@ const getQuestions = (): Question[] => {
     choice("Yes, I need to be able to use the keyboard wirelessly.", true),
     choice("Nope - with or without is fine.", false),
   ])
+
+  addQ(
+    "Which frame color?",
+    "frame_color",
+    [
+      choice("Light", "light", "light-frame"),
+      choice("Dark", "dark", "dark-frame"),
+    ],
+    true,
+  )
 
   return questions
 }
