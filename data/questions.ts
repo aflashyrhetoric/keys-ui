@@ -64,8 +64,9 @@ const getQuestions = (): Question[] => {
     "Which frame color?",
     "frame_color",
     [
-      choice("Light", "light", "light-frame"),
-      choice("Dark", "dark", "dark-frame"),
+      choice("White", "white", "light-frame"),
+      choice("Black", "black", ""),
+      choice("Gray", "gray", "dark-frame"),
     ],
     true,
   )

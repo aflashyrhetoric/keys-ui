@@ -8,8 +8,14 @@ import Questions, { Question } from "data/questions"
 import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 
+export enum QuizPhase {
+  NotBegun = "NotBegun",
+  Started = "Started",
+  Finished = "Finished",
+}
+
 export default function Quiz() {
-  const [started, setStarted] = useState(false)
+  const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
   const [formState, setFormState] = useState({})
   const [questionIndex, setQuestionIndex] = useState(0)
 
@@ -24,7 +30,7 @@ export default function Quiz() {
       <main className={styles.main}>
         <h1 className={styles.title}>{/* project:mk */}</h1>
 
-        {!started && (
+        {phase === QuizPhase.NotBegun && (
           <p className={styles.description}>
             project:mk
             <br />
@@ -33,26 +39,62 @@ export default function Quiz() {
         )}
 
         <div className={styles.grid}>
-          {!started && (
-            <div className={quizStyles.button} onClick={() => setStarted(true)}>
+          {phase === QuizPhase.NotBegun && (
+            <div
+              className={quizStyles.button}
+              onClick={() => setPhase(QuizPhase.Started)}
+            >
               <span>Start quiz &rarr;</span>
             </div>
           )}
 
-          {started &&
+          {phase === QuizPhase.Started &&
             [questions[questionIndex]].map((q) => (
-              <MultipleChoiceQuestion
-                key={q.key}
-                question={q}
-                formState={formState}
-                setFormState={setFormState}
-                questionIndex={questionIndex}
-                setQuestionIndex={setQuestionIndex}
-                canContinue={canContinue}
-                moveToNextQuestion={moveToNextQuestion}
-                moveToPreviousQuestion={moveToPreviousQuestion}
-              />
+              <>
+                <MultipleChoiceQuestion
+                  key={q.key}
+                  question={q}
+                  formState={formState}
+                  setFormState={setFormState}
+                  questionIndex={questionIndex}
+                  setQuestionIndex={setQuestionIndex}
+                  canContinue={canContinue}
+                  moveToNextQuestion={moveToNextQuestion}
+                  moveToPreviousQuestion={moveToPreviousQuestion}
+                />
+                <div className={quizStyles.buttonSet}>
+                  {questionIndex > 0 && (
+                    <button
+                      className={quizStyles.leftButton}
+                      onClick={() => moveToPreviousQuestion()}
+                    >
+                      Back
+                    </button>
+                  )}
+                  {formState &&
+                    formState[q.key] !== undefined &&
+                    canContinue() && (
+                      <button
+                        className={quizStyles.rightButton}
+                        onClick={() => moveToNextQuestion()}
+                      >
+                        Next
+                      </button>
+                    )}
+                  {formState &&
+                    formState[q.key] !== undefined &&
+                    !canContinue() && (
+                      <button
+                        className={quizStyles.rightButton}
+                        onClick={() => setPhase(QuizPhase.Finished)}
+                      >
+                        See Results
+                      </button>
+                    )}
+                </div>
+              </>
             ))}
+          {phase === QuizPhase.Finished && JSON.stringify(formState, null, 2)}
         </div>
       </main>
     </Page>

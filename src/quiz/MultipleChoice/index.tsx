@@ -23,15 +23,13 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
   formState,
   setFormState,
   questionIndex,
-  setQuestionIndex,
+  // setQuestionIndex,
 
   canContinue,
 
   moveToPreviousQuestion,
   moveToNextQuestion,
 }: Props) => {
-  // const [something, setSomething] = useState(props.something);
-
   const { text, key, choices, pictorial } = question
 
   return (
@@ -63,7 +61,9 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
                 style={
                   pictorial
                     ? {
-                        background: `url('/choice-images/${imgPath}.png')`,
+                        background: `url('/choice-images/${
+                          imgPath || "default"
+                        }.png')`,
                       }
                     : {}
                 }
@@ -75,32 +75,13 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
                   }
                 }}
               >
-                {text}
+                {!pictorial && text}
 
                 {isCurrentlySelected && <FiCheck />}
               </li>
             )
           })}
         </ul>
-      </div>
-
-      <div className={quizStyles.buttonSet}>
-        {questionIndex > 0 && (
-          <button
-            className={quizStyles.leftButton}
-            onClick={() => moveToPreviousQuestion()}
-          >
-            Back
-          </button>
-        )}
-        {formState && formState[key] !== undefined && canContinue() && (
-          <button
-            className={quizStyles.rightButton}
-            onClick={() => moveToNextQuestion()}
-          >
-            Next
-          </button>
-        )}
       </div>
     </div>
   )
