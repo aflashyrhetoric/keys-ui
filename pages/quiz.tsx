@@ -15,7 +15,7 @@ export enum QuizPhase {
 
 export default function Quiz() {
   const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
-  const [formState, setFormState] = useState({})
+  const [formState, setFormState] = useState<any>({})
   const [questionIndex, setQuestionIndex] = useState(0)
 
   const [products, setProducts] = useState([])
@@ -27,8 +27,12 @@ export default function Quiz() {
   const questions: Question[] = Questions()
 
   const setProductData = async () => {
-    const data = await loadProductData()
-    setProducts(data)
+    const resp = await loadProductData()
+    const productData = JSON.parse(resp.data)
+
+    console.log(productData)
+
+    setProducts(productData)
   }
 
   return (
@@ -105,8 +109,17 @@ export default function Quiz() {
             ))}
           {phase === QuizPhase.Finished && (
             <>
-              {JSON.stringify(formState, null, 2)}
-              {JSON.stringify(products, null, 2)}
+              {/* {JSON.stringify(formState, null, 2)} */}
+              {/* {JSON.stringify(products, null, 2)} */}
+              <ul>
+                {!!products &&
+                  products
+                    .filter(productData => {
+                      const { frame_color } = productData
+                      return frame_color.toLowerCase() === formState.frame_color
+                    })
+                    .map(product => <p>{product.full_title}</p>)}
+              </ul>
             </>
           )}
         </div>
