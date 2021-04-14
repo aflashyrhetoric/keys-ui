@@ -6,8 +6,8 @@ import { FiCheck } from "react-icons/fi"
 
 interface Props {
   question: Question
-  formState: Object
-  setFormState: Function
+  userPrefs: Object
+  setUserPrefs: Function
 
   questionIndex: number
   setQuestionIndex: Function
@@ -20,8 +20,8 @@ interface Props {
 
 const MultipleChoiceQuestion: React.FC<Props> = ({
   question,
-  formState,
-  setFormState,
+  userPrefs,
+  setUserPrefs,
   questionIndex,
   // setQuestionIndex,
 
@@ -44,11 +44,11 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
             pictorial && quizStyles.pictorialChoiceContainer,
           )}
         >
-          {choices.map((choice) => {
+          {choices.map(choice => {
             const { text, value, imgPath } = choice
 
             const isCurrentlySelected =
-              formState && formState[key] === value && quizStyles.chosen
+              userPrefs && userPrefs[key] === value && quizStyles.chosen
 
             return (
               <li
@@ -68,7 +68,7 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
                     : {}
                 }
                 onClick={() => {
-                  setFormState({ ...formState, [key]: value })
+                  setUserPrefs({ ...userPrefs, [key]: value })
 
                   if (canContinue()) {
                     moveToNextQuestion()

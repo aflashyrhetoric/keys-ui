@@ -15,9 +15,8 @@ export enum QuizPhase {
 
 export default function Quiz() {
   const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
-  const [formState, setFormState] = useState<any>({})
+  const [userPrefs, setUserPrefs] = useState<any>({})
   const [questionIndex, setQuestionIndex] = useState(0)
-
   const [products, setProducts] = useState([])
 
   const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
@@ -64,8 +63,8 @@ export default function Quiz() {
                 <MultipleChoiceQuestion
                   key={q.key}
                   question={q}
-                  formState={formState}
-                  setFormState={setFormState}
+                  userPrefs={userPrefs}
+                  setUserPrefs={setUserPrefs}
                   questionIndex={questionIndex}
                   setQuestionIndex={setQuestionIndex}
                   canContinue={canContinue}
@@ -81,8 +80,8 @@ export default function Quiz() {
                       Back
                     </button>
                   )}
-                  {formState &&
-                    formState[q.key] !== undefined &&
+                  {userPrefs &&
+                    userPrefs[q.key] !== undefined &&
                     canContinue() && (
                       <button
                         className={quizStyles.rightButton}
@@ -91,8 +90,8 @@ export default function Quiz() {
                         Next
                       </button>
                     )}
-                  {formState &&
-                    formState[q.key] !== undefined &&
+                  {userPrefs &&
+                    userPrefs[q.key] !== undefined &&
                     !canContinue() && (
                       <button
                         className={quizStyles.rightButton}
@@ -109,14 +108,14 @@ export default function Quiz() {
             ))}
           {phase === QuizPhase.Finished && (
             <>
-              {/* {JSON.stringify(formState, null, 2)} */}
+              {/* {JSON.stringify(userPrefs, null, 2)} */}
               {/* {JSON.stringify(products, null, 2)} */}
               <ul>
                 {!!products &&
                   products
                     .filter(productData => {
                       const { frame_color } = productData
-                      return frame_color.toLowerCase() === formState.frame_color
+                      return frame_color.toLowerCase() === userPrefs.frame_color
                     })
                     .map(product => <p>{product.full_title}</p>)}
               </ul>

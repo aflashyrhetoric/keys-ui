@@ -17,7 +17,8 @@
   - Is wireless functionality important to you?
   - Pic: Color group of frame color
 2. Switch Selection
-  - Click the Switch you like the best
+  - Click the Switch you like the best to hear
+  - Do you prefer gaming
 3. Keycap selection
   - Pic: Color theme
   - Pic: 
