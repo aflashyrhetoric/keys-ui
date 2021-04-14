@@ -3,14 +3,9 @@ import styles from "../styles/Home.module.css"
 import quizStyles from "../styles/Quiz.module.scss"
 
 import Questions, { Question } from "data/questions"
-import { redis_keys } from "data/redis"
 import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
-
-// const Redis = require("ioredis")
-import Redis from "ioredis"
-const redisConnectionString = `rediss://default:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
-const redis = new Redis(redisConnectionString)
+import { loadProductData } from "src/utils/api-helpers"
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -31,16 +26,14 @@ export default function Quiz() {
 
   const questions: Question[] = Questions()
 
-  const loadProductData = async () => await redis.get(redis_keys.products)
-
   const setProductData = async () => {
     const data = await loadProductData()
-    setProducts(JSON.parse(data))
+    setProducts(data)
   }
 
   return (
     <Page>
-      <main className={styles.main}>
+      <>
         <h1 className={styles.title}>{/* project:mk */}</h1>
 
         {phase === QuizPhase.NotBegun && (
@@ -62,7 +55,7 @@ export default function Quiz() {
           )}
 
           {phase === QuizPhase.Started &&
-            [questions[questionIndex]].map((q) => (
+            [questions[questionIndex]].map(q => (
               <>
                 <MultipleChoiceQuestion
                   key={q.key}
@@ -110,9 +103,14 @@ export default function Quiz() {
                 </div>
               </>
             ))}
-          {phase === QuizPhase.Finished && JSON.stringify(formState, null, 2)}
+          {phase === QuizPhase.Finished && (
+            <>
+              {JSON.stringify(formState, null, 2)}
+              {JSON.stringify(products, null, 2)}
+            </>
+          )}
         </div>
-      </main>
+      </>
     </Page>
   )
 }

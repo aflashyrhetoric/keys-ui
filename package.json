@@ -22,6 +22,7 @@
     "semi": false,
     "trailingComma": "all",
     "useTabs": false,
+    "arrowParens": "avoid",
     "tabWidth": 2
   }
 }
