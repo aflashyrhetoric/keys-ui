@@ -1,12 +1,16 @@
-import { useState } from "react"
-import Head from "next/head"
-import Link from "next/link"
+import { useState, useMemo } from "react"
 import styles from "../styles/Home.module.css"
 import quizStyles from "../styles/Quiz.module.scss"
 
 import Questions, { Question } from "data/questions"
+import { redis_keys } from "data/redis"
 import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
+
+// const Redis = require("ioredis")
+import Redis from "ioredis"
+const redisConnectionString = `rediss://default:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
+const redis = new Redis(redisConnectionString)
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -19,11 +23,20 @@ export default function Quiz() {
   const [formState, setFormState] = useState({})
   const [questionIndex, setQuestionIndex] = useState(0)
 
+  const [products, setProducts] = useState([])
+
   const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
   const moveToNextQuestion = () => setQuestionIndex(questionIndex + 1)
   const canContinue = () => !!questions[questionIndex + 1]
 
   const questions: Question[] = Questions()
+
+  const loadProductData = async () => await redis.get(redis_keys.products)
+
+  const setProductData = async () => {
+    const data = await loadProductData()
+    setProducts(JSON.parse(data))
+  }
 
   return (
     <Page>
@@ -86,7 +99,10 @@ export default function Quiz() {
                     !canContinue() && (
                       <button
                         className={quizStyles.rightButton}
-                        onClick={() => setPhase(QuizPhase.Finished)}
+                        onClick={() => {
+                          setPhase(QuizPhase.Finished)
+                          setProductData()
+                        }}
                       >
                         See Results
                       </button>
