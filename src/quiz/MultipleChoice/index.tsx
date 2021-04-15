@@ -63,7 +63,8 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
                     ? {
                         background: `url('/choice-images/${
                           imgPath || "default"
-                        }.png')`,
+                        }.png'), url('/choice-images/default.png')`,
+                        backgroundSize: "cover",
                       }
                     : {}
                 }

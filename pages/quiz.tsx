@@ -34,6 +34,18 @@ export default function Quiz() {
     setProducts(productData)
   }
 
+  const filterProducts = () => {
+    // const filteredSet = [...products]
+    // for (const [key, value] of Object.entries(userPrefs)) {
+      
+    // }
+
+   let filteredSet = []
+   Object.keys(userPrefs).forEach(preferenceKey => {
+    filteredSet = userPrefs.filter()
+   })
+  }
+
   return (
     <Page>
       <>
