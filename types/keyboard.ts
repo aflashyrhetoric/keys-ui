@@ -27,9 +27,9 @@ export interface Keyboard {
   has_multimedia_keys: boolean
   interfaces: string
 
-  windows_compatible: boolean
-  mac_compatible: boolean
-  linux_compatible: boolean
+  windows_compatible: string
+  mac_compatible: string
+  linux_compatible: string
 
   dimensions: string
   weight: number // float, lbs

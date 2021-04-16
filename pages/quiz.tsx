@@ -14,6 +14,28 @@ export enum QuizPhase {
   Finished = "Finished",
 }
 
+const filterProducts = (
+  products: Keyboard[],
+  userPrefs: any,
+  questions: any,
+) => {
+  let filteredSet = [...products]
+  console.log(filteredSet)
+  Object.keys(userPrefs).forEach(preferenceKey => {
+    console.log(`Filtering by ${preferenceKey}...`)
+    const q = questions.find(q => q.key === preferenceKey)
+    // console.log(
+    //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
+    // )
+    console.log("BEFORE", filteredSet)
+    filteredSet = filteredSet.filter(product =>
+      q.filterFunction(product, userPrefs[preferenceKey] || null),
+    )
+    console.log("AFTER", filteredSet)
+  })
+  return filteredSet
+}
+
 export default function Quiz() {
   const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
   const [userPrefs, setUserPrefs] = useState<any>({})
@@ -34,19 +56,6 @@ export default function Quiz() {
     console.log(productData)
 
     setProducts(productData)
-  }
-
-  const filterProducts = (products: Keyboard[]) => {
-    let filteredSet = [...products]
-    Object.keys(userPrefs).forEach(preferenceKey => {
-      const q = questions.find(q => q.key === preferenceKey)
-      // filteredSet = filteredSet.filter(q.filterFunction)
-      filteredSet = q.filterFunction(
-        filteredSet,
-        userPrefs[preferenceKey] || null,
-      )
-    })
-    return filteredSet
   }
 
   return (
@@ -127,14 +136,11 @@ export default function Quiz() {
               {/* {JSON.stringify(products, null, 2)} */}
               <ul>
                 {!!products &&
-                  // products
-                  //   .filter(productData => {
-                  //     const { frame_color } = productData
-                  //     return frame_color.toLowerCase() === userPrefs.frame_color
-                  //   })
-                  filterProducts(products).map(product => (
-                    <p>{product.full_title}</p>
-                  ))}
+                  filterProducts(
+                    products,
+                    userPrefs,
+                    questions,
+                  ).map(product => <p>{product.full_title}</p>)}
               </ul>
             </>
           )}

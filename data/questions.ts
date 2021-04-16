@@ -57,10 +57,16 @@ const getQuestions = (): Question[] => {
   addQ(
     "Do you want or require a numpad?",
     "numpad",
-    [choice("Yes", true), choice("No", false)],
+    [choice("Yes", "yes"), choice("No", "no"), choice("Either", "either")],
     false,
-    (product: Keyboard) => {
-      return product.size === "Full Size"
+    (product: Keyboard, cv: string) => {
+      if (cv === "yes") {
+        return product.size === "Full Size"
+      }
+      if (cv === "no") {
+        return product.size !== "Full Size"
+      }
+      return true
     },
   )
 
@@ -73,22 +79,39 @@ const getQuestions = (): Question[] => {
       choice("Both", "both"),
     ],
     false,
-    (product: Keyboard, comparisonValue: any) => {
-      if (comparisonValue === "both") {
-        return product.mac_compatible && product.windows_compatible
+    (product: Keyboard, comparisonValue: string) => {
+      const cv = comparisonValue.toLowerCase()
+
+      console.log()
+
+      if (cv === null) {
+        return true
       }
-      if (comparisonValue === "windows") {
-        return product.windows_compatible
+
+      // Since all keyboards are basically compatible with Windows by default, reflect that logic here
+      const isWindowsCompatible =
+        product.windows_compatible === "yes" ||
+        product.windows_compatible === null
+      const isMacCompatible = product.mac_compatible === "yes"
+      const isBoth = isWindowsCompatible && isMacCompatible
+
+      if (cv === "both") {
+        return isBoth
       }
-      if (comparisonValue === "mac") {
-        return product.mac_compatible
+      if (cv === "windows") {
+        return isWindowsCompatible
       }
+      if (cv === "mac") {
+        return isMacCompatible
+      }
+
+      return false
     },
   )
 
   addQ(
     "Do you need Bluetooth capability?",
-    "bluetooth",
+    "interfaces",
     [
       choice(
         "Yes, I need to be able to use the keyboard wirelessly.",
@@ -98,6 +121,10 @@ const getQuestions = (): Question[] => {
     ],
     false,
     (product: Keyboard, value: string) => {
+      if (!product || !product.interfaces) {
+        return true
+      }
+
       if (value === "either") {
         return true
       }
@@ -113,11 +140,12 @@ const getQuestions = (): Question[] => {
       choice("Black", "black", "frame-color-black"),
       choice("Gray", "gray", "frame-color-gray"),
       choice("Colorful", "colorful", "frame-color-colorful"),
+      choice("Any", "any", "default"),
     ],
     true,
     (product: Keyboard, comparisonValue: string) => {
       // If the data is missing, include the keyboard just in case
-      if (!product.frame_color) {
+      if (!product.frame_color || comparisonValue === "any") {
         return true
       }
 
@@ -138,27 +166,29 @@ const getQuestions = (): Question[] => {
     },
   )
 
-  addQ(
-    "RGB lighting lets you set custom colors, and sometimes, custom animations. Interested?",
-    "primary_led_color",
-    [
-      choice("Yes", "rgb", "primary-led-color-rgb"),
-      choice("White", "white", "primary-led-color-white"),
-      choice("Not necessary", "n/a", "primary-led-color-none"),
-    ],
-    true,
-    (product: Keyboard, comparisonValue: string) => {
-      const color = product.primary_led_color.toLowerCase()
+  // addQ(
+  //   "RGB lighting lets you set custom colors, and sometimes, custom animations. Interested?",
+  //   "primary_led_color",
+  //   [
+  //     choice("Yes", "rgb", "primary-led-color-rgb"),
+  //     choice("White", "white", "primary-led-color-white"),
+  //     choice("Not necessary", "n/a", "primary-led-color-none"),
+  //   ],
+  //   true,
+  //   (product: Keyboard, comparisonValue: string) => {
+  //     const color = product.primary_led_color
+  //       ? product.primary_led_color.toLowerCase()
+  //       : "n/a"
 
-      if (comparisonValue === "rgb") {
-        return color === "rgb"
-      }
-      if (comparisonValue === "white") {
-        return color === "white"
-      }
-      return true
-    },
-  )
+  //     if (comparisonValue === "rgb") {
+  //       return color === "rgb" || color === "full"
+  //     }
+  //     if (comparisonValue === "white") {
+  //       return color === "white"
+  //     }
+  //     return true
+  //   },
+  // )
 
   return questions
 }
