@@ -7,6 +7,7 @@ export interface Question {
   key: string
   choices: Choice[]
   pictorial: boolean
+  filterFunction?: Function
 }
 
 export interface Choice {
@@ -89,14 +90,19 @@ const getQuestions = (): Question[] => {
     "Do you need Bluetooth capability?",
     "bluetooth",
     [
-      choice("Yes, I need to be able to use the keyboard wirelessly.", true),
-      choice("Nope - with or without is fine.", false),
+      choice(
+        "Yes, I need to be able to use the keyboard wirelessly.",
+        "wireless",
+      ),
+      choice("Nope - with or without is fine.", "either"),
     ],
     false,
-    (product: Keyboard) =>
-      product && product.interfaces !== ""
-        ? product.interfaces.toLowerCase().includes(KeyboardInterface.Wireless)
-        : false,
+    (product: Keyboard, value: string) => {
+      if (value === "either") {
+        return true
+      }
+      return product.interfaces.includes(KeyboardInterface.Wireless)
+    },
   )
 
   addQ(
@@ -110,6 +116,11 @@ const getQuestions = (): Question[] => {
     ],
     true,
     (product: Keyboard, comparisonValue: string) => {
+      // If the data is missing, include the keyboard just in case
+      if (!product.frame_color) {
+        return true
+      }
+
       const fc = product.frame_color.toLowerCase()
 
       if (comparisonValue === "black") {

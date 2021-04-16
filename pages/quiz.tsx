@@ -6,6 +6,7 @@ import Questions, { Question } from "data/questions"
 import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
+import { Keyboard } from "types/keyboard"
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -24,6 +25,7 @@ export default function Quiz() {
   const canContinue = () => !!questions[questionIndex + 1]
 
   const questions: Question[] = Questions()
+  console.log(questions)
 
   const setProductData = async () => {
     const resp = await loadProductData()
@@ -34,16 +36,17 @@ export default function Quiz() {
     setProducts(productData)
   }
 
-  const filterProducts = () => {
-    // const filteredSet = [...products]
-    // for (const [key, value] of Object.entries(userPrefs)) {
-      
-    // }
-
-   let filteredSet = []
-   Object.keys(userPrefs).forEach(preferenceKey => {
-    filteredSet = userPrefs.filter()
-   })
+  const filterProducts = (products: Keyboard[]) => {
+    let filteredSet = [...products]
+    Object.keys(userPrefs).forEach(preferenceKey => {
+      const q = questions.find(q => q.key === preferenceKey)
+      // filteredSet = filteredSet.filter(q.filterFunction)
+      filteredSet = q.filterFunction(
+        filteredSet,
+        userPrefs[preferenceKey] || null,
+      )
+    })
+    return filteredSet
   }
 
   return (
@@ -124,12 +127,14 @@ export default function Quiz() {
               {/* {JSON.stringify(products, null, 2)} */}
               <ul>
                 {!!products &&
-                  products
-                    .filter(productData => {
-                      const { frame_color } = productData
-                      return frame_color.toLowerCase() === userPrefs.frame_color
-                    })
-                    .map(product => <p>{product.full_title}</p>)}
+                  // products
+                  //   .filter(productData => {
+                  //     const { frame_color } = productData
+                  //     return frame_color.toLowerCase() === userPrefs.frame_color
+                  //   })
+                  filterProducts(products).map(product => (
+                    <p>{product.full_title}</p>
+                  ))}
               </ul>
             </>
           )}
