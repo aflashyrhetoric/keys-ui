@@ -1,8 +1,18 @@
 import { useState, useMemo } from "react"
+import {
+  Button,
+  ProgressIndicator,
+  ProgressStep,
+} from "carbon-components-react"
+import { Rocket32 } from "@carbon/icons-react"
 import styles from "../styles/Home.module.css"
 import quizStyles from "../styles/Quiz.module.scss"
 
-import Questions, { Question } from "data/questions"
+import Questions, {
+  getQuestionFromKey,
+  preferenceKeyToString,
+  Question,
+} from "data/questions"
 import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
@@ -62,6 +72,22 @@ export default function Quiz() {
     <Page>
       <>
         <h1 className={styles.title}>{/* project:mk */}</h1>
+        {phase !== QuizPhase.NotBegun && (
+          <div
+            style={{
+              position: "absolute",
+              top: "10%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <ProgressIndicator spaceEqually currentIndex={questionIndex}>
+              {questions.map(q => (
+                <ProgressStep label={preferenceKeyToString(q.key)} />
+              ))}
+            </ProgressIndicator>
+          </div>
+        )}
 
         {phase === QuizPhase.NotBegun && (
           <p className={styles.description}>
@@ -73,12 +99,14 @@ export default function Quiz() {
 
         <div className={styles.grid}>
           {phase === QuizPhase.NotBegun && (
-            <div
-              className={quizStyles.button}
+            <Button
+              size="sm"
+              kind="tertiary"
+              renderIcon={Rocket32}
               onClick={() => setPhase(QuizPhase.Started)}
             >
-              <span>Start quiz &rarr;</span>
-            </div>
+              Start Quiz
+            </Button>
           )}
 
           {phase === QuizPhase.Started &&
@@ -97,12 +125,12 @@ export default function Quiz() {
                 />
                 <div className={quizStyles.buttonSet}>
                   {questionIndex > 0 && (
-                    <button
+                    <Button
                       className={quizStyles.leftButton}
                       onClick={() => moveToPreviousQuestion()}
                     >
                       Back
-                    </button>
+                    </Button>
                   )}
                   {userPrefs &&
                     userPrefs[q.key] !== undefined &&
@@ -132,8 +160,14 @@ export default function Quiz() {
             ))}
           {phase === QuizPhase.Finished && (
             <>
-              {/* {JSON.stringify(userPrefs, null, 2)} */}
-              {/* {JSON.stringify(products, null, 2)} */}
+              {Object.keys(userPrefs).map(preferenceKey => {
+                const q = getQuestionFromKey(questions, preferenceKey)
+                return (
+                  <div>
+                    <p></p>
+                  </div>
+                )
+              })}
               <ul>
                 {!!products &&
                   filterProducts(

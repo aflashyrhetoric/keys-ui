@@ -1,6 +1,7 @@
 // CONVERT TO JSON BLOB....
 
 import { Keyboard, KeyboardInterface } from "types/keyboard"
+import { startCase } from "lodash"
 
 export interface Question {
   text: string
@@ -15,6 +16,21 @@ export interface Choice {
   value: any
   imgPath: string
   toString?: Function
+}
+
+export const preferenceKeyToString = (pk: string) => {
+  if (pk === "numpad") {
+    return "Numpad?"
+  }
+  if (pk === "compatible_oses") {
+    return "OS"
+  }
+
+  if (pk === "interfaces") {
+    return "Connection"
+  }
+
+  return startCase(pk)
 }
 
 const getQuestions = (): Question[] => {
@@ -55,9 +71,13 @@ const getQuestions = (): Question[] => {
   })
 
   addQ(
-    "Do you want or require a numpad?",
+    "Do you need a keyboard with a numpad?",
     "numpad",
-    [choice("Yes", "yes"), choice("No", "no"), choice("Either", "either")],
+    [
+      choice("Yes", "yes"),
+      choice("No", "no"),
+      choice("Either is fine!", "either"),
+    ],
     false,
     (product: Keyboard, cv: string) => {
       if (cv === "yes") {
@@ -90,9 +110,10 @@ const getQuestions = (): Question[] => {
 
       // Since all keyboards are basically compatible with Windows by default, reflect that logic here
       const isWindowsCompatible =
-        product.windows_compatible === "yes" ||
-        product.windows_compatible === null
-      const isMacCompatible = product.mac_compatible === "yes"
+        product.windows_compatible === null ||
+        product.windows_compatible.toLowerCase() === "yes"
+      const isMacCompatible =
+        product.mac_compatible && product.mac_compatible.toLowerCase() === "yes"
       const isBoth = isWindowsCompatible && isMacCompatible
 
       if (cv === "both") {
@@ -110,19 +131,19 @@ const getQuestions = (): Question[] => {
   )
 
   addQ(
-    "Do you need Bluetooth capability?",
+    "Wired or wireless?",
     "interfaces",
     [
       choice(
-        "Yes, I need to be able to use the keyboard wirelessly.",
+        "Wireless",
         "wireless",
       ),
-      choice("Nope - with or without is fine.", "either"),
+      choice("Wired is fine", "either"),
     ],
     false,
     (product: Keyboard, value: string) => {
       if (!product || !product.interfaces) {
-        return true
+        return false
       }
 
       if (value === "either") {
@@ -144,6 +165,9 @@ const getQuestions = (): Question[] => {
     ],
     true,
     (product: Keyboard, comparisonValue: string) => {
+      if (!product.frame_color) {
+        return false
+      }
       // If the data is missing, include the keyboard just in case
       if (!product.frame_color || comparisonValue === "any") {
         return true
@@ -192,5 +216,10 @@ const getQuestions = (): Question[] => {
 
   return questions
 }
+
+export const getQuestionFromKey = (
+  questions: Question[],
+  questionKey: string,
+) => questions.find(q => q.key === questionKey)
 
 export default getQuestions

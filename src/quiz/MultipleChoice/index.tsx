@@ -35,7 +35,7 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
   return (
     <div className={quizStyles.question}>
       <div>
-        <h3>
+        <h3 style={{ marginBottom: "10px" }}>
           {questionIndex + 1}. {text}
         </h3>
         <ul

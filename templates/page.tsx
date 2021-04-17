@@ -17,10 +17,11 @@ const Page = (props) => {
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
         />
 
-        <link
+        {/* <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
-        />
+        /> */}
+        <link rel="stylesheet" href="//unpkg.com/carbon-components/css/carbon-components.css" />
       </Head>
 
       <main className={styles.main}>{props.children}</main>
