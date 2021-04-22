@@ -29,6 +29,10 @@ export const preferenceKeyToString = (pk: string) => {
   if (pk === "interfaces") {
     return "Connection"
   }
+  
+  if (pk === "primary_led_color") {
+    return "Lighting"
+  }
 
   return startCase(pk)
 }
@@ -102,8 +106,6 @@ const getQuestions = (): Question[] => {
     (product: Keyboard, comparisonValue: string) => {
       const cv = comparisonValue.toLowerCase()
 
-      console.log()
-
       if (cv === null) {
         return true
       }
@@ -133,13 +135,7 @@ const getQuestions = (): Question[] => {
   addQ(
     "Wired or wireless?",
     "interfaces",
-    [
-      choice(
-        "Wireless",
-        "wireless",
-      ),
-      choice("Wired is fine", "either"),
-    ],
+    [choice("Wireless", "wireless"), choice("Wired is fine", "either")],
     false,
     (product: Keyboard, value: string) => {
       if (!product || !product.interfaces) {
@@ -185,34 +181,34 @@ const getQuestions = (): Question[] => {
         return fc === "gray"
       }
       if (comparisonValue === "colorful") {
-        return ["pink", "blue", "green", "red"].includes(fc)
+        return ["pink", "blue", "green", "red", "orange"].includes(fc)
       }
     },
   )
 
-  // addQ(
-  //   "RGB lighting lets you set custom colors, and sometimes, custom animations. Interested?",
-  //   "primary_led_color",
-  //   [
-  //     choice("Yes", "rgb", "primary-led-color-rgb"),
-  //     choice("White", "white", "primary-led-color-white"),
-  //     choice("Not necessary", "n/a", "primary-led-color-none"),
-  //   ],
-  //   true,
-  //   (product: Keyboard, comparisonValue: string) => {
-  //     const color = product.primary_led_color
-  //       ? product.primary_led_color.toLowerCase()
-  //       : "n/a"
+  addQ(
+    "RGB lighting lets you set custom colors, and sometimes, custom animations. Interested?",
+    "primary_led_color",
+    [
+      choice("Yes", "rgb", "primary-led-color-rgb"),
+      choice("White", "white", "primary-led-color-white"),
+      choice("Not necessary", "n/a", "primary-led-color-none"),
+    ],
+    true,
+    (product: Keyboard, comparisonValue: string) => {
+      const color = product.primary_led_color
+        ? product.primary_led_color.toLowerCase()
+        : "n/a"
 
-  //     if (comparisonValue === "rgb") {
-  //       return color === "rgb" || color === "full"
-  //     }
-  //     if (comparisonValue === "white") {
-  //       return color === "white"
-  //     }
-  //     return true
-  //   },
-  // )
+      if (comparisonValue === "rgb") {
+        return color === "rgb" || color === "full"
+      }
+      if (comparisonValue === "white") {
+        return color === "white"
+      }
+      return true
+    },
+  )
 
   return questions
 }

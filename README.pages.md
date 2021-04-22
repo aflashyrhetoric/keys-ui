@@ -15,3 +15,6 @@ Parts will be clickable so you can go back to the ProductBrowser with a "current
 
 The ProductBrowser and the Configurator will link to each other often.
 
+
+
+Quiz goes to the ProductBrowser with a pre-populated set of filters. They can then tinker to add parts to their `Build`.

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import {
   Button,
   ProgressIndicator,
@@ -135,17 +135,17 @@ export default function Quiz() {
                   {userPrefs &&
                     userPrefs[q.key] !== undefined &&
                     canContinue() && (
-                      <button
+                      <Button
                         className={quizStyles.rightButton}
                         onClick={() => moveToNextQuestion()}
                       >
                         Next
-                      </button>
+                      </Button>
                     )}
                   {userPrefs &&
                     userPrefs[q.key] !== undefined &&
                     !canContinue() && (
-                      <button
+                      <Button
                         className={quizStyles.rightButton}
                         onClick={() => {
                           setPhase(QuizPhase.Finished)
@@ -153,7 +153,7 @@ export default function Quiz() {
                         }}
                       >
                         See Results
-                      </button>
+                      </Button>
                     )}
                 </div>
               </>

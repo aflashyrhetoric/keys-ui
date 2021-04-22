@@ -142,3 +142,13 @@ $breakpoints: (
 //     lighten(#ffcece, 5)
 //   );
 // }
+
+@mixin general-ui {
+  background: white;
+  padding: 0.5rem;
+  padding: {
+    left: 2rem;
+    right: 2rem;
+  }
+  border-radius: 3px;
+}
