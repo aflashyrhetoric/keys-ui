@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import classnames from "classnames"
+import styles from "./app-header.module.scss"
 import {
   Header,
   HeaderContainer,
@@ -10,13 +12,14 @@ import {
   HeaderNavigation,
   HeaderName,
   HeaderPanel,
+  HeaderSideNavItems,
   SkipToContent,
   SideNav,
   SideNavItems,
   SideNavLink,
   SideNavMenu,
   SideNavMenuItem,
-  HeaderSideNavItems,
+  Tooltip,
 } from "carbon-components-react"
 
 import {
@@ -24,8 +27,9 @@ import {
   Notification20,
   AppSwitcher20,
   Fade16,
-  LogoTwitter24,
+  Information16,
 } from "@carbon/icons-react"
+import SidebarSection from "./SidebarSection"
 
 // interface Props {
 //  something: string;
@@ -51,12 +55,8 @@ const AppHeader: React.FC = () => {
             </HeaderName>
             <HeaderNavigation aria-label="IBM [Platform]">
               <HeaderMenuItem href="#">Link 1</HeaderMenuItem>
-              <HeaderMenuItem href="#">Link 2</HeaderMenuItem>
-              <HeaderMenuItem href="#">Link 3</HeaderMenuItem>
-              <HeaderMenu aria-label="Link 4" menuLinkName="Link 4">
+              <HeaderMenu aria-label="Link 2" menuLinkName="Link 2">
                 <HeaderMenuItem href="#one">Sub-link 1</HeaderMenuItem>
-                <HeaderMenuItem href="#two">Sub-link 2</HeaderMenuItem>
-                <HeaderMenuItem href="#three">Sub-link 3</HeaderMenuItem>
               </HeaderMenu>
             </HeaderNavigation>
             <HeaderGlobalBar>
@@ -80,62 +80,44 @@ const AppHeader: React.FC = () => {
                 <AppSwitcher20 />
               </HeaderGlobalAction>
             </HeaderGlobalBar>
-            <SideNav aria-label="Side navigation" expanded={isSideNavExpanded}>
+            <SideNav
+              className={styles.SideNav}
+              aria-label="Side navigation"
+              expanded={isSideNavExpanded}
+            >
               <SideNavItems>
                 <HeaderSideNavItems hasDivider={true}>
                   <HeaderMenuItem href="#">Link 1</HeaderMenuItem>
-                  <HeaderMenuItem href="#">Link 2</HeaderMenuItem>
-                  <HeaderMenuItem href="#">Link 3</HeaderMenuItem>
-                  <HeaderMenu aria-label="Link 4" menuLinkName="Link 4">
+                  <HeaderMenu aria-label="Link 2" menuLinkName="Link 2">
                     <HeaderMenuItem href="#">Sub-link 1</HeaderMenuItem>
-                    <HeaderMenuItem href="#">Sub-link 2</HeaderMenuItem>
-                    <HeaderMenuItem href="#">Sub-link 3</HeaderMenuItem>
                   </HeaderMenu>
                 </HeaderSideNavItems>
-                <SideNavMenu renderIcon={Fade16} title="Category title">
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                </SideNavMenu>
-                <SideNavMenu renderIcon={Fade16} title="Category title">
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                </SideNavMenu>
-                <SideNavMenu
-                  renderIcon={Fade16}
-                  title="Category title"
-                  isActive={true}
+                <SidebarSection
+                  large
+                  label="base keyboard"
+                  tooltipText="This will be your base keyboard. The majority of keyboards come pre-assembled with a starter set of switches and keycaps"
                 >
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem
-                    aria-current="page"
-                    href="javascript:void(0)"
-                  >
-                    Link
-                  </SideNavMenuItem>
-                  <SideNavMenuItem href="javascript:void(0)">
-                    Link
-                  </SideNavMenuItem>
-                </SideNavMenu>
-                <SideNavLink renderIcon={Fade16} href="javascript:void(0)">
-                  Link
-                </SideNavLink>
-                <SideNavLink renderIcon={Fade16} href="javascript:void(0)">
+                  <div className={styles.addKeyboard}> + Add Keyboard</div>
+                </SidebarSection>
+                <SidebarSection
+                  listContent
+                  label="extra switches"
+                  tooltipText="If you have a hot-swappable keyboard, you can change the switches. Click to explore available switch variations"
+                >
+                  <ul>
+                    <li>Holy Pandas: Yellow</li>
+                  </ul>
+                </SidebarSection>
+                <SidebarSection
+                  listContent
+                  label="extra keycaps"
+                  tooltipText="Browse according to colorway, profile (aka shape of the keycaps), materials, and more"
+                >
+                  <ul>
+                    <li>Holy Pandas: Yellow</li>
+                  </ul>
+                </SidebarSection>
+                <SideNavLink renderIcon={Fade16} href="#">
                   Link
                 </SideNavLink>
               </SideNavItems>

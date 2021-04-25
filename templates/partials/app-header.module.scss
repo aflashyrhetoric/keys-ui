@@ -1,0 +1,61 @@
+// Carbon Header Override styling
+$_gray: #4a4a4a;
+
+.SideNav {
+  background: $_gray;
+}
+
+.SideNavLink {
+  // background-color: pink;
+  min-height: 175px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.SideNavLinkLarge {
+  min-height: 200px !important;
+}
+
+.Tooltip {
+  z-index: 8001;
+}
+
+.tooltipWrapper {
+  display: inline;
+  position: relative;
+  top: 3px;
+}
+
+.sidebarHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  :global(.bx--tooltip__trigger svg) {
+    fill: white !important;
+  }
+}
+
+.sidebarHeadingText {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  margin-right: 5px;
+}
+
+.addKeyboard {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+
+  height: 110px;
+  
+  border-radius: 3px;
+  border: 2px solid pink;
+
+  margin: 1rem;
+  margin-top: 0.5rem;
+
+  
+}
