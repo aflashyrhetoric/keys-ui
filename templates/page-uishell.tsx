@@ -1,31 +1,6 @@
 import Head from "next/head"
-import styles from "styles/Home.module.css"
-import {
-  Header,
-  HeaderContainer,
-  HeaderGlobalBar,
-  HeaderGlobalAction,
-  HeaderMenuButton,
-  HeaderMenu,
-  HeaderMenuItem,
-  HeaderNavigation,
-  HeaderName,
-  HeaderPanel,
-  SkipToContent,
-  SideNav,
-  SideNavItems,
-  SideNavLink,
-  SideNavMenu,
-  SideNavMenuItem,
-  HeaderSideNavItems,
-} from "carbon-components-react"
-import {
-  Search20,
-  Notification20,
-  AppSwitcher20,
-  Fade16,
-  LogoTwitter24,
-} from "@carbon/icons-react"
+import styles from "styles/UIShell.module.scss"
+import { LogoTwitter24 } from "@carbon/icons-react"
 import AppHeader from "./partials/app-header"
 interface PageProps {
   title?: string
