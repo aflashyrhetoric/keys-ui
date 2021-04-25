@@ -4,14 +4,13 @@ import styles from "./ProductCard.module.scss"
 
 interface Props {
   product: Keyboard
-  onClick: MouseEventHandler<HTMLDivElement>
 }
 
-const ProductCard: React.FC<Props> = ({ product, onClick }: Props) => {
+const ProductModalInfo: React.FC<Props> = ({ product }: Props) => {
   const { brand, size, full_title, product_name, interfaces, price } = product
 
   return (
-    <div className={styles.ProductCard} onClick={onClick}>
+    <div className={styles.ProductModalInfo}>
       <div className={styles.productImageWrapper}></div>
       <div className={styles.productDetails}>
         <span className={styles.productBrand}>{brand}</span>
@@ -22,4 +21,4 @@ const ProductCard: React.FC<Props> = ({ product, onClick }: Props) => {
   )
 }
 
-export default ProductCard
+export default ProductModalInfo

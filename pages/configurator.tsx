@@ -15,6 +15,7 @@ import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import PageContent from "templates/page-content"
+import ProductModalInfo from "src/configurator/ProductModalInfo"
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
@@ -61,7 +62,9 @@ export default function Configurator() {
         }
         onRequestClose={resetState}
       >
-        {highlightedProductData && highlightedProductData.product_name}
+        {highlightedProductData && (
+          <ProductModalInfo product={highlightedProductData} />
+        )}
       </Modal>
       <PageContent
         title="keyboard picker"
@@ -77,8 +80,6 @@ export default function Configurator() {
           justifyContent: "space-around",
         }}
       >
-        {/* {products && <CircleLoader color="F965FF" />}
-        {products && JSON.stringify(products)} */}
         {products &&
           products.map(p => (
             <ProductCard
