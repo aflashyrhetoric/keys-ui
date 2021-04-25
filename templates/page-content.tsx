@@ -3,10 +3,11 @@ import styles from "styles/UIShell.module.scss"
 interface PageProps {
   title: string
   subtitle?: any
+  style: any
   children: any
 }
 
-const PageContent = ({ title, subtitle, children }: PageProps) => {
+const PageContent = ({ title, subtitle, style, children }: PageProps) => {
   return (
     <div className={styles.content}>
       <div style={{ marginBottom: "1.5rem" }}>
@@ -14,7 +15,7 @@ const PageContent = ({ title, subtitle, children }: PageProps) => {
         <hr className={styles.headerDivider} />
         <span>{subtitle}</span>
       </div>
-      <div>{children}</div>
+      <div style={style}>{children}</div>
     </div>
   )
 }

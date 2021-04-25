@@ -1,0 +1,56 @@
+@import "styles/globals.scss";
+
+$_marginBetweenCards: 1rem;
+.ProductCard {
+  // min-height: 300px;
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 2px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  width: 48%;
+
+  @include bp(lg) {
+    width: 31%; 
+  }
+  
+  @include bp(xl) {
+    width: 23%; 
+  }
+
+  border: 1px solid lightcoral;
+  font-size: 16px;
+  transition: box-shadow 150ms;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.productImageWrapper {
+  min-height: 150px;
+  min-width: 80%;
+  display: flex;
+  background-color: lightgray;
+  margin-bottom: 1rem;
+}
+
+.productBrand {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 0.2rem;
+}
+
+.productTitle {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.productPrice {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: bold;
+  font-size: 14px;
+  font-style: italic;
+}

@@ -19,13 +19,16 @@ export enum KeyboardBacklighting {
 
 export interface Keyboard {
   brand: string
-  size: KeyboardSize
   full_title: string
+  product_name: string
+  size: KeyboardSize
+  price: string;
   frame_color: string
   primary_led_color: KeyboardBacklighting
   hotswappable: boolean
   has_multimedia_keys: boolean
   interfaces: string
+  features: any[]
 
   windows_compatible: string
   mac_compatible: string

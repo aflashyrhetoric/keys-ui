@@ -5,10 +5,9 @@ $_actualPagePadding: 1rem;
 .container {
   min-height: 100vh;
   padding-left: $sidebarWidth;
+  padding-right: $sidebarWidth;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
 }
 
 .main {
