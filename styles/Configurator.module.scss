@@ -1,93 +1,11 @@
 @import "./globals.scss";
 
-.card {
-  @include general-ui();
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
-}
-
-.question {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  max-width: 80%;
-  min-height: 300px;
-
-  @include bp(md) {
-    width: 900px;
+.modal {
+  :global(.bx--modal-container--lg) {
+    height: 85vh;
   }
 
-  h3 {
-    font-weight: bold;
+  :global(.bx--modal-content) {
+    padding: 1rem;
   }
-}
-
-.choiceContainer {
-  padding-left: 0;
-  list-style-type: none;
-}
-.pictorialChoiceContainer {
-  display: flex;
-  flex-flow: row wrap;
-  min-width: 540px;
-  justify-content: space-between;
-}
-
-.choice {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-
-  @include general-ui();
-  padding-left: 1rem;
-  cursor: pointer;
-  font-size: 20px;
-  margin-bottom: 1rem;
-  transition: padding-left 200ms ease, background 200ms;
-  &:hover {
-    padding-left: 1.4rem;
-    background: rgba(0, 0, 0, 0.05);
-  }
-}
-
-.imageChoice {
-  width: 280px;
-  height: 280px;
-}
-
-$green: #edfff0;
-
-.chosen {
-  background: $green;
-  position: relative;
-
-  // &::after {
-  //   content: "selected";
-  //   position: absolute;
-  //   right: 8px;
-  //   top: 3px;
-  //   font-style: italic;
-  //   font-variant: small-caps;
-  //   font-weight: bold;
-  //   opacity: 0.5;
-  // }
-}
-
-.buttonSet {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 60px;
-}
-
-.leftButton {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-.rightButton {
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }

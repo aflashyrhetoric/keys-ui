@@ -2,23 +2,16 @@
 
 $_marginBetweenCards: 1rem;
 .ProductModalInfo {
-  // min-height: 300px;
   display: flex;
   flex-flow: column nowrap;
+
+  width: 100%;
+  background:gray;
   border-radius: 2px;
+
   padding: 1rem;
   margin-bottom: 0.5rem;
-  width: 48%;
 
-  @include bp(lg) {
-    width: 31%; 
-  }
-  
-  @include bp(xl) {
-    width: 23%; 
-  }
-
-  border: 1px solid rgba(0,0,0,0.09);
   font-size: 16px;
   transition: box-shadow 150ms;
   cursor: pointer;
@@ -29,8 +22,8 @@ $_marginBetweenCards: 1rem;
 }
 
 .productImageWrapper {
-  min-height: 150px;
-  min-width: 80%;
+  height: 250px;
+  width: 400px;
   display: flex;
   background-color: lightgray;
   margin-bottom: 1rem;

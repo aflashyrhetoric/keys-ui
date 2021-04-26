@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Modal } from "carbon-components-react"
 import { CircleLoader } from "react-spinners"
 // import styles from "../styles/Home.module.css"
-// import cStyles from "../styles/Configurator.module.scss"
+import cStyles from "../styles/Configurator.module.scss"
 
 import Questions, {
   getQuestionFromKey,
@@ -56,6 +56,7 @@ export default function Configurator() {
       <Modal
         open={productModalIsOpen}
         size="lg"
+        className={cStyles.modal}
         primaryButtonText="Set as Base Keyboard"
         secondaryButtonText="Cancel"
         onRequestSubmit={() =>
