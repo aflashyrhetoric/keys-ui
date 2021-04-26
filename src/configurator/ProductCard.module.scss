@@ -10,11 +10,11 @@ $_marginBetweenCards: 1rem;
   margin-bottom: 0.5rem;
   width: 48%;
 
-  @include bp(lg) {
+  @include bp(xl) {
     width: 31%; 
   }
   
-  @include bp(xl) {
+  @include bp(xxl) {
     width: 23%; 
   }
 

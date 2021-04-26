@@ -1,7 +1,7 @@
 @import "styles/globals.scss";
 
 $_marginBetweenCards: 1rem;
-.ProductCard {
+.ProductModalInfo {
   // min-height: 300px;
   display: flex;
   flex-flow: column nowrap;
@@ -49,7 +49,6 @@ $_marginBetweenCards: 1rem;
 
 .productPrice {
   display: flex;
-  justify-content: flex-end;
   font-weight: bold;
   font-size: 14px;
   font-style: italic;

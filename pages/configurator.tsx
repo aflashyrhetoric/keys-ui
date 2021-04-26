@@ -55,6 +55,7 @@ export default function Configurator() {
     <UIShellPage title="Configurator">
       <Modal
         open={productModalIsOpen}
+        size="lg"
         primaryButtonText="Set as Base Keyboard"
         secondaryButtonText="Cancel"
         onRequestSubmit={() =>

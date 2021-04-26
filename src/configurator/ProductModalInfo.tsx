@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useState } from "react"
 import { Keyboard } from "types/keyboard"
-import styles from "./ProductCard.module.scss"
+import styles from "./ProductModalInfo.module.scss"
 
 interface Props {
   product: Keyboard
