@@ -32,8 +32,11 @@ $_marginBetweenCards: 1rem;
   min-height: 150px;
   min-width: 80%;
   display: flex;
-  background-color: lightgray;
+  align-items: center;
   margin-bottom: 1rem;
+  img {
+    max-width: 100%;
+  }
 }
 
 .productBrand {

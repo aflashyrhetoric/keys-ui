@@ -31,7 +31,6 @@ export default function Configurator() {
     const setProductData = async () => {
       const response = await loadProductData()
       const rawData = response.data
-      console.log(JSON.parse(rawData))
       setProducts(JSON.parse(rawData))
     }
 
@@ -43,8 +42,6 @@ export default function Configurator() {
   const highlightedProductData = productIsHighlighted
     ? products.find(p => p.product_name === highlightedProduct.product_name)
     : null
-
-  console.log(highlightedProductData)
 
   const resetState = () => {
     setHighlightedProduct(null)
@@ -85,6 +82,7 @@ export default function Configurator() {
         {products &&
           products.map(p => (
             <ProductCard
+              key={p.full_title}
               product={p}
               onClick={() => {
                 setHighlightedProduct(p)

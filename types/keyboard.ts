@@ -21,6 +21,10 @@ export interface Keyboard {
   brand: string
   full_title: string
   product_name: string
+  product_description: string
+  url: string
+  img_path: string
+  
   size: KeyboardSize
   price: string;
   frame_color: string
