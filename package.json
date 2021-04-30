@@ -23,12 +23,5 @@
     "@types/react": "^17.0.3",
     "sass": "^1.32.8",
     "typescript": "^4.2.4"
-  },
-  "prettier": {
-    "semi": false,
-    "trailingComma": "all",
-    "useTabs": false,
-    "arrowParens": "avoid",
-    "tabWidth": 2
   }
 }

@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react"
-import { Modal } from "carbon-components-react"
-import { CircleLoader } from "react-spinners"
-// import styles from "../styles/Home.module.css"
 import cStyles from "../styles/Configurator.module.scss"
 
-import Questions, {
-  getQuestionFromKey,
-  preferenceKeyToString,
-  Question,
-} from "data/questions"
+import Questions, { Question } from "data/questions"
 import UIShellPage from "templates/page-uishell"
-import ProductCard from "src/configurator/ProductCard"
-import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
-import PageContent from "templates/page-content"
-import ProductModalInfo from "src/configurator/ProductModalInfo"
+import KeyboardPicker from "views/KeyboardPicker"
+import SwitchPicker from "views/SwitchPicker"
+
+enum View {
+  KeyboardPicker = "Keyboard",
+  SwitchPicker = "Switch",
+  KeycapPicker = "Keycap",
+}
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
   // const [userPrefs, setUserPrefs] = useState<any>({})
   // const [questionIndex, setQuestionIndex] = useState(0)
+  // const questions: Question[] = Questions()
   const [products, setProducts] = useState<Keyboard[]>([])
-  const [highlightedProduct, setHighlightedProduct] = useState<Keyboard>(null)
-  const [productModalIsOpen, setProductModalIsOpen] = useState(false)
-
-  const questions: Question[] = Questions()
+  const [activeView, setActiveView] = useState(View.KeyboardPicker)
 
   useEffect(() => {
     const setProductData = async () => {
@@ -37,60 +32,11 @@ export default function Configurator() {
     setProductData()
   }, [])
 
-  const productIsHighlighted = highlightedProduct !== null
-
-  const highlightedProductData = productIsHighlighted
-    ? products.find(p => p.product_name === highlightedProduct.product_name)
-    : null
-
-  const resetState = () => {
-    setHighlightedProduct(null)
-    setProductModalIsOpen(false)
+  const viewMap = {
+    [View.KeyboardPicker]: <KeyboardPicker products={products} />,
+    [View.SwitchPicker]: <KeyboardPicker products={products} />,
+    // [View.KeycapPicker]: <KeyboardPicker products={products} />,
   }
 
-  return (
-    <UIShellPage title="Configurator">
-      <Modal
-        open={productModalIsOpen}
-        size="lg"
-        className={cStyles.modal}
-        primaryButtonText="Set as Base Keyboard"
-        secondaryButtonText="Cancel"
-        onRequestSubmit={() =>
-          console.log(`saved ${highlightedProductData.product_name}`)
-        }
-        onRequestClose={resetState}
-      >
-        {highlightedProductData && (
-          <ProductModalInfo product={highlightedProductData} />
-        )}
-      </Modal>
-      <PageContent
-        title="keyboard picker"
-        subtitle={
-          <p>
-            Currently filtering for red-frame keyboards with clicky switches and
-            wireless connectivity
-          </p>
-        }
-        style={{
-          display: "flex",
-          flexFlow: "row wrap",
-          justifyContent: "space-around",
-        }}
-      >
-        {products &&
-          products.map(p => (
-            <ProductCard
-              key={p.full_title}
-              product={p}
-              onClick={() => {
-                setHighlightedProduct(p)
-                setProductModalIsOpen(true)
-              }}
-            />
-          ))}
-      </PageContent>
-    </UIShellPage>
-  )
+  return <UIShellPage title="Configurator">{viewMap[activeView]}</UIShellPage>
 }
