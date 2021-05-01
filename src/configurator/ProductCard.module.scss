@@ -10,15 +10,11 @@ $_marginBetweenCards: 1rem;
   margin-bottom: 0.5rem;
   width: 48%;
 
-  @include bp(xl) {
-    width: 31%; 
-  }
-  
   @include bp(xxl) {
-    width: 23%; 
+    width: 23%;
   }
 
-  border: 1px solid rgba(0,0,0,0.09);
+  border: 1px solid rgba(0, 0, 0, 0.09);
   font-size: 16px;
   transition: box-shadow 150ms;
   cursor: pointer;
@@ -28,12 +24,19 @@ $_marginBetweenCards: 1rem;
   }
 }
 
+.largerView {
+  @include bp(xl) {
+    width: 31%;
+  }
+}
+
 .productImageWrapper {
-  min-height: 150px;
+  height: 150px;
   min-width: 80%;
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+  overflow: hidden;
   img {
     max-width: 100%;
   }
