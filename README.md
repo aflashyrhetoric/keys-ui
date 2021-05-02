@@ -18,6 +18,14 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Updating Dependencies
+
+```
+yarn upgrade-interactive
+# jk to navigate, space to select, enter to activate
+# Select all the carbon-related packages and hit enter
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
