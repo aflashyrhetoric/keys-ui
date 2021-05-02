@@ -4,10 +4,11 @@ import { LogoTwitter24 } from "@carbon/icons-react"
 import AppHeader from "./partials/app-header"
 interface PageProps {
   title?: string
+  navigate?: Function // a function that changes a view in the parent
   children: any
 }
 
-const UIShellPage = ({ title, children }: PageProps) => {
+const UIShellPage = ({ title, navigate, children }: PageProps) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -28,7 +29,7 @@ const UIShellPage = ({ title, children }: PageProps) => {
       </Head>
 
       <main className={styles.main}>
-        <AppHeader />
+        <AppHeader navigate={navigate} />
         {children}
       </main>
 

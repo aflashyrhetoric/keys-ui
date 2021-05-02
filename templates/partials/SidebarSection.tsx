@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Tooltip } from "carbon-components-react"
+import { Button, Tooltip } from "carbon-components-react"
 import { Information16 } from "@carbon/icons-react"
 import classnames from "classnames"
 import styles from "./app-header.module.scss"
@@ -10,6 +10,7 @@ interface Props {
   large?: boolean
   listContent?: boolean
   children: any
+  navigate: Function
 }
 
 const SidebarSection: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const SidebarSection: React.FC<Props> = ({
   large = false,
   listContent = false,
   children,
+  navigate,
 }: Props) => {
   return (
     <div
@@ -43,7 +45,9 @@ const SidebarSection: React.FC<Props> = ({
           </div>
         </div>
         <div>
-          <span>Change</span>
+          <Button kind="ghost" size="sm" onClick={() => navigate()}>
+            Change
+          </Button>
         </div>
       </div>
       {listContent ? (

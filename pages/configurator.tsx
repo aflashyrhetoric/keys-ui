@@ -7,12 +7,7 @@ import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
-
-enum View {
-  KeyboardPicker = "Keyboard",
-  SwitchPicker = "Switch",
-  KeycapPicker = "Keycap",
-}
+import { View } from "types/views"
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
@@ -34,9 +29,13 @@ export default function Configurator() {
 
   const viewMap = {
     [View.KeyboardPicker]: <KeyboardPicker products={products} />,
-    [View.SwitchPicker]: <KeyboardPicker products={products} />,
+    [View.SwitchPicker]: <SwitchPicker products={products} />,
     // [View.KeycapPicker]: <KeyboardPicker products={products} />,
   }
 
-  return <UIShellPage title="Configurator">{viewMap[activeView]}</UIShellPage>
+  return (
+    <UIShellPage title="Configurator" navigate={setActiveView}>
+      {viewMap[activeView]}
+    </UIShellPage>
+  )
 }

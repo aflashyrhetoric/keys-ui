@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import classnames from "classnames"
 import styles from "./app-header.module.scss"
 import {
   Header,
@@ -21,6 +20,7 @@ import {
   SideNavMenuItem,
   Tooltip,
 } from "carbon-components-react"
+import { View } from "types/views"
 
 import {
   Search20,
@@ -31,11 +31,11 @@ import {
 } from "@carbon/icons-react"
 import SidebarSection from "./SidebarSection"
 
-// interface Props {
-//  something: string;
-// }
+interface Props {
+  navigate?: Function // pass-through fn to change a view somewhere in the parent (probably configurator.tsx)
+}
 
-const AppHeader: React.FC = () => {
+const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
   const [isSideNavExpanded, onClickSideNavExpand] = useState(false)
   const action = () => {}
 
@@ -96,6 +96,7 @@ const AppHeader: React.FC = () => {
                   large
                   label="base keyboard"
                   tooltipText="This will be your base keyboard. The majority of keyboards come pre-assembled with a starter set of switches and keycaps"
+                  navigate={() => navigate(View.KeyboardPicker)}
                 >
                   <div className={styles.addKeyboard}> + Add Keyboard</div>
                 </SidebarSection>
@@ -103,6 +104,7 @@ const AppHeader: React.FC = () => {
                   listContent
                   label="extra switches"
                   tooltipText="If you have a hot-swappable keyboard, you can change the switches. Click to explore available switch variations"
+                  navigate={() => navigate(View.SwitchPicker)}
                 >
                   <ul>
                     <li>Holy Pandas: Yellow</li>
@@ -112,6 +114,7 @@ const AppHeader: React.FC = () => {
                   listContent
                   label="extra keycaps"
                   tooltipText="Browse according to colorway, profile (aka shape of the keycaps), materials, and more"
+                  navigate={() => navigate(View.KeycapPicker)}
                 >
                   <ul>
                     <li>Holy Pandas: Yellow</li>

@@ -14,7 +14,7 @@ interface Props {
 const SwitchPicker: React.FC<Props> = ({ products }: Props) => {
   const [highlightedProduct, setHighlightedProduct] = useState<Keyboard>(null)
   const [modalOpen, setModalOpen] = useState(false)
-  
+
   const productIsHighlighted = highlightedProduct !== null
 
   const highlightedProductData = productIsHighlighted
@@ -32,7 +32,7 @@ const SwitchPicker: React.FC<Props> = ({ products }: Props) => {
         open={modalOpen}
         size="lg"
         className={cStyles.modal}
-        primaryButtonText="Set as Base Keyboard"
+        primaryButtonText="Add Switch to Current Build "
         secondaryButtonText="Cancel"
         onRequestSubmit={() =>
           console.log(`saved ${highlightedProductData.product_name}`)
@@ -44,13 +44,7 @@ const SwitchPicker: React.FC<Props> = ({ products }: Props) => {
         )}
       </Modal>
       <PageContent
-        title="keyboard picker"
-        subtitle={
-          <p>
-            Currently filtering for red-frame keyboards with clicky switches and
-            wireless connectivity
-          </p>
-        }
+        title="switch picker"
         style={{
           display: "flex",
           flexFlow: "row wrap",
