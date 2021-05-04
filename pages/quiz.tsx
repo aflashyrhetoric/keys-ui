@@ -17,6 +17,7 @@ import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
+import { writeStorage } from "@rehooks/local-storage"
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -31,14 +32,14 @@ const filterProducts = (
 ) => {
   let filteredSet = [...products]
   console.log(filteredSet)
-  Object.keys(userPrefs).forEach(preferenceKey => {
+  Object.keys(userPrefs).forEach((preferenceKey) => {
     console.log(`Filtering by ${preferenceKey}...`)
-    const q = questions.find(q => q.key === preferenceKey)
+    const q = questions.find((q) => q.key === preferenceKey)
     // console.log(
     //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
     // )
     console.log("BEFORE", filteredSet)
-    filteredSet = filteredSet.filter(product =>
+    filteredSet = filteredSet.filter((product) =>
       q.filterFunction(product, userPrefs[preferenceKey] || null),
     )
     console.log("AFTER", filteredSet)
@@ -51,6 +52,11 @@ export default function Quiz() {
   const [userPrefs, setUserPrefs] = useState<any>({})
   const [questionIndex, setQuestionIndex] = useState(0)
   const [products, setProducts] = useState([])
+
+  const updatePreferences = (prefs) => {
+    setUserPrefs(prefs)
+    writeStorage("preferences", prefs)
+  }
 
   const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
   const moveToNextQuestion = () => setQuestionIndex(questionIndex + 1)
@@ -82,7 +88,7 @@ export default function Quiz() {
             }}
           >
             <ProgressIndicator spaceEqually currentIndex={questionIndex}>
-              {questions.map(q => (
+              {questions.map((q) => (
                 <ProgressStep label={preferenceKeyToString(q.key)} />
               ))}
             </ProgressIndicator>
@@ -110,7 +116,7 @@ export default function Quiz() {
           )}
 
           {phase === QuizPhase.Started &&
-            [questions[questionIndex]].map(q => (
+            [questions[questionIndex]].map((q) => (
               <>
                 <MultipleChoiceQuestion
                   key={q.key}
@@ -160,7 +166,7 @@ export default function Quiz() {
             ))}
           {phase === QuizPhase.Finished && (
             <>
-              {Object.keys(userPrefs).map(preferenceKey => {
+              {Object.keys(userPrefs).map((preferenceKey) => {
                 const q = getQuestionFromKey(questions, preferenceKey)
                 return (
                   <div>
@@ -174,7 +180,7 @@ export default function Quiz() {
                     products,
                     userPrefs,
                     questions,
-                  ).map(product => <p>{product.full_title}</p>)}
+                  ).map((product) => <p>{product.full_title}</p>)}
               </ul>
             </>
           )}

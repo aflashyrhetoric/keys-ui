@@ -27,7 +27,6 @@ import {
   Notification20,
   AppSwitcher20,
   Fade16,
-  ID24,
 } from "@carbon/icons-react"
 import SidebarSection from "./SidebarSection"
 
@@ -50,8 +49,8 @@ const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
               onClick={onClickSideNavExpand}
               isActive={isSideNavExpanded}
             />
-            <HeaderName href="#" prefix="Key">
-              <ID24 />
+            <HeaderName href="#" prefix="Adelie">
+              :: Keys
             </HeaderName>
             <HeaderNavigation aria-label="[Adelie] Keys">
               <HeaderMenuItem href="#">Link 1</HeaderMenuItem>
