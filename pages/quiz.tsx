@@ -17,7 +17,7 @@ import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
-import { writeStorage } from "@rehooks/local-storage"
+import { usePreferences } from "./_app"
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -53,9 +53,11 @@ export default function Quiz() {
   const [questionIndex, setQuestionIndex] = useState(0)
   const [products, setProducts] = useState([])
 
-  const updatePreferences = (prefs) => {
+  const { prefs, updatePreferences } = usePreferences()
+
+  const updatePrefs = (prefs) => {
     setUserPrefs(prefs)
-    writeStorage("preferences", prefs)
+    updatePreferences(prefs)
   }
 
   const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
@@ -112,6 +114,7 @@ export default function Quiz() {
               onClick={() => setPhase(QuizPhase.Started)}
             >
               Start Quiz
+              {JSON.stringify(prefs)}
             </Button>
           )}
 
