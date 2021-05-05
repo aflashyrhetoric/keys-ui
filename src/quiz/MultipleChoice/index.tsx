@@ -44,7 +44,7 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
             pictorial && quizStyles.pictorialChoiceContainer,
           )}
         >
-          {choices.map(choice => {
+          {choices.map((choice) => {
             const { text, value, imgPath } = choice
 
             const isCurrentlySelected =
@@ -69,7 +69,7 @@ const MultipleChoiceQuestion: React.FC<Props> = ({
                     : {}
                 }
                 onClick={() => {
-                  setUserPrefs({ ...userPrefs, [key]: value })
+                  setUserPrefs({ [key]: value })
 
                   if (canContinue()) {
                     moveToNextQuestion()

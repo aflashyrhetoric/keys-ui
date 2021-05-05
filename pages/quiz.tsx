@@ -17,7 +17,8 @@ import Page from "templates/page"
 import MultipleChoiceQuestion from "src/quiz/MultipleChoice"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
-import { usePreferences } from "./_app"
+import usePreferencesStore from "src/utils/local-storage"
+import { localStorageKey } from "src/constants"
 
 export enum QuizPhase {
   NotBegun = "NotBegun",
@@ -49,23 +50,20 @@ const filterProducts = (
 
 export default function Quiz() {
   const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
-  const [userPrefs, setUserPrefs] = useState<any>({})
   const [questionIndex, setQuestionIndex] = useState(0)
   const [products, setProducts] = useState([])
+  // const [prefs, setPrefs] = useState({})
+  const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
 
-  const { prefs, updatePreferences } = usePreferences()
-
-  const updatePrefs = (prefs) => {
-    setUserPrefs(prefs)
-    updatePreferences(prefs)
+  const updatePreferences = (update) => {
+    setPrefs({ ...prefs, ...update })
   }
+
+  const questions: Question[] = Questions()
 
   const moveToPreviousQuestion = () => setQuestionIndex(questionIndex - 1)
   const moveToNextQuestion = () => setQuestionIndex(questionIndex + 1)
   const canContinue = () => !!questions[questionIndex + 1]
-
-  const questions: Question[] = Questions()
-  console.log(questions)
 
   const setProductData = async () => {
     const resp = await loadProductData()
@@ -114,7 +112,6 @@ export default function Quiz() {
               onClick={() => setPhase(QuizPhase.Started)}
             >
               Start Quiz
-              {JSON.stringify(prefs)}
             </Button>
           )}
 
@@ -124,8 +121,8 @@ export default function Quiz() {
                 <MultipleChoiceQuestion
                   key={q.key}
                   question={q}
-                  userPrefs={userPrefs}
-                  setUserPrefs={setUserPrefs}
+                  userPrefs={prefs}
+                  setUserPrefs={updatePreferences}
                   questionIndex={questionIndex}
                   setQuestionIndex={setQuestionIndex}
                   canContinue={canContinue}
@@ -141,35 +138,31 @@ export default function Quiz() {
                       Back
                     </Button>
                   )}
-                  {userPrefs &&
-                    userPrefs[q.key] !== undefined &&
-                    canContinue() && (
-                      <Button
-                        className={quizStyles.rightButton}
-                        onClick={() => moveToNextQuestion()}
-                      >
-                        Next
-                      </Button>
-                    )}
-                  {userPrefs &&
-                    userPrefs[q.key] !== undefined &&
-                    !canContinue() && (
-                      <Button
-                        className={quizStyles.rightButton}
-                        onClick={() => {
-                          setPhase(QuizPhase.Finished)
-                          setProductData()
-                        }}
-                      >
-                        See Results
-                      </Button>
-                    )}
+                  {prefs && prefs[q.key] !== undefined && canContinue() && (
+                    <Button
+                      className={quizStyles.rightButton}
+                      onClick={() => moveToNextQuestion()}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {prefs && prefs[q.key] !== undefined && !canContinue() && (
+                    <Button
+                      className={quizStyles.rightButton}
+                      onClick={() => {
+                        setPhase(QuizPhase.Finished)
+                        setProductData()
+                      }}
+                    >
+                      See Results
+                    </Button>
+                  )}
                 </div>
               </>
             ))}
           {phase === QuizPhase.Finished && (
             <>
-              {Object.keys(userPrefs).map((preferenceKey) => {
+              {Object.keys(prefs).map((preferenceKey) => {
                 const q = getQuestionFromKey(questions, preferenceKey)
                 return (
                   <div>
@@ -179,11 +172,9 @@ export default function Quiz() {
               })}
               <ul>
                 {!!products &&
-                  filterProducts(
-                    products,
-                    userPrefs,
-                    questions,
-                  ).map((product) => <p>{product.full_title}</p>)}
+                  filterProducts(products, prefs, questions).map((product) => (
+                    <p>{product.full_title}</p>
+                  ))}
               </ul>
             </>
           )}
