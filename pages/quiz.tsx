@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useRouter } from "next/router"
 import {
   Button,
+  Loading,
   ProgressIndicator,
   ProgressStep,
 } from "carbon-components-react"
@@ -49,11 +51,13 @@ const filterProducts = (
 }
 
 export default function Quiz() {
+  const [loading, setLoading] = useState<boolean>(false)
   const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [products, setProducts] = useState([])
-  // const [prefs, setPrefs] = useState({})
   const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
+
+  const router = useRouter()
 
   const updatePreferences = (update) => {
     setPrefs({ ...prefs, ...update })
@@ -76,110 +80,110 @@ export default function Quiz() {
 
   return (
     <Page>
-      <>
-        <h1 className={styles.title}>{/* project:mk */}</h1>
-        {phase !== QuizPhase.NotBegun && (
-          <div
-            style={{
-              position: "absolute",
-              top: "10%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <ProgressIndicator spaceEqually currentIndex={questionIndex}>
-              {questions.map((q) => (
-                <ProgressStep label={preferenceKeyToString(q.key)} />
-              ))}
-            </ProgressIndicator>
-          </div>
-        )}
-
-        {phase === QuizPhase.NotBegun && (
-          <p className={styles.description}>
-            project:mk
-            <br />
-            quiz v0.1a
-          </p>
-        )}
-
-        <div className={styles.grid}>
-          {phase === QuizPhase.NotBegun && (
-            <Button
-              size="sm"
-              kind="tertiary"
-              renderIcon={Rocket32}
-              onClick={() => setPhase(QuizPhase.Started)}
-            >
-              Start Quiz
-            </Button>
-          )}
-
-          {phase === QuizPhase.Started &&
-            [questions[questionIndex]].map((q) => (
-              <>
-                <MultipleChoiceQuestion
-                  key={q.key}
-                  question={q}
-                  userPrefs={prefs}
-                  setUserPrefs={updatePreferences}
-                  questionIndex={questionIndex}
-                  setQuestionIndex={setQuestionIndex}
-                  canContinue={canContinue}
-                  moveToNextQuestion={moveToNextQuestion}
-                  moveToPreviousQuestion={moveToPreviousQuestion}
-                />
-                <div className={quizStyles.buttonSet}>
-                  {questionIndex > 0 && (
-                    <Button
-                      className={quizStyles.leftButton}
-                      onClick={() => moveToPreviousQuestion()}
-                    >
-                      Back
-                    </Button>
-                  )}
-                  {prefs && prefs[q.key] !== undefined && canContinue() && (
-                    <Button
-                      className={quizStyles.rightButton}
-                      onClick={() => moveToNextQuestion()}
-                    >
-                      Next
-                    </Button>
-                  )}
-                  {prefs && prefs[q.key] !== undefined && !canContinue() && (
-                    <Button
-                      className={quizStyles.rightButton}
-                      onClick={() => {
-                        setPhase(QuizPhase.Finished)
-                        setProductData()
-                      }}
-                    >
-                      See Results
-                    </Button>
-                  )}
-                </div>
-              </>
+      <Loading active={loading} />
+      <h1 className={styles.title}>{/* project:mk */}</h1>
+      {phase !== QuizPhase.NotBegun && (
+        <div
+          style={{
+            position: "absolute",
+            top: "10%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <ProgressIndicator spaceEqually currentIndex={questionIndex}>
+            {questions.map((q) => (
+              <ProgressStep label={preferenceKeyToString(q.key)} />
             ))}
-          {phase === QuizPhase.Finished && (
-            <>
-              {Object.keys(prefs).map((preferenceKey) => {
-                const q = getQuestionFromKey(questions, preferenceKey)
-                return (
-                  <div>
-                    <p></p>
-                  </div>
-                )
-              })}
-              <ul>
-                {!!products &&
-                  filterProducts(products, prefs, questions).map((product) => (
-                    <p>{product.full_title}</p>
-                  ))}
-              </ul>
-            </>
-          )}
+          </ProgressIndicator>
         </div>
-      </>
+      )}
+
+      {phase === QuizPhase.NotBegun && (
+        <p className={styles.description}>
+          project:mk
+          <br />
+          quiz v0.1a
+        </p>
+      )}
+
+      <div className={styles.grid}>
+        {phase === QuizPhase.NotBegun && (
+          <Button
+            size="sm"
+            kind="tertiary"
+            renderIcon={Rocket32}
+            onClick={() => setPhase(QuizPhase.Started)}
+          >
+            Start Quiz
+          </Button>
+        )}
+
+        {phase === QuizPhase.Started &&
+          [questions[questionIndex]].map((q) => (
+            <>
+              <MultipleChoiceQuestion
+                key={q.key}
+                question={q}
+                userPrefs={prefs}
+                setUserPrefs={updatePreferences}
+                questionIndex={questionIndex}
+                setQuestionIndex={setQuestionIndex}
+                canContinue={canContinue}
+                moveToNextQuestion={moveToNextQuestion}
+                moveToPreviousQuestion={moveToPreviousQuestion}
+              />
+              <div className={quizStyles.buttonSet}>
+                {questionIndex > 0 && (
+                  <Button
+                    className={quizStyles.leftButton}
+                    onClick={() => moveToPreviousQuestion()}
+                  >
+                    Back
+                  </Button>
+                )}
+                {prefs && prefs[q.key] !== undefined && canContinue() && (
+                  <Button
+                    className={quizStyles.rightButton}
+                    onClick={() => moveToNextQuestion()}
+                  >
+                    Next
+                  </Button>
+                )}
+                {prefs && prefs[q.key] !== undefined && !canContinue() && (
+                  <Button
+                    className={quizStyles.rightButton}
+                    onClick={() => {
+                      setPhase(QuizPhase.Finished)
+                      setLoading(true)
+                      router.push("/configurator")
+                    }}
+                  >
+                    See Results
+                  </Button>
+                )}
+              </div>
+            </>
+          ))}
+        {phase === QuizPhase.Finished && (
+          <>
+            {Object.keys(prefs).map((preferenceKey) => {
+              const q = getQuestionFromKey(questions, preferenceKey)
+              return (
+                <div>
+                  <p></p>
+                </div>
+              )
+            })}
+            <ul>
+              {!!products &&
+                filterProducts(products, prefs, questions).map((product) => (
+                  <p>{product.full_title}</p>
+                ))}
+            </ul>
+          </>
+        )}
+      </div>
     </Page>
   )
 }
