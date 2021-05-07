@@ -9,6 +9,8 @@ import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
 import questions from "data/questions"
+import usePreferencesStore from "src/utils/local-storage"
+import { localStorageKey } from "src/constants"
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
@@ -17,6 +19,7 @@ export default function Configurator() {
   // const questions: Question[] = Questions()
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
+  const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
 
   const examplePrefs = {
     numpad: "yes",
@@ -53,11 +56,7 @@ export default function Configurator() {
       const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      const products = filterProducts(
-        JSON.parse(rawData),
-        examplePrefs,
-        questions,
-      )
+      const products = filterProducts(JSON.parse(rawData), prefs, questions)
       setProducts(products)
     }
 
