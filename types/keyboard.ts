@@ -17,6 +17,11 @@ export enum KeyboardBacklighting {
   None = "n/a",
 }
 
+export enum KeyboardHotswappable {
+  Yes = "Yes",
+  No = "No",
+}
+
 export interface Keyboard {
   brand: string
   full_title: string
@@ -24,13 +29,12 @@ export interface Keyboard {
   product_description: string
   url: string
   img_path: string
-  
-  size: KeyboardSize
-  price: string;
+
+  size: KeyboardSize | string
+  price: string
   frame_color: string
-  primary_led_color: KeyboardBacklighting
-  hotswappable: boolean
-  has_multimedia_keys: boolean
+  primary_led_color: KeyboardBacklighting | string
+  hotswappable: KeyboardHotswappable | string
   interfaces: string
   features: any[]
 
@@ -39,7 +43,12 @@ export interface Keyboard {
   linux_compatible: string
 
   dimensions: string
-  weight: number // float, lbs
-  cord_length: number // inches
-  switch_stems: string
+  weight: string // float, lbs
+
+  // has_multimedia_keys: boolean
+  // cord_length: number // inches
+  // switch_stems: string
+
+  // REDIS TYPES 
+  _type: string
 }

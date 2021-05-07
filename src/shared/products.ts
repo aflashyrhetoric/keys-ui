@@ -6,18 +6,18 @@ export const filterProducts = (
   questions: any,
 ) => {
   let filteredSet = [...products]
-  console.log(filteredSet)
-  Object.keys(userPrefs).forEach(preferenceKey => {
-    console.log(`Filtering by ${preferenceKey}...`)
-    const q = questions.find(q => q.key === preferenceKey)
+  // console.log(filteredSet)
+  Object.keys(userPrefs).forEach((preferenceKey) => {
+    // console.log(`Filtering by ${preferenceKey}...`)
+    const q = questions.find((q) => q.key === preferenceKey)
     // console.log(
     //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
     // )
-    console.log("BEFORE", filteredSet)
-    filteredSet = filteredSet.filter(product =>
+    // console.log("BEFORE", filteredSet)
+    filteredSet = filteredSet.filter((product) =>
       q.filterFunction(product, userPrefs[preferenceKey] || null),
     )
-    console.log("AFTER", filteredSet)
+    // console.log("AFTER", filteredSet)
   })
   return filteredSet
 }

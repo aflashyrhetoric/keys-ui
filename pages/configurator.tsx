@@ -8,9 +8,9 @@ import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
-import questions from "data/questions"
 import usePreferencesStore from "src/utils/local-storage"
 import { localStorageKey } from "src/constants"
+import { filterProducts } from "src/shared/products"
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
@@ -20,36 +20,6 @@ export default function Configurator() {
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
   const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
-
-  const examplePrefs = {
-    numpad: "yes",
-    compatible_oses: "windows",
-    interfaces: "wired",
-    frame_color: "black",
-    primary_led_color: "white",
-  }
-
-  const filterProducts = (
-    products: Keyboard[],
-    userPrefs: any,
-    questions: any,
-  ) => {
-    let filteredSet = [...products]
-    console.log(filteredSet)
-    Object.keys(userPrefs).forEach((preferenceKey) => {
-      console.log(`Filtering by ${preferenceKey}...`)
-      const q = questions.find((q) => q.key === preferenceKey)
-      // console.log(
-      //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
-      // )
-      console.log("BEFORE", filteredSet)
-      filteredSet = filteredSet.filter((product) =>
-        q.filterFunction(product, userPrefs[preferenceKey] || null),
-      )
-      console.log("AFTER", filteredSet)
-    })
-    return filteredSet
-  }
 
   useEffect(() => {
     const setProductData = async () => {
