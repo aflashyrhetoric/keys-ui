@@ -28,27 +28,35 @@ export enum QuizPhase {
   Finished = "Finished",
 }
 
-const filterProducts = (
-  products: Keyboard[],
-  userPrefs: any,
-  questions: any,
-) => {
-  let filteredSet = [...products]
-  console.log(filteredSet)
-  Object.keys(userPrefs).forEach((preferenceKey) => {
-    console.log(`Filtering by ${preferenceKey}...`)
-    const q = questions.find((q) => q.key === preferenceKey)
-    // console.log(
-    //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
-    // )
-    console.log("BEFORE", filteredSet)
-    filteredSet = filteredSet.filter((product) =>
-      q.filterFunction(product, userPrefs[preferenceKey] || null),
-    )
-    console.log("AFTER", filteredSet)
-  })
-  return filteredSet
-}
+// const examplePrefs = {
+//   numpad: "yes",
+//   compatible_oses: "windows",
+//   interfaces: "wireless",
+//   frame_color: "white",
+//   primary_led_color: "rgb",
+// }
+
+// const filterProducts = (
+//   products: Keyboard[],
+//   userPrefs: any,
+//   questions: any,
+// ) => {
+//   let filteredSet = [...products]
+//   console.log(filteredSet)
+//   Object.keys(userPrefs).forEach((preferenceKey) => {
+//     console.log(`Filtering by ${preferenceKey}...`)
+//     const q = questions.find((q) => q.key === preferenceKey)
+//     // console.log(
+//     //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
+//     // )
+//     console.log("BEFORE", filteredSet)
+//     filteredSet = filteredSet.filter((product) =>
+//       q.filterFunction(product, userPrefs[preferenceKey] || null),
+//     )
+//     console.log("AFTER", filteredSet)
+//   })
+//   return filteredSet
+// }
 
 export default function Quiz() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -165,7 +173,7 @@ export default function Quiz() {
               </div>
             </>
           ))}
-        {phase === QuizPhase.Finished && (
+        {/* {phase === QuizPhase.Finished && (
           <>
             {Object.keys(prefs).map((preferenceKey) => {
               const q = getQuestionFromKey(questions, preferenceKey)
@@ -182,7 +190,7 @@ export default function Quiz() {
                 ))}
             </ul>
           </>
-        )}
+        )} */}
       </div>
     </Page>
   )

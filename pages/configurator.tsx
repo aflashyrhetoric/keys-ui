@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react"
 import cStyles from "../styles/Configurator.module.scss"
 
-import Questions, { Question } from "data/questions"
+import getQuestions from "data/questions"
 import UIShellPage from "templates/page-uishell"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
+import questions from "data/questions"
 
 export default function Configurator() {
   // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
@@ -17,11 +18,47 @@ export default function Configurator() {
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
 
+  const examplePrefs = {
+    numpad: "yes",
+    compatible_oses: "windows",
+    interfaces: "wired",
+    frame_color: "black",
+    primary_led_color: "white",
+  }
+
+  const filterProducts = (
+    products: Keyboard[],
+    userPrefs: any,
+    questions: any,
+  ) => {
+    let filteredSet = [...products]
+    console.log(filteredSet)
+    Object.keys(userPrefs).forEach((preferenceKey) => {
+      console.log(`Filtering by ${preferenceKey}...`)
+      const q = questions.find((q) => q.key === preferenceKey)
+      // console.log(
+      //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
+      // )
+      console.log("BEFORE", filteredSet)
+      filteredSet = filteredSet.filter((product) =>
+        q.filterFunction(product, userPrefs[preferenceKey] || null),
+      )
+      console.log("AFTER", filteredSet)
+    })
+    return filteredSet
+  }
+
   useEffect(() => {
     const setProductData = async () => {
+      const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      setProducts(JSON.parse(rawData))
+      const products = filterProducts(
+        JSON.parse(rawData),
+        examplePrefs,
+        questions,
+      )
+      setProducts(products)
     }
 
     setProductData()

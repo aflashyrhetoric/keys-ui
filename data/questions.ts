@@ -29,7 +29,7 @@ export const preferenceKeyToString = (pk: string) => {
   if (pk === "interfaces") {
     return "Connection"
   }
-  
+
   if (pk === "primary_led_color") {
     return "Lighting"
   }
@@ -138,6 +138,10 @@ const getQuestions = (): Question[] => {
     [choice("Wireless", "wireless"), choice("Wired is fine", "either")],
     false,
     (product: Keyboard, value: string) => {
+      if (value === "wired") {
+        return true // TODO specify usb/usb-c/micro-usb/mini-usb
+      }
+
       if (!product || !product.interfaces) {
         return false
       }
@@ -145,6 +149,7 @@ const getQuestions = (): Question[] => {
       if (value === "either") {
         return true
       }
+      
       return product.interfaces.includes(KeyboardInterface.Wireless)
     },
   )
@@ -161,26 +166,32 @@ const getQuestions = (): Question[] => {
     ],
     true,
     (product: Keyboard, comparisonValue: string) => {
-      if (!product.frame_color) {
-        return false
-      }
-      // If the data is missing, include the keyboard just in case
-      if (!product.frame_color || comparisonValue === "any") {
+      const frameColor = product.frame_color
+        ? product.frame_color.toLowerCase()
+        : ""
+      const cv = comparisonValue.toLowerCase()
+
+      if (!frameColor) {
         return true
       }
 
-      const fc = product.frame_color.toLowerCase()
+      // If the data is missing, include the keyboard just in case
+      if (!frameColor || cv === "any") {
+        return true
+      }
 
-      if (comparisonValue === "black") {
+      const fc = frameColor.toLowerCase()
+
+      if (cv === "black") {
         return fc === "black"
       }
-      if (comparisonValue === "white") {
+      if (cv === "white") {
         return fc === "white"
       }
-      if (comparisonValue === "gray") {
+      if (cv === "gray") {
         return fc === "gray"
       }
-      if (comparisonValue === "colorful") {
+      if (cv === "colorful") {
         return ["pink", "blue", "green", "red", "orange"].includes(fc)
       }
     },
@@ -196,6 +207,10 @@ const getQuestions = (): Question[] => {
     ],
     true,
     (product: Keyboard, comparisonValue: string) => {
+      if (comparisonValue === "n/a") {
+        return true
+      }
+
       const color = product.primary_led_color
         ? product.primary_led_color.toLowerCase()
         : "n/a"
@@ -204,8 +219,9 @@ const getQuestions = (): Question[] => {
         return color === "rgb" || color === "full"
       }
       if (comparisonValue === "white") {
-        return color === "white"
+        return color === "rgb" || color === "full" || color === "white"
       }
+
       return true
     },
   )
@@ -216,6 +232,6 @@ const getQuestions = (): Question[] => {
 export const getQuestionFromKey = (
   questions: Question[],
   questionKey: string,
-) => questions.find(q => q.key === questionKey)
+) => questions.find((q) => q.key === questionKey)
 
 export default getQuestions

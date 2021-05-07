@@ -53,10 +53,10 @@ const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
               :: Keys
             </HeaderName>
             <HeaderNavigation aria-label="[Adelie] Keys">
-              <HeaderMenuItem href="#">Link 1</HeaderMenuItem>
-              <HeaderMenu aria-label="Link 2" menuLinkName="Link 2">
+              <HeaderMenuItem href="/quiz">Return to Quiz</HeaderMenuItem>
+              {/* <HeaderMenu aria-label="Link 2" menuLinkName="Link 2">
                 <HeaderMenuItem href="#one">Sub-link 1</HeaderMenuItem>
-              </HeaderMenu>
+              </HeaderMenu> */}
             </HeaderNavigation>
             <HeaderGlobalBar>
               <HeaderGlobalAction
