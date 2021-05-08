@@ -36,15 +36,7 @@ const SwitchPicker: React.FC<PickerProps> = ({
       <UIShellPage
         title="Keyboard Picker"
         navigate={navigate}
-        parameters={
-          <SidebarSection
-            listContent
-            label="layout / size"
-            tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
-          >
-            <KeyboardParameters prefs={prefs} setPrefs={setPrefs} />
-          </SidebarSection>
-        }
+        parameters={<KeyboardParameters prefs={prefs} setPrefs={setPrefs} />}
       >
         <Modal
           open={modalOpen}

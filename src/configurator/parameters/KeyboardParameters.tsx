@@ -1,11 +1,16 @@
 import React, { useState } from "react"
 import { Checkbox } from "carbon-components-react"
-import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
-import { KeyboardSize, KeyboardSizes } from "types/keyboard"
+import {
+  KeyboardFrameColor,
+  KeyboardFrameColors,
+  KeyboardSize,
+  KeyboardSizes,
+} from "types/keyboard"
 
 import styles from "./parameters.module.scss"
 import { UserPreferences } from "types/app"
 import { CheckboxEvent } from "types/carbon"
+import SidebarSection from "templates/partials/SidebarSection"
 
 interface KeyboardParameters {
   frame_color: string
@@ -22,34 +27,60 @@ interface Props {
 }
 
 const KeyboardParameters: React.FC<Props> = ({ prefs, setPrefs }: Props) => {
-  const updateSize = (size: KeyboardSize[]) => {
-    setPrefs({ ...prefs, size })
+  const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
+  const updateColor = (frame_color: KeyboardFrameColor) =>
+    setPrefs({ ...prefs, frame_color })
+
+  const togglePresenceInArray = (list: any[], item) => {
+    const updatedList = [...list]
+    if (list.includes(item)) {
+      const indexOfExistingSize = list.findIndex((s) => s === item)
+      updatedList.splice(indexOfExistingSize, 1)
+      updateSize(updatedList)
+    } else {
+      updateSize([...updatedList, item])
+    }
   }
 
   return (
-    <div style={{ width: "140px", wordBreak: "break-word" }}>
-      {KeyboardSizes.map((size) => (
-        <Checkbox
-          checked={prefs ? prefs.size.includes(size) : false}
-          className={styles.checkbox}
-          id={size}
-          labelText={size}
-          onChange={({ value, id, event }: CheckboxEvent) => {
-            console.log(size)
-            const currentSizes = [...prefs.size]
-            // If includes, remove
-            if (prefs.size.includes(size)) {
-              const indexOfExistingSize = prefs.size.findIndex(
-                (s) => s === size,
-              )
-              currentSizes.splice(indexOfExistingSize, 1)
-              updateSize(currentSizes)
-            } else {
-              updateSize([...currentSizes, size])
+    <div style={{ padding: "10px" }}>
+      <SidebarSection
+        listContent
+        label="layout / size"
+        tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
+      >
+        {KeyboardSizes.map((size) => (
+          <Checkbox
+            id={`keyboard size option ${size}`}
+            checked={prefs ? prefs.size.includes(size) : false}
+            className={styles.checkbox}
+            labelText={size}
+            onChange={({ value, id, event }: CheckboxEvent) =>
+              togglePresenceInArray(prefs.size, size)
             }
-          }}
-        />
-      ))}
+          />
+        ))}
+      </SidebarSection>
+
+      <SidebarSection
+        listContent
+        label="frame color"
+        tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
+      >
+        {KeyboardFrameColors.map((frame_color) => {
+          return (
+            <Checkbox
+              id={`keyboard color option ${frame_color}`}
+              checked={prefs && prefs.frame_color === frame_color}
+              className={styles.checkbox}
+              labelText={frame_color}
+              onChange={({ value, id, event }: CheckboxEvent) =>
+                updateColor(frame_color)
+              }
+            />
+          )
+        })}
+      </SidebarSection>
     </div>
   )
 }

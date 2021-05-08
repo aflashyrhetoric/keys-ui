@@ -1,6 +1,11 @@
 // CONVERT TO JSON BLOB....
 
-import { Keyboard, KeyboardInterface, KeyboardSize } from "types/keyboard"
+import {
+  Keyboard,
+  KeyboardFrameColors,
+  KeyboardInterface,
+  KeyboardSize,
+} from "types/keyboard"
 import { startCase } from "lodash"
 
 export interface Question {
@@ -169,8 +174,10 @@ const getQuestions = (): Question[] => {
         : ""
       const cv = comparisonValue.toLowerCase()
 
+      console.log(frameColor)
+
       if (!frameColor) {
-        return true
+        return false
       }
 
       // If the data is missing, include the keyboard just in case
@@ -180,15 +187,22 @@ const getQuestions = (): Question[] => {
 
       const fc = frameColor.toLowerCase()
 
-      if (cv === "black") {
-        return fc === "black"
+      if (KeyboardFrameColors.map((kfc) => `${kfc}`).includes(cv)) {
+        return fc === cv
       }
-      if (cv === "white") {
-        return fc === "white"
-      }
-      if (cv === "gray") {
-        return fc === "gray"
-      }
+
+      // if (cv === "black") {
+      //   return fc === "black"
+      // }
+      // if (cv === "white") {
+      //   return fc === "white"
+      // }
+      // if (cv === "gray") {
+      //   return fc === "gray"
+      // }
+      // if (cv === "red") {
+      //   return fc === "red"
+      // }
       if (cv === "colorful") {
         return ["pink", "blue", "green", "red", "orange"].includes(fc)
       }

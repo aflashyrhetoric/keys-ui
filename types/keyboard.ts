@@ -24,6 +24,36 @@ export enum KeyboardBacklighting {
   None = "n/a",
 }
 
+export enum KeyboardFrameColor {
+  White = "white",
+  Black = "black",
+  Gray = "gray",
+  Red = "red",
+  Green = "green",
+  Navy = "navy",
+  Wood = "wood",
+  Blue = "blue",
+  Yellow = "yellow",
+  Silver = "silver",
+  Clear = "clear",
+  Pink = "pink",
+}
+
+export const KeyboardFrameColors = [
+  KeyboardFrameColor.White,
+  KeyboardFrameColor.Black,
+  KeyboardFrameColor.Gray,
+  KeyboardFrameColor.Red,
+  KeyboardFrameColor.Green,
+  KeyboardFrameColor.Navy,
+  KeyboardFrameColor.Wood,
+  KeyboardFrameColor.Blue,
+  KeyboardFrameColor.Yellow,
+  KeyboardFrameColor.Silver,
+  KeyboardFrameColor.Clear,
+  KeyboardFrameColor.Pink,
+]
+
 export enum KeyboardHotswappable {
   Yes = "Yes",
   No = "No",
