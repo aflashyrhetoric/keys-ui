@@ -42,4 +42,6 @@ const usePreferencesStore = (key: string, initialValue: any) => {
   return [storedValue, setValue]
 }
 
+export const localStorageKey = "ADELIE_KEYS_PREFERENCES"
+
 export default usePreferencesStore

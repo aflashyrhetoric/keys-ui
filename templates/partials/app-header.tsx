@@ -29,6 +29,7 @@ import {
   Fade16,
 } from "@carbon/icons-react"
 import SidebarSection from "./SidebarSection"
+import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
 
 interface Props {
   navigate?: Function // pass-through fn to change a view somewhere in the parent (probably configurator.tsx)
@@ -36,6 +37,7 @@ interface Props {
 
 const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
   const [isSideNavExpanded, onClickSideNavExpand] = useState(false)
+  const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
   const action = () => {}
 
   return (
@@ -124,7 +126,17 @@ const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
                 </SideNavLink>
               </SideNavItems>
             </SideNav>
-            <HeaderPanel aria-label="Header Panel" expanded />
+            <HeaderPanel aria-label="Header Panel" expanded>
+              <SidebarSection
+                listContent
+                label="layout / size"
+                tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
+              >
+                <ul>
+                  <li>Holy Pandas: Yellow</li>
+                </ul>
+              </SidebarSection>
+            </HeaderPanel>
           </Header>
         </>
       )}

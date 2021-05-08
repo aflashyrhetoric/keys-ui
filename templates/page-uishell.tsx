@@ -2,6 +2,7 @@ import Head from "next/head"
 import styles from "styles/UIShell.module.scss"
 import { LogoTwitter24 } from "@carbon/icons-react"
 import AppHeader from "./partials/app-header"
+import { UserPreferences } from "types/app"
 interface PageProps {
   title?: string
   navigate?: Function // a function that changes a view in the parent

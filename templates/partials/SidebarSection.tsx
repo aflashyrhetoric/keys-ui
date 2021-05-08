@@ -10,7 +10,7 @@ interface Props {
   large?: boolean
   listContent?: boolean
   children: any
-  navigate: Function
+  navigate?: Function
 }
 
 const SidebarSection: React.FC<Props> = ({

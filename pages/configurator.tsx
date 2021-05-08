@@ -13,10 +13,6 @@ import { localStorageKey } from "src/constants"
 import { filterProducts } from "src/shared/products"
 
 export default function Configurator() {
-  // const [phase, setPhase] = useState<QuizPhase>(QuizPhase.NotBegun)
-  // const [userPrefs, setUserPrefs] = useState<any>({})
-  // const [questionIndex, setQuestionIndex] = useState(0)
-  // const questions: Question[] = Questions()
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
   const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
