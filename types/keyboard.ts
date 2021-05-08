@@ -5,6 +5,13 @@ export enum KeyboardSize {
   Numpad = "Numpad",
 }
 
+export const KeyboardSizes = [
+  KeyboardSize.Full,
+  KeyboardSize.TKL,
+  KeyboardSize.Sixty,
+  KeyboardSize.Numpad,
+]
+
 export enum KeyboardInterface {
   USB_C = "USB-C",
   Wireless = "Wireless",
@@ -49,6 +56,6 @@ export interface Keyboard {
   // cord_length: number // inches
   // switch_stems: string
 
-  // REDIS TYPES 
+  // REDIS TYPES
   _type: string
 }

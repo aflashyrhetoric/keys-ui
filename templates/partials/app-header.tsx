@@ -15,27 +15,19 @@ import {
   SkipToContent,
   SideNav,
   SideNavItems,
-  SideNavLink,
-  SideNavMenu,
-  SideNavMenuItem,
-  Tooltip,
 } from "carbon-components-react"
 import { View } from "types/views"
 
-import {
-  Search20,
-  Notification20,
-  AppSwitcher20,
-  Fade16,
-} from "@carbon/icons-react"
+import { Search20, Notification20, AppSwitcher20 } from "@carbon/icons-react"
 import SidebarSection from "./SidebarSection"
 import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
 
 interface Props {
   navigate?: Function // pass-through fn to change a view somewhere in the parent (probably configurator.tsx)
+  parameters: JSX.Element
 }
 
-const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
+const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
   const [isSideNavExpanded, onClickSideNavExpand] = useState(false)
   const [prefs, setPrefs] = usePreferencesStore(localStorageKey, {})
   const action = () => {}
@@ -121,21 +113,17 @@ const AppHeader: React.FC<Props> = ({ navigate }: Props) => {
                     <li>Holy Pandas: Yellow</li>
                   </ul>
                 </SidebarSection>
-                <SideNavLink renderIcon={Fade16} href="#">
+                {/* <SideNavLink renderIcon={Fade16} href="#">
                   Link
-                </SideNavLink>
+                </SideNavLink> */}
               </SideNavItems>
             </SideNav>
             <HeaderPanel aria-label="Header Panel" expanded>
-              <SidebarSection
-                listContent
-                label="layout / size"
-                tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
-              >
-                <ul>
-                  <li>Holy Pandas: Yellow</li>
-                </ul>
-              </SidebarSection>
+              {parameters || (
+                <div>
+                  <h1>NO PARAMETERS</h1>
+                </div>
+              )}
             </HeaderPanel>
           </Header>
         </>

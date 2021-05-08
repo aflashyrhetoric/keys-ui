@@ -45,9 +45,11 @@ const SidebarSection: React.FC<Props> = ({
           </div>
         </div>
         <div>
-          <Button kind="ghost" size="sm" onClick={() => navigate()}>
-            Change
-          </Button>
+          {navigate !== undefined && (
+            <Button kind="ghost" size="sm" onClick={() => navigate()}>
+              Change
+            </Button>
+          )}
         </div>
       </div>
       {listContent ? (

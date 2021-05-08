@@ -6,15 +6,20 @@ import { Keyboard } from "types/keyboard"
 
 import cStyles from "../styles/Configurator.module.scss"
 import ProductModalInfo from "src/configurator/ProductModalInfo"
+import UIShellPage from "templates/page-uishell"
+import SidebarSection from "templates/partials/SidebarSection"
+import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
+import { PickerProps, UserPreferences } from "types/app"
 
-interface Props {
-  products: Keyboard[]
-}
-
-const SwitchPicker: React.FC<Props> = ({ products }: Props) => {
+const SwitchPicker: React.FC<PickerProps> = ({
+  products,
+  navigate,
+  prefs,
+  setPrefs,
+}: PickerProps) => {
   const [highlightedProduct, setHighlightedProduct] = useState<Keyboard>(null)
   const [modalOpen, setModalOpen] = useState(false)
-  
+
   const productIsHighlighted = highlightedProduct !== null
 
   const highlightedProductData = productIsHighlighted
@@ -28,47 +33,56 @@ const SwitchPicker: React.FC<Props> = ({ products }: Props) => {
 
   return (
     <>
-      <Modal
-        open={modalOpen}
-        size="lg"
-        className={cStyles.modal}
-        primaryButtonText="Set as Base Keyboard"
-        secondaryButtonText="Cancel"
-        onRequestSubmit={() =>
-          console.log(`saved ${highlightedProductData.product_name}`)
+      <UIShellPage
+        title="Keyboard Picker"
+        navigate={navigate}
+        parameters={
+          <SidebarSection
+            listContent
+            label="layout / size"
+            tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
+          >
+            <KeyboardParameters prefs={prefs} setPrefs={setPrefs} />
+          </SidebarSection>
         }
-        onRequestClose={resetState}
       >
-        {highlightedProductData && (
-          <ProductModalInfo product={highlightedProductData} />
-        )}
-      </Modal>
-      <PageContent
-        title="keyboard picker"
-        subtitle={
-          <p>
-            Currently filtering for red-frame keyboards with clicky switches and
-            wireless connectivity
-          </p>
-        }
-        style={{
-          display: "flex",
-          flexFlow: "row wrap",
-          justifyContent: "space-around",
-        }}
-      >
-        {products &&
-          products.map((p) => (
-            <ProductCard
-              key={p.full_title}
-              product={p}
-              onClick={() => {
-                setHighlightedProduct(p)
-                setModalOpen(true)
-              }}
-            />
-          ))}
-      </PageContent>
+        <Modal
+          open={modalOpen}
+          size="lg"
+          className={cStyles.modal}
+          primaryButtonText="Set as Base Keyboard"
+          secondaryButtonText="Cancel"
+          onRequestSubmit={() =>
+            console.log(`saved ${highlightedProductData.product_name}`)
+          }
+          onRequestClose={resetState}
+        >
+          {highlightedProductData && (
+            <ProductModalInfo product={highlightedProductData} />
+          )}
+        </Modal>
+        <PageContent
+          title="keyboard picker"
+          subtitle={<p>{JSON.stringify(prefs)}</p>}
+          style={{
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "space-around",
+          }}
+        >
+          {products &&
+            products.map((p) => (
+              <ProductCard
+                key={p.full_title}
+                product={p}
+                onClick={() => {
+                  setHighlightedProduct(p)
+                  setModalOpen(true)
+                }}
+              />
+            ))}
+        </PageContent>
+      </UIShellPage>
     </>
   )
 }

@@ -154,3 +154,11 @@ $breakpoints: (
   }
   border-radius: 3px;
 }
+
+@mixin invert-checkbox {
+  &:global(.bx--checkbox-label) {
+    &::before {
+      border-color: white;
+    }
+  }
+}

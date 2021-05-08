@@ -7,9 +7,10 @@ interface PageProps {
   title?: string
   navigate?: Function // a function that changes a view in the parent
   children: any
+  parameters?: JSX.Element
 }
 
-const UIShellPage = ({ title, navigate, children }: PageProps) => {
+const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -30,7 +31,7 @@ const UIShellPage = ({ title, navigate, children }: PageProps) => {
       </Head>
 
       <main className={styles.main}>
-        <AppHeader navigate={navigate} />
+        <AppHeader navigate={navigate} parameters={parameters} />
         {children}
       </main>
 

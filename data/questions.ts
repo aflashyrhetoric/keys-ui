@@ -1,6 +1,6 @@
 // CONVERT TO JSON BLOB....
 
-import { Keyboard, KeyboardInterface } from "types/keyboard"
+import { Keyboard, KeyboardInterface, KeyboardSize } from "types/keyboard"
 import { startCase } from "lodash"
 
 export interface Question {
@@ -19,7 +19,7 @@ export interface Choice {
 }
 
 export const preferenceKeyToString = (pk: string) => {
-  if (pk === "numpad") {
+  if (pk === "size") {
     return "Numpad?"
   }
   if (pk === "compatible_oses") {
@@ -76,21 +76,19 @@ const getQuestions = (): Question[] => {
 
   addQ(
     "Do you need a keyboard with a numpad?",
-    "numpad",
+    "size",
     [
-      choice("Yes", "yes"),
-      choice("No", "no"),
-      choice("Either is fine!", "either"),
+      choice("Yes", [KeyboardSize.Full]), // MUST be full to have numpad
+      choice("No", [KeyboardSize.Full, KeyboardSize.TKL, KeyboardSize.Sixty]),
+      choice("Either is fine!", [
+        KeyboardSize.Full,
+        KeyboardSize.TKL,
+        KeyboardSize.Sixty,
+      ]),
     ],
     false,
     (product: Keyboard, cv: string) => {
-      if (cv === "yes") {
-        return product.size === "Full Size"
-      }
-      if (cv === "no") {
-        return product.size !== "Full Size"
-      }
-      return true
+      return cv.includes(product.size)
     },
   )
 
@@ -135,7 +133,7 @@ const getQuestions = (): Question[] => {
   addQ(
     "Wired or wireless?",
     "interfaces",
-    [choice("Wireless", "wireless"), choice("Wired is fine", "either")],
+    [choice("Wired is fine", "either"), choice("Wireless", "wireless")],
     false,
     (product: Keyboard, value: string) => {
       if (value === "wired") {
@@ -149,7 +147,7 @@ const getQuestions = (): Question[] => {
       if (value === "either") {
         return true
       }
-      
+
       return product.interfaces.includes(KeyboardInterface.Wireless)
     },
   )

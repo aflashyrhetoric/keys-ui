@@ -9,7 +9,12 @@ $_gray: #4a4a4a;
   // background-color: pink;
   min-height: 75px;
   color: white;
+  padding-bottom: 15px;
   margin-bottom: 5px;
+  transition: background 150ms;
+  &:hover {
+    background: #263251;
+  }
 }
 
 .SideNavLinkLarge {
@@ -31,6 +36,7 @@ $_gray: #4a4a4a;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
+  padding-top: 5px;
   :global(.bx--tooltip__trigger svg) {
     fill: white !important;
   }
@@ -47,15 +53,13 @@ $_gray: #4a4a4a;
 .addKeyboard {
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 
   height: 110px;
-  
+
   border-radius: 3px;
   border: 2px solid pink;
 
   margin: 1rem;
   margin-top: 0.5rem;
-
-  
 }
