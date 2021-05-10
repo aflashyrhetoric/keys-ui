@@ -12,6 +12,7 @@ import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
 import { PickerProps, UserPreferences } from "types/app"
 
 const SwitchPicker: React.FC<PickerProps> = ({
+  productsFilteredByMultipleSelect,
   products,
   navigate,
   prefs,
@@ -36,7 +37,14 @@ const SwitchPicker: React.FC<PickerProps> = ({
       <UIShellPage
         title="Keyboard Picker"
         navigate={navigate}
-        parameters={<KeyboardParameters prefs={prefs} setPrefs={setPrefs} />}
+        parameters={
+          <KeyboardParameters
+            productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
+            products={products}
+            prefs={prefs}
+            setPrefs={setPrefs}
+          />
+        }
       >
         <Modal
           open={modalOpen}

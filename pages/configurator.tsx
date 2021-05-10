@@ -9,9 +9,19 @@ import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
 import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
-import { filterProducts } from "src/shared/products"
+import {
+  filterProducts,
+  filterProductsByMultipleSelectsOnly,
+} from "src/shared/products"
+import { computeFilterMetadata } from "src/shared/meta"
+import { FilterMetadata } from "types/app"
 
 export default function Configurator() {
+  // const [filterMetadata, setFilterMetadata] = useState<FilterMetadata>([])
+  const [
+    productsFilteredByMultipleSelect,
+    setProductsFilteredByMultipleSelect,
+  ] = useState<Keyboard[]>([])
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
   const [localPrefs, setLocalPrefs] = usePreferencesStore(localStorageKey, {})
@@ -33,7 +43,16 @@ export default function Configurator() {
       const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      const products = filterProducts(JSON.parse(rawData), prefs, questions)
+      const allProducts = JSON.parse(rawData)
+      const productsFilteredByMultipleSelect = filterProductsByMultipleSelectsOnly(
+        allProducts,
+        prefs,
+        questions,
+      )
+      const products = filterProducts(allProducts, prefs, questions)
+
+      // setFilterMetadata(computeFilterMetadata(allProducts))
+      setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
       setProducts(products)
     }
 
@@ -42,6 +61,7 @@ export default function Configurator() {
 
   const sharedProps = {
     products,
+    productsFilteredByMultipleSelect,
     navigate: setActiveView,
     prefs,
     setPrefs: updatePreferences,

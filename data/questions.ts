@@ -146,7 +146,7 @@ const getQuestions = (): Question[] => {
       }
 
       if (!product || !product.interfaces) {
-        return false
+        return true
       }
 
       if (value === "either") {
@@ -187,7 +187,7 @@ const getQuestions = (): Question[] => {
 
       const fc = frameColor.toLowerCase()
 
-      if (KeyboardFrameColors.map((kfc) => `${kfc}`).includes(cv)) {
+      if (KeyboardFrameColors.map((kfc) => `${kfc.toLowerCase()}`).includes(cv)) {
         return fc === cv
       }
 

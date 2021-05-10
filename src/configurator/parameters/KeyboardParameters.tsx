@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Checkbox } from "carbon-components-react"
 import {
+  Keyboard,
   KeyboardFrameColor,
   KeyboardFrameColors,
   KeyboardSize,
@@ -22,11 +23,18 @@ interface KeyboardParameters {
 }
 
 interface Props {
+  productsFilteredByMultipleSelect: Keyboard[]
+  products: Keyboard[]
   prefs: UserPreferences
   setPrefs: Function
 }
 
-const KeyboardParameters: React.FC<Props> = ({ prefs, setPrefs }: Props) => {
+const KeyboardParameters: React.FC<Props> = ({
+  productsFilteredByMultipleSelect,
+  products,
+  prefs,
+  setPrefs,
+}: Props) => {
   const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
   const updateColor = (frame_color: KeyboardFrameColor) =>
     setPrefs({ ...prefs, frame_color })
@@ -52,7 +60,7 @@ const KeyboardParameters: React.FC<Props> = ({ prefs, setPrefs }: Props) => {
         {KeyboardSizes.map((size) => (
           <Checkbox
             id={`keyboard size option ${size}`}
-            checked={prefs ? prefs.size.includes(size) : false}
+            checked={prefs && prefs.size ? prefs.size.includes(size) : false}
             className={styles.checkbox}
             labelText={size}
             onChange={({ value, id, event }: CheckboxEvent) =>
@@ -62,6 +70,36 @@ const KeyboardParameters: React.FC<Props> = ({ prefs, setPrefs }: Props) => {
         ))}
       </SidebarSection>
 
+      <SidebarSection
+        listContent
+        label="frame color"
+        tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
+      >
+        {KeyboardFrameColors.map((frame_color) => {
+          const amountOfProductsForCurrentFrameColor = productsFilteredByMultipleSelect.filter(
+            (k) =>
+              k.frame_color !== null &&
+              k.frame_color.toLowerCase() === frame_color,
+          ).length
+
+          const isEmptySet = amountOfProductsForCurrentFrameColor === 0
+
+          return (
+            <Checkbox
+              disabled={isEmptySet}
+              id={`keyboard color option ${frame_color}`}
+              checked={
+                prefs && prefs.frame_color === frame_color && !isEmptySet
+              }
+              className={styles.checkbox}
+              labelText={`${frame_color} (${amountOfProductsForCurrentFrameColor})`}
+              onChange={({ value, id, event }: CheckboxEvent) =>
+                updateColor(frame_color)
+              }
+            />
+          )
+        })}
+      </SidebarSection>
       <SidebarSection
         listContent
         label="frame color"
