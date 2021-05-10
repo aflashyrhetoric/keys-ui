@@ -1,3 +1,5 @@
+import { Tag } from "carbon-components-react"
+import { UserPreferences } from "types/app"
 import { Keyboard } from "types/keyboard"
 
 export const filterProducts = (
@@ -54,4 +56,23 @@ export const filterProductsByMultipleSelectsOnly = (
     })
   console.log("FILTERED BY MULTIPLE SELECT", filteredSet)
   return filteredSet
+}
+
+export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
+  if (!prefs) {
+    return <>No filters</>
+  }
+  const tags = []
+  const sizeTags = prefs.size.map((keyboardSize) => (
+    <Tag type="purple">Size: {keyboardSize}</Tag>
+  ))
+
+  return (
+    <>
+      {sizeTags}
+      <Tag type="blue">Frame Color: {prefs.frame_color}</Tag>
+      <Tag type="teal">LED Backlighting: {prefs.primary_led_color}</Tag>
+      <Tag type="magenta">Ports/Interfaces: {prefs.interfaces}</Tag>
+    </>
+  )
 }

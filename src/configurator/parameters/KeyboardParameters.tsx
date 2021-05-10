@@ -6,6 +6,7 @@ import {
   KeyboardFrameColors,
   KeyboardSize,
   KeyboardSizes,
+  OperatingSystem,
 } from "types/keyboard"
 
 import styles from "./parameters.module.scss"
@@ -38,6 +39,8 @@ const KeyboardParameters: React.FC<Props> = ({
   const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
   const updateColor = (frame_color: KeyboardFrameColor) =>
     setPrefs({ ...prefs, frame_color })
+  const updateOS = (compatible_oses: OperatingSystem) =>
+    setPrefs({ ...prefs, compatible_oses })
 
   const togglePresenceInArray = (list: any[], item) => {
     const updatedList = [...list]
@@ -53,12 +56,14 @@ const KeyboardParameters: React.FC<Props> = ({
   return (
     <div style={{ padding: "10px" }}>
       <SidebarSection
+        showTooltipLeft
         listContent
         label="layout / size"
         tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
       >
         {KeyboardSizes.map((size) => (
           <Checkbox
+            key={`keyboard-size-option-${size}`}
             id={`keyboard size option ${size}`}
             checked={prefs && prefs.size ? prefs.size.includes(size) : false}
             className={styles.checkbox}
@@ -71,6 +76,7 @@ const KeyboardParameters: React.FC<Props> = ({
       </SidebarSection>
 
       <SidebarSection
+        showTooltipLeft
         listContent
         label="frame color"
         tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
@@ -86,6 +92,7 @@ const KeyboardParameters: React.FC<Props> = ({
 
           return (
             <Checkbox
+              key={`${frame_color}-frame-color`}
               disabled={isEmptySet}
               id={`keyboard color option ${frame_color}`}
               checked={
@@ -101,23 +108,45 @@ const KeyboardParameters: React.FC<Props> = ({
         })}
       </SidebarSection>
       <SidebarSection
+        showTooltipLeft
         listContent
-        label="frame color"
-        tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
+        label="Operating System"
+        tooltipText="Some keyboards are Windows-only or Mac-only. Some support both. Select all that you need."
       >
-        {KeyboardFrameColors.map((frame_color) => {
-          return (
-            <Checkbox
-              id={`keyboard color option ${frame_color}`}
-              checked={prefs && prefs.frame_color === frame_color}
-              className={styles.checkbox}
-              labelText={frame_color}
-              onChange={({ value, id, event }: CheckboxEvent) =>
-                updateColor(frame_color)
+        {prefs &&
+          [
+            OperatingSystem.Windows,
+            OperatingSystem.macOS,
+            OperatingSystem.Both,
+          ].map((os) => {
+            const isSelected = (currentOS) => {
+              if (currentOS === OperatingSystem.Windows) {
+                return (
+                  prefs.compatible_oses === OperatingSystem.Windows ||
+                  prefs.compatible_oses === OperatingSystem.Both
+                )
               }
-            />
-          )
-        })}
+              if (currentOS === OperatingSystem.macOS) {
+                return (
+                  prefs.compatible_oses === OperatingSystem.macOS ||
+                  prefs.compatible_oses === OperatingSystem.Both
+                )
+              }
+              if (currentOS === OperatingSystem.Both) {
+                return prefs.compatible_oses === OperatingSystem.Both
+              }
+            }
+            return (
+              <Checkbox
+                key={os}
+                id={`keyboard color option ${os}`}
+                checked={isSelected(os)}
+                className={styles.checkbox}
+                labelText={`${os === "both" ? "Both" : os}`}
+                onChange={({ value, id, event }: CheckboxEvent) => updateOS(os)}
+              />
+            )
+          })}
       </SidebarSection>
     </div>
   )

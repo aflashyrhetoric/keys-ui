@@ -12,6 +12,13 @@ export const KeyboardSizes = [
   KeyboardSize.Numpad,
 ]
 
+export enum OperatingSystem {
+  Windows = "Windows",
+  macOS = "macOS",
+  Linux = "Linux",
+  Both = "both",
+}
+
 export enum KeyboardInterface {
   USB_C = "USB-C",
   Wireless = "Wireless",

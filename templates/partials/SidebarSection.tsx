@@ -11,6 +11,7 @@ interface Props {
   listContent?: boolean
   children: any
   navigate?: Function
+  showTooltipLeft: boolean
 }
 
 const SidebarSection: React.FC<Props> = ({
@@ -20,6 +21,8 @@ const SidebarSection: React.FC<Props> = ({
   listContent = false,
   children,
   navigate,
+
+  showTooltipLeft = false,
 }: Props) => {
   return (
     <div
@@ -35,8 +38,8 @@ const SidebarSection: React.FC<Props> = ({
             {tooltipText !== "" && (
               <Tooltip
                 className={styles.Tooltip}
-                align="start"
-                direction="right"
+                align={showTooltipLeft ? "end" : "start"}
+                direction={showTooltipLeft ? "bottom" : "right"}
                 renderIcon={Information16}
               >
                 {tooltipText}

@@ -5,6 +5,7 @@ import {
   KeyboardFrameColors,
   KeyboardInterface,
   KeyboardSize,
+  OperatingSystem,
 } from "types/keyboard"
 import { startCase } from "lodash"
 
@@ -101,9 +102,9 @@ const getQuestions = (): Question[] => {
     "macOS or PC? (Or both?)",
     "compatible_oses",
     [
-      choice("Windows", "windows"),
-      choice("Mac", "mac"),
-      choice("Both", "both"),
+      choice("Windows", OperatingSystem.Windows),
+      choice("Mac", OperatingSystem.macOS),
+      choice("Both", OperatingSystem.Both),
     ],
     false,
     (product: Keyboard, comparisonValue: string) => {
@@ -127,7 +128,7 @@ const getQuestions = (): Question[] => {
       if (cv === "windows") {
         return isWindowsCompatible
       }
-      if (cv === "mac") {
+      if (cv === "macOS".toLowerCase()) {
         return isMacCompatible
       }
 
@@ -174,7 +175,7 @@ const getQuestions = (): Question[] => {
         : ""
       const cv = comparisonValue.toLowerCase()
 
-      console.log(frameColor)
+      // console.log(frameColor)
 
       if (!frameColor) {
         return false
@@ -187,22 +188,11 @@ const getQuestions = (): Question[] => {
 
       const fc = frameColor.toLowerCase()
 
-      if (KeyboardFrameColors.map((kfc) => `${kfc.toLowerCase()}`).includes(cv)) {
+      if (
+        KeyboardFrameColors.map((kfc) => `${kfc.toLowerCase()}`).includes(cv)
+      ) {
         return fc === cv
       }
-
-      // if (cv === "black") {
-      //   return fc === "black"
-      // }
-      // if (cv === "white") {
-      //   return fc === "white"
-      // }
-      // if (cv === "gray") {
-      //   return fc === "gray"
-      // }
-      // if (cv === "red") {
-      //   return fc === "red"
-      // }
       if (cv === "colorful") {
         return ["pink", "blue", "green", "red", "orange"].includes(fc)
       }

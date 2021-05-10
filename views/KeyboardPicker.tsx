@@ -10,6 +10,7 @@ import UIShellPage from "templates/page-uishell"
 import SidebarSection from "templates/partials/SidebarSection"
 import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
 import { PickerProps, UserPreferences } from "types/app"
+import { userPreferencesToTags } from "src/shared/products"
 
 const SwitchPicker: React.FC<PickerProps> = ({
   productsFilteredByMultipleSelect,
@@ -63,7 +64,7 @@ const SwitchPicker: React.FC<PickerProps> = ({
         </Modal>
         <PageContent
           title="keyboard picker"
-          subtitle={<p>{JSON.stringify(prefs)}</p>}
+          subtitle={<p>{userPreferencesToTags(prefs)}</p>}
           style={{
             display: "flex",
             flexFlow: "row wrap",
