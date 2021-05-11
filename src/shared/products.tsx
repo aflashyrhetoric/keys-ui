@@ -43,18 +43,18 @@ export const filterProductsByMultipleSelectsOnly = (
   Object.keys(userPrefs)
     .filter((preferenceKey) => !singleSelectFilters.includes(preferenceKey))
     .forEach((preferenceKey) => {
-      console.log(`Filtering by ${preferenceKey}...`)
+      // console.log(`Filtering by ${preferenceKey}...`)
       const q = questions.find((q) => q.key === preferenceKey)
       // console.log(
       //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
       // )
-      console.log("BEFORE", filteredSet)
+      // console.log("BEFORE", filteredSet)
       filteredSet = filteredSet.filter((product) =>
         q.filterFunction(product, userPrefs[preferenceKey] || null),
       )
-      console.log("AFTER", filteredSet)
+      // console.log("AFTER", filteredSet)
     })
-  console.log("FILTERED BY MULTIPLE SELECT", filteredSet)
+  // console.log("FILTERED BY MULTIPLE SELECT", filteredSet)
   return filteredSet
 }
 
@@ -64,7 +64,9 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
   }
   const tags = []
   const sizeTags = prefs.size.map((keyboardSize) => (
-    <Tag type="purple">Size: {keyboardSize}</Tag>
+    <Tag key={`${keyboardSize}-keyboardSize`} type="purple">
+      Size: {keyboardSize}
+    </Tag>
   ))
 
   return (

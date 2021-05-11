@@ -9,7 +9,6 @@ $_gray: #4a4a4a;
   // background-color: pink;
   min-height: 75px;
   color: white;
-  padding-bottom: 15px;
   margin-bottom: 5px;
   transition: background 150ms;
   &:hover {
@@ -36,7 +35,7 @@ $_gray: #4a4a4a;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  padding-top: 5px;
+  padding-top: 10px;
   :global(.bx--tooltip__trigger svg) {
     fill: white !important;
   }

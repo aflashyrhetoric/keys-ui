@@ -31,14 +31,14 @@ const ProductModalInfo: React.FC<Props> = ({ product }: Props) => {
         <img src={imgSrc} alt={`${brand} ${product_name} keyboard`} />
       </div>
       <div className={styles.productDetails}>
-        <span className={styles.productBrand}>{brand} // </span>
+        <span className={styles.productBrand}>{brand} </span>
         <span className={styles.productTitle}>
           {product_name} ({frame_color})
         </span>
         <div className={styles.productPrice}>{price}</div>
         <div className={styles.productFeatures}>
           <UnorderedList>
-            {features.map(feature => (
+            {features.map((feature) => (
               <ListItem>{feature}</ListItem>
             ))}
           </UnorderedList>
@@ -48,7 +48,7 @@ const ProductModalInfo: React.FC<Props> = ({ product }: Props) => {
           <p>{product_description}</p>
         </div>
         <a href={url} target="_blank" rel="noopener">
-          <Button kind="primary" size="lg" className={styles.productLink}>
+          <Button kind="ghost" className={styles.productLink}>
             View on MechanicalKeyboards.com
           </Button>
         </a>

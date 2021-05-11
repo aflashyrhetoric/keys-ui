@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react"
-import cStyles from "../styles/Configurator.module.scss"
 
 import getQuestions from "data/questions"
-import UIShellPage from "templates/page-uishell"
 import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
@@ -13,8 +11,6 @@ import {
   filterProducts,
   filterProductsByMultipleSelectsOnly,
 } from "src/shared/products"
-import { computeFilterMetadata } from "src/shared/meta"
-import { FilterMetadata } from "types/app"
 
 export default function Configurator() {
   // const [filterMetadata, setFilterMetadata] = useState<FilterMetadata>([])

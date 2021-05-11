@@ -7,9 +7,8 @@ import { Keyboard } from "types/keyboard"
 import cStyles from "../styles/Configurator.module.scss"
 import ProductModalInfo from "src/configurator/ProductModalInfo"
 import UIShellPage from "templates/page-uishell"
-import SidebarSection from "templates/partials/SidebarSection"
 import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
-import { PickerProps, UserPreferences } from "types/app"
+import { PickerProps } from "types/app"
 import { userPreferencesToTags } from "src/shared/products"
 
 const SwitchPicker: React.FC<PickerProps> = ({
@@ -64,7 +63,7 @@ const SwitchPicker: React.FC<PickerProps> = ({
         </Modal>
         <PageContent
           title="keyboard picker"
-          subtitle={<p>{userPreferencesToTags(prefs)}</p>}
+          subtitle={userPreferencesToTags(prefs)}
           style={{
             display: "flex",
             flexFlow: "row wrap",

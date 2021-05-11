@@ -162,3 +162,10 @@ $breakpoints: (
     }
   }
 }
+
+main {
+  .bx--modal-content {
+    padding-right: 1rem !important;
+    margin-bottom: 35px;
+  }
+}
