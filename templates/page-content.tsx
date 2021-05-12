@@ -3,7 +3,7 @@ import styles from "styles/UIShell.module.scss"
 interface PageProps {
   title: string
   subtitle?: any
-  style: any
+  style?: any
   children: any
 }
 
