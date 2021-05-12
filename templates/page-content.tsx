@@ -12,7 +12,7 @@ const PageContent = ({ title, subtitle, style, children }: PageProps) => {
     <div className={styles.content}>
       <div style={{ marginBottom: "1.5rem" }}>
         <h1 className={styles.pageHeading}>{title} </h1>
-        <hr className={styles.headerDivider} />
+        {/* <hr className={styles.headerDivider} /> */}
         <span>{subtitle}</span>
       </div>
       <div style={style}>{children}</div>

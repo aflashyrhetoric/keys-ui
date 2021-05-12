@@ -18,10 +18,6 @@ const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
-        />
-        <link
-          rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
         />
         <link

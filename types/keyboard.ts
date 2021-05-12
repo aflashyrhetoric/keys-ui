@@ -20,10 +20,22 @@ export enum OperatingSystem {
 }
 
 export enum KeyboardInterface {
-  USB_C = "USB-C",
+  USB = "USB",
+  USBC = "USB-C",
   Wireless = "Wireless",
-  Mini_USB = "Mini USB",
+  MiniUSB = "Mini USB",
+  MicroUSB = "Micro USB",
+  PS2 = "PS/2",
 }
+
+export const KeyboardInterfaces = [
+  KeyboardInterface.USB,
+  KeyboardInterface.USBC,
+  KeyboardInterface.Wireless,
+  KeyboardInterface.MiniUSB,
+  KeyboardInterface.MicroUSB,
+  KeyboardInterface.PS2,
+]
 
 export enum KeyboardBacklighting {
   RGB = "RGB",
@@ -79,7 +91,7 @@ export interface Keyboard {
   frame_color: string
   primary_led_color: KeyboardBacklighting | string
   hotswappable: KeyboardHotswappable | string
-  interfaces: string
+  interfaces: KeyboardInterface[]
   features: any[]
 
   windows_compatible: string

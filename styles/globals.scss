@@ -164,8 +164,14 @@ $breakpoints: (
 }
 
 main {
+  .bx--modal-header {
+    margin-bottom: 1.5rem;
+  }
   .bx--modal-content {
     padding-right: 1rem !important;
     margin-bottom: 35px;
+  }
+  .bx--header-panel--expanded {
+    overflow-y: scroll;
   }
 }

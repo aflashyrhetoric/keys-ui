@@ -1,9 +1,9 @@
-import { Keyboard, KeyboardSize } from "./keyboard"
+import { Keyboard, KeyboardInterface, KeyboardSize } from "./keyboard"
 
 export interface UserPreferences {
   size: KeyboardSize[]
   compatible_oses: "windows" | "mac" | "both" | string
-  interfaces: "either" | "wireles" | string
+  interfaces: KeyboardInterface[]
   frame_color: "black" | "white" | "gray" | "navy" | string
   primary_led_color: "rgb" | "white" | "n/a" | string
 }

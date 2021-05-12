@@ -12,6 +12,8 @@ interface Props {
   children: any
   navigate?: Function
   showTooltipLeft: boolean
+
+  style?: any
 }
 
 const SidebarSection: React.FC<Props> = ({
@@ -23,6 +25,7 @@ const SidebarSection: React.FC<Props> = ({
   navigate,
 
   showTooltipLeft = false,
+  style = {},
 }: Props) => {
   return (
     <div
@@ -56,7 +59,7 @@ const SidebarSection: React.FC<Props> = ({
         </div>
       </div>
       {listContent ? (
-        <div style={{ paddingLeft: "1.4rem" }}>{children}</div>
+        <div style={{ ...style, paddingLeft: "1rem" }}>{children}</div>
       ) : (
         <>{children}</>
       )}

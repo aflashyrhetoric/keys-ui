@@ -4,6 +4,7 @@ import {
   Keyboard,
   KeyboardFrameColor,
   KeyboardFrameColors,
+  KeyboardInterfaces,
   KeyboardSize,
   KeyboardSizes,
   OperatingSystem,
@@ -36,20 +37,22 @@ const KeyboardParameters: React.FC<Props> = ({
   prefs,
   setPrefs,
 }: Props) => {
-  const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
+  // const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
   const updateColor = (frame_color: KeyboardFrameColor) =>
     setPrefs({ ...prefs, frame_color })
   const updateOS = (compatible_oses: OperatingSystem) =>
     setPrefs({ ...prefs, compatible_oses })
 
-  const togglePresenceInArray = (list: any[], item) => {
+  const togglePresenceInArray = (key: string, list: any[], item) => {
     const updatedList = [...list]
     if (list.includes(item)) {
-      const indexOfExistingSize = list.findIndex((s) => s === item)
+      const indexOfExistingSize = list.findIndex(s => s === item)
       updatedList.splice(indexOfExistingSize, 1)
-      updateSize(updatedList)
+      // updateSize(updatedList)
+      setPrefs({ ...prefs, [key]: updatedList })
     } else {
-      updateSize([...updatedList, item])
+      // updateSize([...updatedList, item])
+      setPrefs({ ...prefs, [key]: [...updatedList, item] })
     }
   }
 
@@ -61,7 +64,7 @@ const KeyboardParameters: React.FC<Props> = ({
         label="layout / size"
         tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
       >
-        {KeyboardSizes.map((size) => (
+        {KeyboardSizes.map(size => (
           <Checkbox
             key={`keyboard-size-option-${size}`}
             id={`keyboard size option ${size}`}
@@ -69,7 +72,7 @@ const KeyboardParameters: React.FC<Props> = ({
             className={styles.checkbox}
             labelText={size}
             onChange={({ value, id, event }: CheckboxEvent) =>
-              togglePresenceInArray(prefs.size, size)
+              togglePresenceInArray("size", prefs.size, size)
             }
           />
         ))}
@@ -80,10 +83,11 @@ const KeyboardParameters: React.FC<Props> = ({
         listContent
         label="frame color"
         tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
+        style={{ display: "flex", flexFlow: "column wrap", height: "180px" }}
       >
-        {KeyboardFrameColors.map((frame_color) => {
+        {KeyboardFrameColors.map(frame_color => {
           const amountOfProductsForCurrentFrameColor = productsFilteredByMultipleSelect.filter(
-            (k) =>
+            k =>
               k.frame_color !== null &&
               k.frame_color.toLowerCase() === frame_color,
           ).length
@@ -118,8 +122,8 @@ const KeyboardParameters: React.FC<Props> = ({
             OperatingSystem.Windows,
             OperatingSystem.macOS,
             OperatingSystem.Both,
-          ].map((os) => {
-            const isSelected = (currentOS) => {
+          ].map(os => {
+            const isSelected = currentOS => {
               if (currentOS === OperatingSystem.Windows) {
                 return (
                   prefs.compatible_oses === OperatingSystem.Windows ||
@@ -144,6 +148,49 @@ const KeyboardParameters: React.FC<Props> = ({
                 className={styles.checkbox}
                 labelText={`${os === "both" ? "Both" : os}`}
                 onChange={({ value, id, event }: CheckboxEvent) => updateOS(os)}
+              />
+            )
+          })}
+      </SidebarSection>
+      <SidebarSection
+        showTooltipLeft
+        listContent
+        label="Operating System"
+        tooltipText="Some keyboards are Windows-only or Mac-only. Some support both. Select all that you need."
+      >
+        {prefs &&
+          KeyboardInterfaces.map(interfaceType => {
+            // const isSelected = (currentOS) => {
+            //   if (currentOS === OperatingSystem.Windows) {
+            //     return (
+            //       prefs.compatible_oses === OperatingSystem.Windows ||
+            //       prefs.compatible_oses === OperatingSystem.Both
+            //     )
+            //   }
+            //   if (currentOS === OperatingSystem.macOS) {
+            //     return (
+            //       prefs.compatible_oses === OperatingSystem.macOS ||
+            //       prefs.compatible_oses === OperatingSystem.Both
+            //     )
+            //   }
+            //   if (currentOS === OperatingSystem.Both) {
+            //     return prefs.compatible_oses === OperatingSystem.Both
+            //   }
+            // }
+            return (
+              <Checkbox
+                id={`keyboard interface option ${interfaceType}`}
+                key={`${interfaceType}-checkbox`}
+                checked={prefs && prefs.interfaces.includes(interfaceType)}
+                className={styles.checkbox}
+                labelText={interfaceType}
+                onChange={({ value, id, event }: CheckboxEvent) =>
+                  togglePresenceInArray(
+                    "interfaces",
+                    prefs.interfaces,
+                    interfaceType,
+                  )
+                }
               />
             )
           })}

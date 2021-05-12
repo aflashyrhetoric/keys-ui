@@ -11,7 +11,7 @@ import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
 import { PickerProps } from "types/app"
 import { userPreferencesToTags } from "src/shared/products"
 
-const SwitchPicker: React.FC<PickerProps> = ({
+const KeyboardPicker: React.FC<PickerProps> = ({
   productsFilteredByMultipleSelect,
   products,
   navigate,
@@ -24,7 +24,7 @@ const SwitchPicker: React.FC<PickerProps> = ({
   const productIsHighlighted = highlightedProduct !== null
 
   const highlightedProductData = productIsHighlighted
-    ? products.find((p) => p.product_name === highlightedProduct.product_name)
+    ? products.find(p => p.product_name === highlightedProduct.product_name)
     : null
 
   const resetState = () => {
@@ -67,11 +67,11 @@ const SwitchPicker: React.FC<PickerProps> = ({
           style={{
             display: "flex",
             flexFlow: "row wrap",
-            justifyContent: "space-around",
+            justifyContent: "flex-start",
           }}
         >
           {products &&
-            products.map((p) => (
+            products.map(p => (
               <ProductCard
                 key={p.full_title}
                 product={p}
@@ -87,4 +87,4 @@ const SwitchPicker: React.FC<PickerProps> = ({
   )
 }
 
-export default SwitchPicker
+export default KeyboardPicker

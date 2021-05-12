@@ -8,6 +8,7 @@ import {
   OperatingSystem,
 } from "types/keyboard"
 import { startCase } from "lodash"
+import { typeToLowerString, typeToString } from "src/utils/type-helpers"
 
 export interface Question {
   text: string
@@ -139,22 +140,58 @@ const getQuestions = (): Question[] => {
   addQ(
     "Wired or wireless?",
     "interfaces",
-    [choice("Wired is fine", "either"), choice("Wireless", "wireless")],
+    [
+      choice("Wired is fine", [
+        KeyboardInterface.MicroUSB,
+        KeyboardInterface.PS2,
+        KeyboardInterface.MiniUSB,
+        KeyboardInterface.USB,
+        KeyboardInterface.USBC,
+      ]),
+      choice("Wireless", [KeyboardInterface.Wireless]),
+    ],
     false,
-    (product: Keyboard, value: string) => {
-      if (value === "wired") {
-        return true // TODO specify usb/usb-c/micro-usb/mini-usb
+    (product: Keyboard, value: KeyboardInterface[]) => {
+      if (!value || value.length === 0) {
+        return true
       }
-
-      if (!product || !product.interfaces) {
+      // TODO FIX THIS SHIT
+      // Many wired keyboards have null values, so show it if it's null but we're looking for any wired connections
+      if (
+        product.interfaces === null &&
+        [
+          KeyboardInterface.MicroUSB,
+          KeyboardInterface.PS2,
+          KeyboardInterface.MiniUSB,
+          KeyboardInterface.USB,
+          KeyboardInterface.USBC,
+        ].some(ki => value.includes(ki))
+      ) {
         return true
       }
 
-      if (value === "either") {
-        return true
+      if (product.interfaces === null) {
+        return false
       }
 
-      return product.interfaces.includes(KeyboardInterface.Wireless)
+      const { interfaces } = product
+      const cv = value.map(typeToString)
+
+      // Iterate through each of the product's interfaces
+      // If any of them match our preferences, then include it
+      interfaces.forEach(productInterface => {
+        // console.log(
+        //   productInterface,
+        //   value,
+        //   cv.includes(typeToString(productInterface)),
+        // )
+        if (cv.includes(typeToString(productInterface))) {
+          return true
+        }
+      })
+
+      // None of the product's interfaces match our preferences
+      return false
     },
   )
 
@@ -188,9 +225,7 @@ const getQuestions = (): Question[] => {
 
       const fc = frameColor.toLowerCase()
 
-      if (
-        KeyboardFrameColors.map((kfc) => `${kfc.toLowerCase()}`).includes(cv)
-      ) {
+      if (KeyboardFrameColors.map(typeToLowerString).includes(cv)) {
         return fc === cv
       }
       if (cv === "colorful") {
@@ -234,6 +269,6 @@ const getQuestions = (): Question[] => {
 export const getQuestionFromKey = (
   questions: Question[],
   questionKey: string,
-) => questions.find((q) => q.key === questionKey)
+) => questions.find(q => q.key === questionKey)
 
 export default getQuestions

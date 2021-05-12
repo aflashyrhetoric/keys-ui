@@ -9,17 +9,19 @@ export const filterProducts = (
 ) => {
   let filteredSet = [...products]
   // console.log(filteredSet)
-  Object.keys(userPrefs).forEach((preferenceKey) => {
-    // console.log(`Filtering by ${preferenceKey}...`)
-    const q = questions.find((q) => q.key === preferenceKey)
+  Object.keys(userPrefs).forEach(preferenceKey => {
+    console.log(
+      `Filtering by ${preferenceKey} [${userPrefs[preferenceKey]}]...`,
+    )
+    const q = questions.find(q => q.key === preferenceKey)
     // console.log(
     //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
     // )
-    // console.log("BEFORE", filteredSet)
-    filteredSet = filteredSet.filter((product) =>
+    console.log("BEFORE", filteredSet)
+    filteredSet = filteredSet.filter(product =>
       q.filterFunction(product, userPrefs[preferenceKey] || null),
     )
-    // console.log("AFTER", filteredSet)
+    console.log("AFTER", filteredSet, "\n")
   })
   return filteredSet
 }
@@ -41,15 +43,15 @@ export const filterProductsByMultipleSelectsOnly = (
   let filteredSet = [...products]
   // console.log(filteredSet)
   Object.keys(userPrefs)
-    .filter((preferenceKey) => !singleSelectFilters.includes(preferenceKey))
-    .forEach((preferenceKey) => {
+    .filter(preferenceKey => !singleSelectFilters.includes(preferenceKey))
+    .forEach(preferenceKey => {
       // console.log(`Filtering by ${preferenceKey}...`)
-      const q = questions.find((q) => q.key === preferenceKey)
+      const q = questions.find(q => q.key === preferenceKey)
       // console.log(
       //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
       // )
       // console.log("BEFORE", filteredSet)
-      filteredSet = filteredSet.filter((product) =>
+      filteredSet = filteredSet.filter(product =>
         q.filterFunction(product, userPrefs[preferenceKey] || null),
       )
       // console.log("AFTER", filteredSet)
@@ -63,7 +65,7 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
     return <>No filters</>
   }
   const tags = []
-  const sizeTags = prefs.size.map((keyboardSize) => (
+  const sizeTags = prefs.size.map(keyboardSize => (
     <Tag key={`${keyboardSize}-keyboardSize`} type="purple">
       Size: {keyboardSize}
     </Tag>
@@ -74,7 +76,10 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
       {sizeTags}
       <Tag type="blue">Frame Color: {prefs.frame_color}</Tag>
       <Tag type="teal">LED Backlighting: {prefs.primary_led_color}</Tag>
-      <Tag type="magenta">Ports/Interfaces: {prefs.interfaces}</Tag>
+      <Tag type="magenta">
+        Ports/Interfaces:{" "}
+        {prefs && prefs.interfaces && prefs.interfaces.join(", ")}
+      </Tag>
     </>
   )
 }
