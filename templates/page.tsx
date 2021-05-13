@@ -5,11 +5,12 @@ import { LogoTwitter24 } from "@carbon/icons-react"
 interface PageProps {
   title?: string
   children: any
+  style: any
 }
 
-const Page = ({ title, children }: PageProps) => {
+const Page = ({ title, children, style = {} }: PageProps) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={style}>
       <Head>
         <title>{title ? `Keys | ${title}` : "Keys"}</title>
         <link rel="icon" href="/favicon.ico" />

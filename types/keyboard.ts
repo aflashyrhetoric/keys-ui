@@ -78,6 +78,11 @@ export enum KeyboardHotswappable {
   No = "No",
 }
 
+export const KeyboardHotswappables = [
+  KeyboardHotswappable.Yes,
+  KeyboardHotswappable.No,
+]
+
 export interface Keyboard {
   brand: string
   full_title: string

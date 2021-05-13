@@ -5,9 +5,10 @@ import { Keyboard } from "types/keyboard"
 import Page from "templates/page"
 import styles from "styles/Admin.module.scss"
 import BaseTable, { EditingState } from "src/shared/BaseTable"
+import AdminModalForm from "src/forms/AdminModalForm"
 
 export default function Admin() {
-  const [formState, setFormState] = useState<Keyboard>({} as Keyboard)
+  const [formState, setFormState] = useState<Keyboard>(null)
   const [editingMode, setEditingMode] = useState<EditingState>(
     EditingState.CREATE,
   )
@@ -26,7 +27,7 @@ export default function Admin() {
   }, [])
 
   return (
-    <Page title="Admin Page">
+    <Page title="Admin Page" style={{ padding: "2rem" }}>
       <Modal
         open={modalOpen}
         modalHeading="Edit Record"
@@ -36,11 +37,9 @@ export default function Admin() {
         onRequestClose={() => setModalOpen(false)}
         onRequestSubmit={() => {}}
       >
-        <TextInput labelText="Brand" value={formState.brand} />
-        <TextInput labelText="Product Name" value={formState.product_name} />
-        <TextInput labelText="Dimensions" value={formState.dimensions} />
-        <TextInput labelText="Frame Color" value={formState.frame_color} />
-        <TextInput labelText="Full Title" value={formState.full_title} />
+        {formState && (
+          <AdminModalForm formState={formState} setFormState={setFormState} />
+        )}
         <div style={{ marginBottom: "10px" }} />
       </Modal>
       <div className={styles.container}>
@@ -50,7 +49,9 @@ export default function Admin() {
             title="Product Data Completeness: Admin Panel"
             updateFormState={setFormState}
             updateEditingMode={setEditingMode}
-            openModal={setModalOpen}
+            openModal={() => setModalOpen(true)}
+            disableBatchEdit
+            allowHeaderTextWrapping
             headerData={[
               {
                 header: "Brand",
@@ -63,21 +64,22 @@ export default function Admin() {
               {
                 header: "Name",
                 key: "product_name",
+                style: { width: "40px" },
               },
               // {
               //   header: "Description",
               //   key: "product_description",
               // },
+              // {
+              //   header: "URL",
+              //   key: "url",
+              // },
+              // {
+              //   header: "Price",
+              //   key: "price",
+              // },
               {
-                header: "URL",
-                key: "url",
-              },
-              {
-                header: "Price",
-                key: "price",
-              },
-              {
-                header: "Color",
+                header: "Frame Color",
                 key: "frame_color",
               },
               {
@@ -95,14 +97,17 @@ export default function Admin() {
               {
                 header: "Windows Compatible",
                 key: "windows_compatible",
+                style: { width: "30px" },
               },
               {
                 header: "Mac Compatible",
                 key: "mac_compatible",
+                style: { width: "30px" },
               },
               {
                 header: "Linux Compatible",
                 key: "linux_compatible",
+                style: { width: "30px" },
               },
               {
                 header: "Dimensions",
