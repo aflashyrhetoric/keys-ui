@@ -70,16 +70,24 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
       Size: {keyboardSize}
     </Tag>
   ))
+  
+  console.log(prefs && prefs.interfaces)
+
+  const portTags =
+    prefs &&
+    prefs.interfaces &&
+    prefs.interfaces.map(kbPort => (
+      <Tag key={`${kbPort}-kbPort`} type="magenta">
+        Port: {kbPort}
+      </Tag>
+    ))
 
   return (
     <>
       {sizeTags}
       <Tag type="blue">Frame Color: {prefs.frame_color}</Tag>
       <Tag type="teal">LED Backlighting: {prefs.primary_led_color}</Tag>
-      <Tag type="magenta">
-        Ports/Interfaces:{" "}
-        {prefs && prefs.interfaces && prefs.interfaces.join(", ")}
-      </Tag>
+      {portTags}
     </>
   )
 }

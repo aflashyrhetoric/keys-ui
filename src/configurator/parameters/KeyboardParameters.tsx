@@ -181,7 +181,7 @@ const KeyboardParameters: React.FC<Props> = ({
               <Checkbox
                 id={`keyboard interface option ${interfaceType}`}
                 key={`${interfaceType}-checkbox`}
-                checked={prefs && prefs.interfaces.includes(interfaceType)}
+                checked={prefs?.interfaces?.includes(interfaceType)}
                 className={styles.checkbox}
                 labelText={interfaceType}
                 onChange={({ value, id, event }: CheckboxEvent) =>
