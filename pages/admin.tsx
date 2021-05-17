@@ -51,6 +51,7 @@ export default function Admin() {
             updateEditingMode={setEditingMode}
             openModal={() => setModalOpen(true)}
             disableBatchEdit
+            disableAddNew
             allowHeaderTextWrapping
             headerData={[
               {
