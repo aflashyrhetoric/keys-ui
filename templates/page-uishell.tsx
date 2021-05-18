@@ -1,8 +1,10 @@
 import Head from "next/head"
 import styles from "styles/UIShell.module.scss"
+import { Button } from "carbon-components-react";
 import { LogoTwitter24 } from "@carbon/icons-react"
 import AppHeader from "./partials/app-header"
 import { UserPreferences } from "types/app"
+import { loadProductData } from "src/utils/api-helpers"
 interface PageProps {
   title?: string
   navigate?: Function // a function that changes a view in the parent
@@ -37,8 +39,18 @@ const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <LogoTwitter24 />
-          @aflashyrhetoric
+          {/* <LogoTwitter24 />
+          @aflashyrhetoric */}
+          <div style={{ display: "flex" }}>
+            <Button
+              kind="secondary"
+              onClick={() => {
+                loadProductData()
+              }}
+            >
+              Refresh Product Data
+            </Button>
+          </div>
         </a>
         <a href="https://kevinoh.me" target="_blank" rel="noopener noreferrer">
           ko
