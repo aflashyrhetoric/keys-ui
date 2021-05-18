@@ -54,6 +54,10 @@ export default function Admin() {
             allowHeaderTextWrapping
             headerData={[
               {
+                header: "SKU",
+                key: "sku",
+              },
+              {
                 header: "Brand",
                 key: "brand",
               },
