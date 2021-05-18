@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { TextInput, Loading, Modal } from "carbon-components-react"
-import { loadNullProductData } from "src/utils/api-helpers"
+import { loadProductData } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import Page from "templates/page"
 import styles from "styles/Admin.module.scss"
@@ -18,7 +18,7 @@ export default function Admin() {
   // Updates state as well as localStorage keys
   useEffect(() => {
     const setProductData = async () => {
-      const response = await loadNullProductData()
+      const response = await loadProductData()
       const products = response.data
       setProducts(products)
     }
@@ -58,19 +58,23 @@ export default function Admin() {
                 header: "SKU",
                 key: "sku",
               },
+              // {
+              //   header: "Brand",
+              //   key: "brand",
+              // },
               {
-                header: "Brand",
-                key: "brand",
+                header: "Searchable Title",
+                key: "COMPUTED_searchable_title", //
               },
               // {
               //   header: "Full Title",
               //   key: "full_title",
               // },
-              {
-                header: "Name",
-                key: "product_name",
-                style: { width: "40px" },
-              },
+              // {
+              //   header: "Name",
+              //   key: "product_name",
+              //   style: { width: "40px" },
+              // },
               // {
               //   header: "Description",
               //   key: "product_description",
@@ -128,6 +132,7 @@ export default function Admin() {
               return {
                 ...p,
                 id: p.full_title,
+                COMPUTED_searchable_title: `${p.product_name}`,
                 full_title: (
                   <p style={{ whiteSpace: "nowrap" }}>{p.full_title}</p>
                 ),
