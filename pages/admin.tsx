@@ -63,7 +63,7 @@ export default function Admin() {
               //   key: "brand",
               // },
               {
-                header: "Searchable Title",
+                header: "C: Product",
                 key: "COMPUTED_searchable_title", //
               },
               // {
