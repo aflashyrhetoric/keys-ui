@@ -41,7 +41,7 @@ const AdminModalForm: React.FC<Props> = ({ formState }: Props) => {
             {formState.brand} // {formState.product_name}
           </h2>
           <div style={{ overflow: "scroll", height: "500px" }}>
-            {searchResults.length > 0 && (
+            {searchResults && searchResults.length > 0 && (
               <ul>
                 {searchResults.map(result => {
                   return (
