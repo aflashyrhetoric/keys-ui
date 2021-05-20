@@ -1,3 +1,10 @@
+export interface BarcodeLookupStore {
+  store_name: string // "Totally Furniture"
+  store_price: string // "274.29"
+  product_url: string // "https://rd.bizrate.com/rd?t=https://www.totallyfurniture.com/navigate-lounge-chair-in-brown-east-end-imports-eei-2145-brn?utm_source=conn&utm_medium=cpc&mid=64886&cat_id=13170101&a"
+  currency_code: string //"USD"
+  currency_symbol: string //"$"
+}
 export interface BarcodeLookupSearchResult {
   barcode_number: string
   barcode_type: string
@@ -33,6 +40,7 @@ export interface BarcodeLookupSearchResult {
   description: string
   features: string
   images: string
+  stores: BarcodeLookupStore[]
 }
 
 //   barcode_number: "889654041047"

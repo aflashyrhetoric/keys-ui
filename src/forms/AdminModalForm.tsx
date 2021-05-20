@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import {
+  Button,
   Checkbox,
   Loading,
   MultiSelect,
@@ -22,14 +23,14 @@ const AdminModalForm: React.FC<Props> = ({ formState }: Props) => {
     BarcodeLookupSearchResult[]
   >([])
 
-  useEffect(() => {
+  const searchData = (term: string) => {
     setLoading(true)
     // Search for the product and populate the results
-    searchProductData(formState.product_name).then(data => {
+    searchProductData(term).then(data => {
       setLoading(false)
       setSearchResults(data.products)
     })
-  }, [])
+  }
 
   return (
     <>
@@ -40,13 +41,47 @@ const AdminModalForm: React.FC<Props> = ({ formState }: Props) => {
           <h2>
             {formState.brand} // {formState.product_name}
           </h2>
-          <div style={{ overflow: "scroll", height: "500px" }}>
+          <Button
+            kind="secondary"
+            size="sm"
+            onClick={() => searchData(formState.product_name)}
+          >
+            Search with Product Name
+          </Button>
+          <Button
+            kind="secondary"
+            size="sm"
+            onClick={() =>
+              searchData(`${formState.brand} ${formState.product_name}`)
+            }
+          >
+            Search with Brand + Product Name
+          </Button>
+          <div style={{ overflow: "scroll", minHeight: "100px" }}>
             {searchResults && searchResults.length > 0 && (
               <ul>
                 {searchResults.map(result => {
                   return (
-                    <li key={result.barcode_number}>
-                      [{result.barcode_number}] {result.product_name}
+                    <li
+                      key={result.barcode_number}
+                      style={{ marginBottom: "8px" }}
+                    >
+                      <span style={{ fontWeight: "bold" }}>
+                        {result.barcode_number}
+                      </span>{" "}
+                      {result.product_name}
+                      <Button
+                        kind="primary"
+                        size="sm"
+                        onClick={() => alert(`Set ${result.barcode_number}`)}
+                      >
+                        Set as UPC
+                      </Button>
+                      {result.stores && (
+                        <a href={result.stores[0].product_url} target="_blank">
+                          URL
+                        </a>
+                      )}
                     </li>
                   )
                 })}
