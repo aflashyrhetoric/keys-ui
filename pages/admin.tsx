@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { TextInput, Loading, Modal } from "carbon-components-react"
 import {
   loadProductData,
+  loadProductDataAdmin,
   parseObject,
   prepareFormStateForAPI,
 } from "src/utils/api-helpers"
@@ -18,13 +19,16 @@ export default function Admin() {
     EditingState.CREATE,
   )
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [scrapedProducts, setScrapedProducts] = useState([])
   const [products, setProducts] = useState([])
 
   // Updates state as well as localStorage keys
   useEffect(() => {
     const setProductData = async () => {
-      const response = await loadProductData()
-      const products = response.data
+      const response = await loadProductDataAdmin()
+      const scraped = response.scraped_data
+      const products = response.products
+      setScrapedProducts(scraped)
       setProducts(products)
     }
 

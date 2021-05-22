@@ -140,7 +140,14 @@ const AdminModalForm: React.FC<Props> = ({
                         {result.stores && (
                           <Button
                             size="sm"
-                            kind="secondary"
+                            kind={
+                              result &&
+                              result.stores &&
+                              result.stores[0] &&
+                              result.stores[0].product_url
+                                ? "secondary"
+                                : "tertiary"
+                            }
                             href={
                               (result &&
                                 result.stores &&
