@@ -164,6 +164,9 @@ $breakpoints: (
 }
 
 main {
+  .bx--modal-container {
+    width: 80% !important;
+  }
   .bx--modal-header {
     margin-bottom: 1.5rem;
   }

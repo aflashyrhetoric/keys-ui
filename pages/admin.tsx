@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { TextInput, Loading, Modal } from "carbon-components-react"
-import { loadProductData } from "src/utils/api-helpers"
+import {
+  loadProductData,
+  parseObject,
+  prepareFormStateForAPI,
+} from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import Page from "templates/page"
 import styles from "styles/Admin.module.scss"
 import BaseTable, { EditingState } from "src/shared/BaseTable"
 import AdminModalForm from "src/forms/AdminModalForm"
+import APIClient from "src/api-client"
 
 export default function Admin() {
   const [formState, setFormState] = useState<Keyboard>(null)
@@ -35,7 +40,10 @@ export default function Admin() {
         secondaryButtonText="Cancel"
         onBlur={() => setModalOpen(false)}
         onRequestClose={() => setModalOpen(false)}
-        onRequestSubmit={() => {}}
+        onRequestSubmit={() => {
+          const payload = prepareFormStateForAPI(formState)
+          APIClient.saveNewProduct(payload)
+        }}
       >
         {formState && (
           <AdminModalForm formState={formState} setFormState={setFormState} />
@@ -54,10 +62,10 @@ export default function Admin() {
             disableAddNew
             allowHeaderTextWrapping
             headerData={[
-              {
-                header: "SKU",
-                key: "sku",
-              },
+              // {
+              //   header: "SKU",
+              //   key: "sku",
+              // },
               // {
               //   header: "Brand",
               //   key: "brand",
@@ -103,21 +111,21 @@ export default function Admin() {
                 header: "Interfaces",
                 key: "interfaces",
               },
-              {
-                header: "Windows Compatible",
-                key: "windows_compatible",
-                style: { width: "30px" },
-              },
-              {
-                header: "Mac Compatible",
-                key: "mac_compatible",
-                style: { width: "30px" },
-              },
-              {
-                header: "Linux Compatible",
-                key: "linux_compatible",
-                style: { width: "30px" },
-              },
+              // {
+              //   header: "Windows Compatible",
+              //   key: "windows_compatible",
+              //   style: { width: "30px" },
+              // },
+              // {
+              //   header: "Mac Compatible",
+              //   key: "mac_compatible",
+              //   style: { width: "30px" },
+              // },
+              // {
+              //   header: "Linux Compatible",
+              //   key: "linux_compatible",
+              //   style: { width: "30px" },
+              // },
               {
                 header: "Dimensions",
                 key: "dimensions",

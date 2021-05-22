@@ -84,6 +84,8 @@ export const KeyboardHotswappables = [
 ]
 
 export interface Keyboard {
+  upc: string
+  mk_sku?: string
   brand: string
   full_title: string
   product_name: string

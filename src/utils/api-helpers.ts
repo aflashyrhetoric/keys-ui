@@ -1,13 +1,47 @@
 import { BarcodeLookupSearchResult } from "types/api"
 import { postData } from "./api-client"
 
-const PRODUCT_DATA_ENDPOINT = "http://localhost:3210"
+export const PRODUCT_DATA_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
+
+export const ARRAY_SEPARATOR_MARKER = "~|~"
 
 export const loadProductData = async () =>
   fetch(`${PRODUCT_DATA_ENDPOINT}/fetch_product_data`).then(r => r.json())
 
 export const searchProductData = async (query: string): Promise<any> =>
   postData(`${PRODUCT_DATA_ENDPOINT}/search_products`, { query })
+
+export const prepareFormStateForAPI = formState => {
+  const f = { ...formState }
+
+  // REMOVE UNNECESSARY TYPES
+  delete f._type // remove redis type
+  delete f.id // Remove id, we shouldn't set that anyway
+
+  // Join string array types
+  Object.keys(f).forEach(key => {
+    const value = f[key]
+    if (Array.isArray(value)) {
+      f[key] = value.join(ARRAY_SEPARATOR_MARKER)
+    }
+  })
+
+  return f
+}
+
+// Given a product from the database,
+// parses it into an object that can be used as the formState
+export const parseObject = productFromDB => {
+  // Join string array types
+  Object.keys(productFromDB).forEach(key => {
+    const value = productFromDB[key]
+    if (value && value.includes(ARRAY_SEPARATOR_MARKER)) {
+      productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)
+    }
+  })
+
+  return productFromDB
+}
 
 // export const loadNullProductData = async () =>
 //   fetch(`${PRODUCT_DATA_ENDPOINT}/fetch_null_product_data`)
