@@ -6,19 +6,19 @@ import {
   MultiSelect,
   TextInput,
 } from "carbon-components-react"
+import { Launch20 } from "@carbon/icons-react"
 import { Keyboard, KeyboardInterfaces } from "types/keyboard"
 import { typeToString } from "src/utils/type-helpers"
-import { useEffect } from "react"
 import { searchProductData } from "src/utils/api-helpers"
 import { BarcodeLookupSearchResult } from "types/api"
-import { linkToGoogleSearch } from "src/utils/misc"
+import { linkToGoogleSearch, linkToGoogleSearchUPC } from "src/utils/misc"
 
 interface Props {
   formState: Keyboard
   setFormState: Function
 }
 
-const AdminModalForm: React.FC<Props> = ({
+const ScrapedDataForm: React.FC<Props> = ({
   formState,
   setFormState,
 }: Props) => {
@@ -27,10 +27,13 @@ const AdminModalForm: React.FC<Props> = ({
     BarcodeLookupSearchResult[]
   >([])
 
-  const searchData = (term: string) => {
+  const [namePage, setNamePage] = useState(1)
+  const [nameBrandPage, setNameBrandPage] = useState(1)
+
+  const searchData = (term: string, page) => {
     setLoading(true)
     // Search for the product and populate the results
-    searchProductData(term).then(data => {
+    searchProductData(term, page).then(data => {
       setLoading(false)
       setSearchResults(data.products)
     })
@@ -40,7 +43,7 @@ const AdminModalForm: React.FC<Props> = ({
     <>
       {/* <TextInput labelText="Brand" id="Brand" value={formState.brand || ""} /> */}
       {loading && <Loading active />}
-      {!loading && (
+      {!loading && formState && (
         <>
           <h4>{formState.full_title}</h4>
           <hr />
@@ -58,16 +61,27 @@ const AdminModalForm: React.FC<Props> = ({
                 kind="tertiary"
                 target="_blank"
                 href={linkToGoogleSearch(formState.full_title)}
+                renderIcon={Launch20}
               >
                 Google
               </Button>
               <Button
                 size="sm"
                 kind="tertiary"
+                target="_blank"
+                href={linkToGoogleSearchUPC(formState.full_title)}
+                renderIcon={Launch20}
+              >
+                Google UPC
+              </Button>
+              <Button
+                size="sm"
+                kind="tertiary"
                 href={formState.url}
                 target="_blank"
+                renderIcon={Launch20}
               >
-                Scraped Product
+                MK.com
               </Button>
             </div>
             <div
@@ -86,18 +100,25 @@ const AdminModalForm: React.FC<Props> = ({
               <Button
                 kind="tertiary"
                 size="sm"
-                onClick={() => searchData(formState.product_name)}
+                onClick={() => {
+                  searchData(formState.product_name, namePage)
+                  setNamePage(namePage + 1)
+                }}
               >
-                Name
+                Name ({namePage})
               </Button>
               <Button
                 kind="tertiary"
                 size="sm"
-                onClick={() =>
-                  searchData(`${formState.brand} ${formState.product_name}`)
-                }
+                onClick={() => {
+                  searchData(
+                    `${formState.brand} ${formState.product_name}`,
+                    nameBrandPage,
+                  )
+                  setNameBrandPage(nameBrandPage + 1)
+                }}
               >
-                Brand + Name
+                Brand + Name ({nameBrandPage})
               </Button>
             </div>
           </div>
@@ -105,6 +126,12 @@ const AdminModalForm: React.FC<Props> = ({
           <div style={{ overflow: "scroll", minHeight: "100px" }}>
             {searchResults && searchResults.length > 0 && (
               <ul>
+                {!searchResults ||
+                  (searchResults.length === 0 && (
+                    <p style={{ opacity: 0.4, fontStyle: "italic" }}>
+                      (No results)
+                    </p>
+                  ))}
                 {searchResults.map(result => {
                   return (
                     <li
@@ -116,7 +143,7 @@ const AdminModalForm: React.FC<Props> = ({
                         padding: "8px",
                       }}
                     >
-                      <span>
+                      <span style={{ width: "80%" }}>
                         <span style={{ fontWeight: "bold" }}>
                           {result.barcode_number}
                         </span>{" "}
@@ -173,14 +200,20 @@ const AdminModalForm: React.FC<Props> = ({
               </ul>
             )}
           </div>
-          <MultiSelect
-            id="interfaces-multiselect"
-            label="Interfaces"
-            items={KeyboardInterfaces.map(typeToString)}
-            itemToString={(i: any) => i}
-            initialSelectedItems={formState.interfaces?.map(typeToString) || []}
-            onChange={e => console.log(e)}
-          />
+          {formState && formState.interfaces !== undefined && (
+            <MultiSelect
+              id="interfaces-multiselect"
+              label="Interfaces"
+              items={KeyboardInterfaces.map(typeToString)}
+              itemToString={(i: string) => i}
+              initialSelectedItems={
+                formState.interfaces?.map(typeToString) || []
+              }
+              onChange={e =>
+                setFormState({ ...formState, interfaces: e.selectedItems })
+              }
+            />
+          )}
           <TextInput
             labelText="UPC"
             id="Product-UPC"
@@ -261,4 +294,4 @@ const AdminModalForm: React.FC<Props> = ({
   )
 }
 
-export default AdminModalForm
+export default ScrapedDataForm

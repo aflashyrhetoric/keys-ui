@@ -7,12 +7,15 @@ export const ARRAY_SEPARATOR_MARKER = "~|~"
 
 export const loadProductData = async () =>
   fetch(`${PRODUCT_DATA_ENDPOINT}/fetch_product_data`).then(r => r.json())
-  
+
 export const loadProductDataAdmin = async () =>
   fetch(`${PRODUCT_DATA_ENDPOINT}/fetch_product_data_admin`).then(r => r.json())
 
-export const searchProductData = async (query: string): Promise<any> =>
-  postData(`${PRODUCT_DATA_ENDPOINT}/search_products`, { query })
+export const searchProductData = async (
+  query: string,
+  page: number = 1,
+): Promise<any> =>
+  postData(`${PRODUCT_DATA_ENDPOINT}/search_products`, { query, page })
 
 export const prepareFormStateForAPI = formState => {
   const f = { ...formState }
@@ -38,7 +41,11 @@ export const parseObject = productFromDB => {
   // Join string array types
   Object.keys(productFromDB).forEach(key => {
     const value = productFromDB[key]
-    if (value && value.includes(ARRAY_SEPARATOR_MARKER)) {
+    if (
+      value &&
+      typeof value === "string" &&
+      value.includes(ARRAY_SEPARATOR_MARKER)
+    ) {
       productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)
     }
   })
