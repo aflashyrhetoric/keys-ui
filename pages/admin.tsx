@@ -41,8 +41,9 @@ export default function Admin() {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [scrapedProducts, setScrapedProducts] = useState([])
 
-  const [filterScrapedProductsOnly, setFilterScrapedProductsOnly] =
-    useState(true) // For scraped products only
+  const [filterScrapedProductsOnly, setFilterScrapedProductsOnly] = useState(
+    true,
+  ) // For scraped products only
 
   const [products, setProducts] = useState([])
   const [activeView, setActiveView] = useState(AdminView.ScrapedData)
@@ -91,7 +92,6 @@ export default function Admin() {
         }}
         onRequestClose={() => {
           setDeleteModalOpen(false)
-
           resetForm()
         }}
         onRequestSubmit={async () => {
@@ -126,6 +126,8 @@ export default function Admin() {
           } else {
             APIClient.updateProduct(payload)
           }
+
+          setModalOpen(false)
         }}
       >
         {formState && (
@@ -258,7 +260,7 @@ export default function Admin() {
                 key: "weight",
               },
             ]}
-            rawRowData={scrapedProducts}
+            rawRowData={scrapedViewProductSet}
             rowData={scrapedViewProductSet.map(p => {
               return {
                 ...p,
@@ -366,7 +368,11 @@ export default function Admin() {
               return {
                 ...product,
                 id: product.full_title,
-                COMPUTED_interfaces: `${product.interfaces?.join(", ")}`,
+                COMPUTED_interfaces: `${
+                  product.interfaces && Array.isArray(product.interfaces)
+                    ? product.interfaces.join(", ")
+                    : []
+                }`,
                 COMPUTED_searchable_title: `${product.product_name}`,
                 full_title: (
                   <p style={{ whiteSpace: "nowrap" }}>{product.full_title}</p>

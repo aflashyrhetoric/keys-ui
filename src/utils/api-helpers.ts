@@ -48,6 +48,9 @@ export const parseObject = productFromDB => {
     ) {
       productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)
     }
+    if (value && typeof value === "string") {
+      productFromDB[key] = [value]
+    }
   })
 
   return productFromDB
