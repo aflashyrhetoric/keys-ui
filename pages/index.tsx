@@ -5,7 +5,7 @@ import Link from "next/link"
 export default function Home() {
   return (
     <Page>
-      <h1 className={styles.title}>keys v1.0a</h1>
+      <h1 className={styles.title}>mosu v1.0a</h1>
       <br />
       <br />
 

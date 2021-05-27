@@ -11,7 +11,7 @@ interface Props {
   listContent?: boolean
   children: any
   navigate?: Function
-  showTooltipLeft: boolean
+  showTooltipLeft?: boolean
 
   style?: any
 }

@@ -12,7 +12,7 @@ const Page = ({ title, children, style = {} }: PageProps) => {
   return (
     <div className={styles.container} style={style}>
       <Head>
-        <title>{title ? `Keys | ${title}` : "Keys"}</title>
+        <title>{title ? `Mosu | ${title}` : "Mosu"}</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"

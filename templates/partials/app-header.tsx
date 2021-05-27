@@ -36,17 +36,17 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
     <HeaderContainer
       render={({ isSideNavExpanded, onClickSideNavExpand }) => (
         <>
-          <Header aria-label="Adelie Keys Header">
+          <Header aria-label="Mosu Header">
             <SkipToContent />
             <HeaderMenuButton
               aria-label="Open menu"
               onClick={onClickSideNavExpand}
               isActive={isSideNavExpanded}
             />
-            <HeaderName href="#" prefix="Adelie">
-              :: Keys
+            <HeaderName href="#" prefix="">
+              Mosu
             </HeaderName>
-            <HeaderNavigation aria-label="[Adelie] Keys">
+            <HeaderNavigation aria-label="[Adelie] Mosu">
               <HeaderMenuItem href="/quiz">Return to Quiz</HeaderMenuItem>
               <HeaderMenuItem href="/admin">Admin Panel</HeaderMenuItem>
               {/* <HeaderMenu aria-label="Link 2" menuLinkName="Link 2">
