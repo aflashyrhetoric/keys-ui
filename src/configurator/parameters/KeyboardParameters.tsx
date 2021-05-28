@@ -155,8 +155,8 @@ const KeyboardParameters: React.FC<Props> = ({
       <SidebarSection
         showTooltipLeft
         listContent
-        label="Operating System"
-        tooltipText="Some keyboards are Windows-only or Mac-only. Some support both. Select all that you need."
+        label="Ports & Interfaces"
+        tooltipText="Some keyboards are wired-only, others have wireless/bluetooth, some have both."
       >
         {prefs &&
           KeyboardInterfaces.map(interfaceType => {
