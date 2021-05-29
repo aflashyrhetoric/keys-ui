@@ -160,23 +160,32 @@ const KeyboardParameters: React.FC<Props> = ({
       >
         {prefs &&
           KeyboardInterfaces.map(interfaceType => {
-            // const isSelected = (currentOS) => {
-            //   if (currentOS === OperatingSystem.Windows) {
-            //     return (
-            //       prefs.compatible_oses === OperatingSystem.Windows ||
-            //       prefs.compatible_oses === OperatingSystem.Both
-            //     )
-            //   }
-            //   if (currentOS === OperatingSystem.macOS) {
-            //     return (
-            //       prefs.compatible_oses === OperatingSystem.macOS ||
-            //       prefs.compatible_oses === OperatingSystem.Both
-            //     )
-            //   }
-            //   if (currentOS === OperatingSystem.Both) {
-            //     return prefs.compatible_oses === OperatingSystem.Both
-            //   }
-            // }
+            return (
+              <Checkbox
+                id={`keyboard interface option ${interfaceType}`}
+                key={`${interfaceType}-checkbox`}
+                checked={prefs?.interfaces?.includes(interfaceType)}
+                className={styles.checkbox}
+                labelText={interfaceType}
+                onChange={({ value, id, event }: CheckboxEvent) =>
+                  togglePresenceInArray(
+                    "interfaces",
+                    prefs.interfaces,
+                    interfaceType,
+                  )
+                }
+              />
+            )
+          })}
+      </SidebarSection>
+      <SidebarSection
+        showTooltipLeft
+        listContent
+        label="Available Switch Types"
+        tooltipText="Keyboards most often come with switches pre-installed. Switches control the sound and feel of the keypress. Check out our Switches section to learn more."
+      >
+        {prefs &&
+          KeyboardInterfaces.map(interfaceType => {
             return (
               <Checkbox
                 id={`keyboard interface option ${interfaceType}`}
