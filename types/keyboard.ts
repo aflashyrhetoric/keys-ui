@@ -88,6 +88,7 @@ export interface Keyboard {
   upc: string
   sku?: string
   brand: string
+  available_switch_variants?: string[]
   full_title: string
   product_name: string
   product_description: string
