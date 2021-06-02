@@ -39,7 +39,9 @@ export default function Configurator() {
       const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      const allProducts = JSON.parse(rawData)
+      console.log(rawData)
+      // const allProducts = JSON.parse(rawData)
+      const allProducts = rawData
       const productsFilteredByMultipleSelect = filterProductsByMultipleSelectsOnly(
         allProducts,
         prefs,

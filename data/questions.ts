@@ -117,10 +117,8 @@ const getQuestions = (): Question[] => {
 
       // Since all keyboards are basically compatible with Windows by default, reflect that logic here
       const isWindowsCompatible =
-        product.windows_compatible === null ||
-        product.windows_compatible.toLowerCase() === "yes"
-      const isMacCompatible =
-        product.mac_compatible && product.mac_compatible.toLowerCase() === "yes"
+        product.windows_compatible === null || product.windows_compatible
+      const isMacCompatible = product.mac_compatible
       const isBoth = isWindowsCompatible && isMacCompatible
 
       if (cv === "both") {
@@ -179,6 +177,9 @@ const getQuestions = (): Question[] => {
 
       // Iterate through each of the product's interfaces
       // If any of them match our preferences, then include it
+      if(!interfaces) {
+        console.log(interfaces)
+      }
       interfaces.forEach(productInterface => {
         // console.log(
         //   productInterface,

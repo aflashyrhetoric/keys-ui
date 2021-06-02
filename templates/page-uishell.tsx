@@ -1,10 +1,11 @@
 import Head from "next/head"
 import styles from "styles/UIShell.module.scss"
-import { Button } from "carbon-components-react";
-import { LogoTwitter24 } from "@carbon/icons-react"
+// import { Button } from "carbon-components-react";
+// import { LogoTwitter24 } from "@carbon/icons-react"
 import AppHeader from "./partials/app-header"
-import { UserPreferences } from "types/app"
-import { loadProductData } from "src/utils/api-helpers"
+// import { UserPreferences } from "types/app"
+// import { loadProductData } from "src/utils/api-helpers"
+import AdminPalette from "src/shared/AdminPalette"
 interface PageProps {
   title?: string
   navigate?: Function // a function that changes a view in the parent
@@ -34,14 +35,15 @@ const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
       </main>
 
       <footer className={styles.footer}>
-        <a
+        <AdminPalette />
+        {/* <a
           href="https://twitter.com/aflashyrhetoric"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          {/* <LogoTwitter24 />
+        > */}
+        {/* <LogoTwitter24 />
           @aflashyrhetoric */}
-          <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
             <Button
               kind="secondary"
               onClick={() => {
@@ -50,11 +52,11 @@ const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
             >
               Refresh Product Data
             </Button>
-          </div>
-        </a>
-        <a href="https://kevinoh.me" target="_blank" rel="noopener noreferrer">
+          </div> */}
+        {/* </a> */}
+        {/* <a href="https://kevinoh.me" target="_blank" rel="noopener noreferrer">
           ko
-        </a>
+        </a> */}
       </footer>
     </div>
   )

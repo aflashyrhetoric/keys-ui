@@ -17,10 +17,10 @@ import { Keyboard } from "types/keyboard"
 import Page from "templates/page"
 import styles from "styles/Admin.module.scss"
 import BaseTable, { EditingState } from "src/shared/BaseTable"
-import AdminModalForm from "src/forms/ScrapedDataForm"
 import APIClient from "src/api-client"
 import ScrapedDataForm from "src/forms/ScrapedDataForm"
 import VerifiedDataForm from "src/forms/VerifiedDataForm"
+import AdminPalette from "src/shared/AdminPalette"
 
 enum AdminView {
   ScrapedData = "Scraped Data",
@@ -80,6 +80,7 @@ export default function Admin() {
     <Page title="Admin Page" style={{ padding: "2rem" }}>
       <h4>Admin Dashboard</h4>
       <div style={{ marginBottom: "10px" }} />
+      <AdminPalette />
       <Modal
         modalHeading="Delete ID"
         primaryButtonText="Delete"

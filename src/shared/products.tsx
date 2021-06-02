@@ -71,7 +71,7 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
     </Tag>
   ))
   
-  console.log(prefs && prefs.interfaces)
+  // console.log(prefs && prefs.interfaces)
 
   const portTags =
     prefs &&

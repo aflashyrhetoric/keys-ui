@@ -6,7 +6,7 @@ import {
   MultiSelect,
   TextInput,
 } from "carbon-components-react"
-import { Launch20 } from "@carbon/icons-react";
+import { Launch20 } from "@carbon/icons-react"
 import { Keyboard, KeyboardInterfaces } from "types/keyboard"
 import { typeToString } from "src/utils/type-helpers"
 import { searchProductData } from "src/utils/api-helpers"
@@ -230,36 +230,36 @@ const VerifiedDataForm: React.FC<Props> = ({
           <Checkbox
             labelText="Windows Compatible"
             id="Windows Compatible"
-            checked={formState.windows_compatible === "yes"}
+            checked={formState.windows_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 windows_compatible:
-                  formState.windows_compatible === "yes" ? "no" : "yes",
+                  formState.windows_compatible === "true" ? "no" : "yes",
               })
             }
           />
           <Checkbox
             labelText="Mac Compatible"
             id="Mac Compatible"
-            checked={formState.mac_compatible === "yes"}
+            checked={formState.mac_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 mac_compatible:
-                  formState.mac_compatible === "yes" ? "no" : "yes",
+                  formState.mac_compatible === "true" ? "no" : "yes",
               })
             }
           />
           <Checkbox
             labelText="Linux Compatible"
             id="Linux Compatible"
-            checked={formState.linux_compatible === "yes"}
+            checked={formState.linux_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 linux_compatible:
-                  formState.linux_compatible === "yes" ? "no" : "yes",
+                  formState.linux_compatible === "true" ? "no" : "yes",
               })
             }
           />

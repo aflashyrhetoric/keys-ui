@@ -4,14 +4,24 @@ import {
   Checkbox,
   Loading,
   MultiSelect,
+  RadioButton,
+  RadioButtonGroup,
+  Select,
+  SelectItem,
   TextInput,
 } from "carbon-components-react"
 import { Launch20 } from "@carbon/icons-react"
-import { Keyboard, KeyboardInterfaces } from "types/keyboard"
+import {
+  Keyboard,
+  KeyboardBacklightingTypes,
+  KeyboardFrameColors,
+  KeyboardInterfaces,
+} from "types/keyboard"
 import { typeToString } from "src/utils/type-helpers"
 import { searchProductData } from "src/utils/api-helpers"
 import { BarcodeLookupSearchResult } from "types/api"
 import { linkToGoogleSearch, linkToGoogleSearchUPC } from "src/utils/misc"
+import BaseRadioButtonGroup from "src/shared/BaseRadioButtonGroup"
 
 interface Props {
   formState: Keyboard
@@ -228,22 +238,39 @@ const ScrapedDataForm: React.FC<Props> = ({
               setFormState({ ...formState, dimensions: e.target.value })
             }
           />
-          <TextInput
-            labelText="Frame Color"
-            id="Frame Color"
-            value={formState.frame_color || ""}
+
+          <BaseRadioButtonGroup
+            name="frame-color-selector"
+            legendText="Frame Color"
+            value={formState.frame_color}
             onChange={e =>
               setFormState({ ...formState, frame_color: e.target.value })
             }
+            items={KeyboardFrameColors}
+            enableColorAnnotations
           />
-          <TextInput
+          <BaseRadioButtonGroup
+            name="frame-backlighting"
+            legendText="Backlighting"
+            value={formState.primary_led_color}
+            onChange={e => {
+              let primary_led_color = e.target.value
+              // if (primary_led_color) {
+                // primary_led_color = primary_led_color.toLowerCase()
+              // }
+              setFormState({ ...formState, primary_led_color })
+            }}
+            items={KeyboardBacklightingTypes}
+            enableColorAnnotations
+          />
+          {/* <TextInput
             labelText="Primary LED Color"
             id="Primary LED Color"
             value={formState.primary_led_color || ""}
             onChange={e =>
               setFormState({ ...formState, primary_led_color: e.target.value })
             }
-          />
+          /> */}
           <TextInput
             labelText="Weight"
             id="Weight"
@@ -255,36 +282,36 @@ const ScrapedDataForm: React.FC<Props> = ({
           <Checkbox
             labelText="Windows Compatible"
             id="Windows Compatible"
-            checked={formState.windows_compatible === "yes"}
+            checked={formState.windows_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 windows_compatible:
-                  formState.windows_compatible === "yes" ? "no" : "yes",
+                  formState.windows_compatible === "true" ? "no" : "yes",
               })
             }
           />
           <Checkbox
             labelText="Mac Compatible"
             id="Mac Compatible"
-            checked={formState.mac_compatible === "yes"}
+            checked={formState.mac_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 mac_compatible:
-                  formState.mac_compatible === "yes" ? "no" : "yes",
+                  formState.mac_compatible === "true" ? "no" : "yes",
               })
             }
           />
           <Checkbox
             labelText="Linux Compatible"
             id="Linux Compatible"
-            checked={formState.linux_compatible === "yes"}
+            checked={formState.linux_compatible === "true"}
             onChange={() =>
               setFormState({
                 ...formState,
                 linux_compatible:
-                  formState.linux_compatible === "yes" ? "no" : "yes",
+                  formState.linux_compatible === "true" ? "no" : "yes",
               })
             }
           />

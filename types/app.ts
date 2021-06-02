@@ -1,4 +1,5 @@
 import { Keyboard, KeyboardInterface, KeyboardSize } from "./keyboard"
+import { SwitchType } from "./switch";
 
 export interface UserPreferences {
   size: KeyboardSize[]
@@ -6,6 +7,9 @@ export interface UserPreferences {
   interfaces: KeyboardInterface[]
   frame_color: "black" | "white" | "gray" | "navy" | string
   primary_led_color: "rgb" | "white" | "n/a" | string
+
+  // POST -QUIZ PREFERENCES
+  switch_type: SwitchType[]
 }
 
 export interface PickerProps {

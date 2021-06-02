@@ -14,6 +14,7 @@ import styles from "./parameters.module.scss"
 import { UserPreferences } from "types/app"
 import { CheckboxEvent } from "types/carbon"
 import SidebarSection from "templates/partials/SidebarSection"
+import { SwitchTypes } from "types/switch"
 
 interface KeyboardParameters {
   frame_color: string
@@ -44,7 +45,14 @@ const KeyboardParameters: React.FC<Props> = ({
     setPrefs({ ...prefs, compatible_oses })
 
   const togglePresenceInArray = (key: string, list: any[], item) => {
+    // Upsert
+    if (!list || list.length === 0) {
+      setPrefs({ ...prefs, [key]: [item] })
+      return
+    }
+
     const updatedList = [...list]
+
     if (list.includes(item)) {
       const indexOfExistingSize = list.findIndex(s => s === item)
       updatedList.splice(indexOfExistingSize, 1)
@@ -86,11 +94,12 @@ const KeyboardParameters: React.FC<Props> = ({
         style={{ display: "flex", flexFlow: "column wrap", height: "180px" }}
       >
         {KeyboardFrameColors.map(frame_color => {
-          const amountOfProductsForCurrentFrameColor = productsFilteredByMultipleSelect.filter(
-            k =>
-              k.frame_color !== null &&
-              k.frame_color.toLowerCase() === frame_color,
-          ).length
+          const amountOfProductsForCurrentFrameColor =
+            productsFilteredByMultipleSelect.filter(
+              k =>
+                k.frame_color !== null &&
+                k.frame_color.toLowerCase() === frame_color,
+            ).length
 
           const isEmptySet = amountOfProductsForCurrentFrameColor === 0
 
@@ -185,19 +194,19 @@ const KeyboardParameters: React.FC<Props> = ({
         tooltipText="Keyboards most often come with switches pre-installed. Switches control the sound and feel of the keypress. Check out our Switches section to learn more."
       >
         {prefs &&
-          KeyboardInterfaces.map(interfaceType => {
+          SwitchTypes.map(switchType => {
             return (
               <Checkbox
-                id={`keyboard interface option ${interfaceType}`}
-                key={`${interfaceType}-checkbox`}
-                checked={prefs?.interfaces?.includes(interfaceType)}
+                id={`keyboard interface option ${switchType}`}
+                key={`${switchType}-checkbox`}
+                checked={prefs?.switch_type?.includes(switchType)}
                 className={styles.checkbox}
-                labelText={interfaceType}
+                labelText={switchType}
                 onChange={({ value, id, event }: CheckboxEvent) =>
                   togglePresenceInArray(
-                    "interfaces",
-                    prefs.interfaces,
-                    interfaceType,
+                    "switch_type",
+                    prefs.switch_type,
+                    switchType,
                   )
                 }
               />

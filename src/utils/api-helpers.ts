@@ -11,6 +11,16 @@ export const loadProductData = async () =>
 export const loadProductDataAdmin = async () =>
   fetch(`${PRODUCT_DATA_ENDPOINT}/fetch_product_data_admin`).then(r => r.json())
 
+export const cacheScrapedProductData = async (runNumber: number) =>
+  fetch(`${PRODUCT_DATA_ENDPOINT}/cache_scraped_data/${runNumber}`).then(r =>
+    r.json(),
+  )
+  
+export const cacheVerifiedProductData = async () =>
+  fetch(`${PRODUCT_DATA_ENDPOINT}/cache_verified_data`).then(r =>
+    r.json(),
+  )
+
 export const searchProductData = async (
   query: string,
   page: number = 1,

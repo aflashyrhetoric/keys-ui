@@ -43,6 +43,12 @@ export enum KeyboardBacklighting {
   None = "n/a",
 }
 
+export const KeyboardBacklightingTypes = [
+  KeyboardBacklighting.RGB,
+  KeyboardBacklighting.White,
+  KeyboardBacklighting.None,
+]
+
 export enum KeyboardFrameColor {
   White = "white",
   Black = "black",
