@@ -15,7 +15,7 @@ interface Props {
   value: any
   onChange: Function
 
-  enableColorAnnotations: boolean
+  enableColorAnnotations?: boolean
   items: any
 }
 
@@ -42,7 +42,7 @@ const BaseRadioButtonGroup: React.FC<Props> = ({
         style={{
           display: "flex",
           flexFlow: "row wrap",
-          height: "175px",
+          height: enableColorAnnotations ? "175px" : "unset",
         }}
       >
         {items.map(item => {
@@ -65,14 +65,16 @@ const BaseRadioButtonGroup: React.FC<Props> = ({
                 labelText={item}
                 value={item}
               />
-              <div
-                style={{
-                  height: "50px",
-                  width: "50px",
-                  background: enableColorAnnotations ? item : "",
-                  borderRadius: "5px",
-                }}
-              />
+              {enableColorAnnotations && (
+                <div
+                  style={{
+                    height: "50px",
+                    width: "50px",
+                    background: enableColorAnnotations ? item : "",
+                    borderRadius: "5px",
+                  }}
+                />
+              )}
             </div>
           )
         })}

@@ -36,7 +36,11 @@ export const prepareFormStateForAPI = formState => {
   Object.keys(f).forEach(key => {
     const value = f[key]
     if (Array.isArray(value)) {
-      f[key] = value.join(ARRAY_SEPARATOR_MARKER)
+      const withoutSelectOne = value.filter(s => {
+        console.log(value, "CHICKEN")
+        return !s.toLowerCase().includes("select")
+      })
+      f[key] = withoutSelectOne.join(ARRAY_SEPARATOR_MARKER)
     }
   })
 
@@ -51,14 +55,16 @@ export const parseObject = productFromDB => {
     const value = productFromDB[key]
 
     const isValid = value && typeof value === "string"
-    const isStringifiedArray = ["features", "interfaces"].includes(key)
+    const isStringifiedArray = [
+      "features",
+      "interfaces",
+      "available_switch_variants",
+    ].includes(key)
 
     // If the product is valid...
     if (isValid) {
-
       // ... and is one of our list properties...
       if (isStringifiedArray) {
-
         // and contains a ~|~, then split
         if (value.includes(ARRAY_SEPARATOR_MARKER)) {
           productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)

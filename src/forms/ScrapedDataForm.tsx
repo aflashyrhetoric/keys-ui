@@ -1,13 +1,14 @@
 import React, { useState } from "react"
+import classnames from "classnames"
 import {
   Button,
   Checkbox,
   Loading,
   MultiSelect,
-  RadioButton,
-  RadioButtonGroup,
-  Select,
-  SelectItem,
+  // RadioButton,
+  // RadioButtonGroup,
+  // Select,
+  // SelectItem,
   TextInput,
 } from "carbon-components-react"
 import { Launch20 } from "@carbon/icons-react"
@@ -22,6 +23,8 @@ import { searchProductData } from "src/utils/api-helpers"
 import { BarcodeLookupSearchResult } from "types/api"
 import { linkToGoogleSearch, linkToGoogleSearchUPC } from "src/utils/misc"
 import BaseRadioButtonGroup from "src/shared/BaseRadioButtonGroup"
+import styles from "./styles.module.scss"
+import { imgPath } from "src/utils/products"
 
 interface Props {
   formState: Keyboard
@@ -39,6 +42,7 @@ const ScrapedDataForm: React.FC<Props> = ({
 
   const [namePage, setNamePage] = useState(1)
   const [nameBrandPage, setNameBrandPage] = useState(1)
+  const [showImage, setShowImage] = useState(false)
 
   const searchData = (term: string, page) => {
     setLoading(true)
@@ -55,7 +59,26 @@ const ScrapedDataForm: React.FC<Props> = ({
       {loading && <Loading active />}
       {!loading && formState && (
         <>
-          <h4>{formState.full_title}</h4>
+          <div className={styles.headerWrapper}>
+            <h4>{formState.full_title}</h4>
+            <div className={styles.imageTrigger}>
+              <Button
+                kind="tertiary"
+                size="sm"
+                onClick={() => setShowImage(!showImage)}
+              >
+                Toggle Image
+              </Button>
+              {showImage && (
+                <div className={classnames(styles.image, styles.imageHovered)}>
+                  <img
+                    src={imgPath(formState.img_path)}
+                    alt={formState.full_title}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
           <hr />
           <div style={{ marginBottom: "10px" }} />
           <div
@@ -133,7 +156,7 @@ const ScrapedDataForm: React.FC<Props> = ({
             </div>
           </div>
           <div style={{ marginBottom: "10px" }} />
-          <div style={{ overflow: "scroll", minHeight: "100px" }}>
+          <div className={styles.searchContainer}>
             {searchResults && searchResults.length > 0 && (
               <ul>
                 {!searchResults ||
@@ -249,6 +272,7 @@ const ScrapedDataForm: React.FC<Props> = ({
             items={KeyboardFrameColors}
             enableColorAnnotations
           />
+          <div style={{ marginBottom: "10px" }} />
           <BaseRadioButtonGroup
             name="frame-backlighting"
             legendText="Backlighting"
@@ -256,21 +280,13 @@ const ScrapedDataForm: React.FC<Props> = ({
             onChange={e => {
               let primary_led_color = e.target.value
               // if (primary_led_color) {
-                // primary_led_color = primary_led_color.toLowerCase()
+              // primary_led_color = primary_led_color.toLowerCase()
               // }
               setFormState({ ...formState, primary_led_color })
             }}
             items={KeyboardBacklightingTypes}
-            enableColorAnnotations
           />
-          {/* <TextInput
-            labelText="Primary LED Color"
-            id="Primary LED Color"
-            value={formState.primary_led_color || ""}
-            onChange={e =>
-              setFormState({ ...formState, primary_led_color: e.target.value })
-            }
-          /> */}
+          <div style={{ marginBottom: "10px" }} />
           <TextInput
             labelText="Weight"
             id="Weight"
@@ -282,36 +298,33 @@ const ScrapedDataForm: React.FC<Props> = ({
           <Checkbox
             labelText="Windows Compatible"
             id="Windows Compatible"
-            checked={formState.windows_compatible === "true"}
+            checked={formState.windows_compatible}
             onChange={() =>
               setFormState({
                 ...formState,
-                windows_compatible:
-                  formState.windows_compatible === "true" ? "no" : "yes",
+                windows_compatible: !formState.windows_compatible,
               })
             }
           />
           <Checkbox
             labelText="Mac Compatible"
             id="Mac Compatible"
-            checked={formState.mac_compatible === "true"}
+            checked={formState.mac_compatible}
             onChange={() =>
               setFormState({
                 ...formState,
-                mac_compatible:
-                  formState.mac_compatible === "true" ? "no" : "yes",
+                mac_compatible: !formState.mac_compatible,
               })
             }
           />
           <Checkbox
             labelText="Linux Compatible"
             id="Linux Compatible"
-            checked={formState.linux_compatible === "true"}
+            checked={formState.linux_compatible}
             onChange={() =>
               setFormState({
                 ...formState,
-                linux_compatible:
-                  formState.linux_compatible === "true" ? "no" : "yes",
+                linux_compatible: !formState.linux_compatible,
               })
             }
           />

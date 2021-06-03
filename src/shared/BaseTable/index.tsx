@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react"
 import {
   DataTable,
   TableContainer,
+  TableCell,
   TableToolbar,
   TableBatchActions,
   TableBatchAction,
@@ -181,11 +182,12 @@ export const BaseTable: React.FC<Props> = ({
                             }
                             renderIcon={TrashCan32}
                             onClick={() => {
-                              const selectedRawRowsData = getSelectedRawRowsData(
-                                selectedRows,
-                                rowData,
-                                rawRowData,
-                              )
+                              const selectedRawRowsData =
+                                getSelectedRawRowsData(
+                                  selectedRows,
+                                  rowData,
+                                  rawRowData,
+                                )
 
                               onBatchDelete(selectedRawRowsData)
                             }}
@@ -205,11 +207,12 @@ export const BaseTable: React.FC<Props> = ({
                             onClick={() => {
                               updateEditingMode(EditingState.BATCHUPDATE)
 
-                              const selectedRawRowsData = getSelectedRawRowsData(
-                                selectedRows,
-                                rowData,
-                                rawRowData,
-                              )
+                              const selectedRawRowsData =
+                                getSelectedRawRowsData(
+                                  selectedRows,
+                                  rowData,
+                                  rawRowData,
+                                )
 
                               updateFormState({
                                 selectedRawRowsData,
@@ -294,9 +297,9 @@ export const BaseTable: React.FC<Props> = ({
                     )}
                     <TableBody>
                       {rows.length === 0 && (
-                        <tr>
-                          <td colSpan={headerData.length + 1} />
-                        </tr>
+                        <TableRow>
+                          <TableCell colSpan={headerData.length + 1} />
+                        </TableRow>
                       )}
                       {rows.map((row: TableRowShape, index) => (
                         <BaseTableRow

@@ -47,17 +47,20 @@ export default function Admin() {
   const [products, setProducts] = useState([])
   const [activeView, setActiveView] = useState(AdminView.ScrapedData)
 
+  const setProductData = async () => {
+    const response = await loadProductDataAdmin()
+    const { data } = response
+    console.log(data)
+    const scraped =
+      data.scraped_data?.length > 0 ? JSON.parse(data.scraped_data) : []
+    const products = data.products || []
+
+    setScrapedProducts(scraped)
+    setProducts(products)
+  }
+
   // Updates state as well as localStorage keys
   useEffect(() => {
-    const setProductData = async () => {
-      const response = await loadProductDataAdmin()
-      const { data } = response
-      const scraped = data.scraped_data
-      const products = data.products
-      setScrapedProducts(JSON.parse(scraped))
-      setProducts(products)
-    }
-
     setProductData()
   }, [])
 
@@ -119,15 +122,16 @@ export default function Admin() {
           setModalOpen(false)
           resetForm()
         }}
-        onRequestSubmit={() => {
+        onRequestSubmit={async () => {
           const payload = prepareFormStateForAPI(formState)
-          console.log(payload)
+          // console.log(formState, "becomes", payload)
           if (isScrapedView) {
-            APIClient.saveNewProduct(payload)
+            await APIClient.saveNewProduct(payload)
           } else {
-            APIClient.updateProduct(payload.sku, payload)
+            await APIClient.updateProduct(payload.sku, payload)
           }
 
+          loadProductData()
           setModalOpen(false)
         }}
       >

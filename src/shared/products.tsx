@@ -1,5 +1,4 @@
 import { Tag } from "carbon-components-react"
-import { parseObject } from "src/utils/api-helpers"
 import { UserPreferences } from "types/app"
 import { Keyboard } from "types/keyboard"
 

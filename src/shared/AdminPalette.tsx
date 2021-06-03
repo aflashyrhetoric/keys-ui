@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button } from "carbon-components-react"
+import { Button, Loading } from "carbon-components-react"
 import {
   cacheScrapedProductData,
   cacheVerifiedProductData,
@@ -12,27 +12,32 @@ interface Props {
 }
 
 const AdminPalette: React.FC<Props> = (props: Props) => {
-  // const [something, setSomething] = useState(props.something);
+  const [loading, setLoading] = useState(false)
 
   return (
     <div className={styles.adminPalette}>
+      <Loading small withOverlay active={loading} />
       <h4>admin palette</h4>
       <div>
         <Button
           kind="secondary"
-          onClick={() => {
-            cacheScrapedProductData(11)
+          onClick={async () => {
+            setLoading(true)
+            await cacheScrapedProductData(12)
+            setLoading(false)
           }}
         >
-          Cache scraped data
+          Cache scraped data (Zyte -&gt; Redis)
         </Button>
         <Button
           kind="secondary"
-          onClick={() => {
-            cacheVerifiedProductData()
+          onClick={async () => {
+            setLoading(true)
+            await cacheVerifiedProductData()
+            setLoading(false)
           }}
         >
-          Cache verified data
+          Cache verified data (Postgres -&gt; Redis)
         </Button>
       </div>
     </div>
