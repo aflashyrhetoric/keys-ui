@@ -27,10 +27,10 @@ enum AdminView {
   VerifiedData = "VerifiedData",
 }
 
-enum EditingMode {
-  Verification = "Verification",
-  Update = "Update",
-}
+// enum EditingMode {
+//   Verification = "Verification",
+//   Update = "Update",
+// }
 
 export default function Admin() {
   const [formState, setFormState] = useState<Keyboard>(null)
@@ -41,9 +41,8 @@ export default function Admin() {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [scrapedProducts, setScrapedProducts] = useState([])
 
-  const [filterScrapedProductsOnly, setFilterScrapedProductsOnly] = useState(
-    true,
-  ) // For scraped products only
+  const [filterScrapedProductsOnly, setFilterScrapedProductsOnly] =
+    useState(true) // For scraped products only
 
   const [products, setProducts] = useState([])
   const [activeView, setActiveView] = useState(AdminView.ScrapedData)
@@ -122,10 +121,11 @@ export default function Admin() {
         }}
         onRequestSubmit={() => {
           const payload = prepareFormStateForAPI(formState)
+          console.log(payload)
           if (isScrapedView) {
             APIClient.saveNewProduct(payload)
           } else {
-            APIClient.updateProduct(payload)
+            APIClient.updateProduct(payload.sku, payload)
           }
 
           setModalOpen(false)
