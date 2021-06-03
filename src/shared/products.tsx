@@ -1,4 +1,5 @@
 import { Tag } from "carbon-components-react"
+import { parseObject } from "src/utils/api-helpers"
 import { UserPreferences } from "types/app"
 import { Keyboard } from "types/keyboard"
 
@@ -70,7 +71,7 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
       Size: {keyboardSize}
     </Tag>
   ))
-  
+
   // console.log(prefs && prefs.interfaces)
 
   const portTags =

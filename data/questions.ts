@@ -173,67 +173,54 @@ const getQuestions = (): Question[] => {
       }
 
       const { interfaces } = product
-      const cv = value.map(typeToString)
+
+      const cv: string[] = value.map(typeToString)
 
       // Iterate through each of the product's interfaces
       // If any of them match our preferences, then include it
-      if(!interfaces) {
-        console.log(interfaces)
-      }
-      interfaces.forEach(productInterface => {
-        // console.log(
-        //   productInterface,
-        //   value,
-        //   cv.includes(typeToString(productInterface)),
-        // )
-        if (cv.includes(typeToString(productInterface))) {
+      return interfaces.map(typeToString).find(productInterface => {
+        return cv.includes(typeToString(productInterface))
+      })
+    },
+  ),
+    addQ(
+      "Which frame color?",
+      "frame_color",
+      [
+        choice("White", "white", "frame-color-white"),
+        choice("Black", "black", "frame-color-black"),
+        choice("Gray", "gray", "frame-color-gray"),
+        choice("Colorful", "colorful", "frame-color-colorful"),
+        choice("Any", "any", "default"),
+      ],
+      true,
+      (product: Keyboard, comparisonValue: string) => {
+        const frameColor = product.frame_color
+          ? product.frame_color.toLowerCase()
+          : ""
+        const cv = comparisonValue.toLowerCase()
+
+        // console.log(frameColor)
+
+        if (!frameColor) {
+          return false
+        }
+
+        // If the data is missing, include the keyboard just in case
+        if (!frameColor || cv === "any") {
           return true
         }
-      })
 
-      // None of the product's interfaces match our preferences
-      return false
-    },
-  )
+        const fc = frameColor.toLowerCase()
 
-  addQ(
-    "Which frame color?",
-    "frame_color",
-    [
-      choice("White", "white", "frame-color-white"),
-      choice("Black", "black", "frame-color-black"),
-      choice("Gray", "gray", "frame-color-gray"),
-      choice("Colorful", "colorful", "frame-color-colorful"),
-      choice("Any", "any", "default"),
-    ],
-    true,
-    (product: Keyboard, comparisonValue: string) => {
-      const frameColor = product.frame_color
-        ? product.frame_color.toLowerCase()
-        : ""
-      const cv = comparisonValue.toLowerCase()
-
-      // console.log(frameColor)
-
-      if (!frameColor) {
-        return false
-      }
-
-      // If the data is missing, include the keyboard just in case
-      if (!frameColor || cv === "any") {
-        return true
-      }
-
-      const fc = frameColor.toLowerCase()
-
-      if (KeyboardFrameColors.map(typeToLowerString).includes(cv)) {
-        return fc === cv
-      }
-      if (cv === "colorful") {
-        return ["pink", "blue", "green", "red", "orange"].includes(fc)
-      }
-    },
-  )
+        if (KeyboardFrameColors.map(typeToLowerString).includes(cv)) {
+          return fc === cv
+        }
+        if (cv === "colorful") {
+          return ["pink", "blue", "green", "red", "orange"].includes(fc)
+        }
+      },
+    )
 
   addQ(
     "RGB lighting lets you set custom colors, and sometimes, custom animations. Interested?",

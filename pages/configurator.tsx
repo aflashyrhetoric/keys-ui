@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 
 import getQuestions from "data/questions"
-import { loadProductData } from "src/utils/api-helpers"
+import { loadProductData, parseObject } from "src/utils/api-helpers"
 import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
@@ -25,7 +25,7 @@ export default function Configurator() {
   const [prefs, setPrefs] = useState(localPrefs)
 
   // Updates state as well as localStorage keys
-  const updatePreferences = (preferences) => {
+  const updatePreferences = preferences => {
     const updated = {
       ...localPrefs,
       ...preferences,
@@ -39,14 +39,12 @@ export default function Configurator() {
       const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      console.log(rawData)
+      // console.log(rawData)
       // const allProducts = JSON.parse(rawData)
-      const allProducts = rawData
-      const productsFilteredByMultipleSelect = filterProductsByMultipleSelectsOnly(
-        allProducts,
-        prefs,
-        questions,
-      )
+      const allProducts = rawData.map(parseObject)
+      console.log(allProducts)
+      const productsFilteredByMultipleSelect =
+        filterProductsByMultipleSelectsOnly(allProducts, prefs, questions)
       const products = filterProducts(allProducts, prefs, questions)
 
       // setFilterMetadata(computeFilterMetadata(allProducts))

@@ -15,11 +15,9 @@ export const cacheScrapedProductData = async (runNumber: number) =>
   fetch(`${PRODUCT_DATA_ENDPOINT}/cache_scraped_data/${runNumber}`).then(r =>
     r.json(),
   )
-  
+
 export const cacheVerifiedProductData = async () =>
-  fetch(`${PRODUCT_DATA_ENDPOINT}/cache_verified_data`).then(r =>
-    r.json(),
-  )
+  fetch(`${PRODUCT_DATA_ENDPOINT}/cache_verified_data`).then(r => r.json())
 
 export const searchProductData = async (
   query: string,
@@ -51,18 +49,26 @@ export const parseObject = productFromDB => {
   // Join string array types
   Object.keys(productFromDB).forEach(key => {
     const value = productFromDB[key]
-    if (
-      value &&
-      typeof value === "string" &&
-      value.includes(ARRAY_SEPARATOR_MARKER)
-    ) {
-      productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)
-    }
-    if (value && typeof value === "string") {
-      productFromDB[key] = [value]
+
+    const isValid = value && typeof value === "string"
+    const isStringifiedArray = ["features", "interfaces"].includes(key)
+
+    // If the product is valid...
+    if (isValid) {
+
+      // ... and is one of our list properties...
+      if (isStringifiedArray) {
+
+        // and contains a ~|~, then split
+        if (value.includes(ARRAY_SEPARATOR_MARKER)) {
+          productFromDB[key] = value.split(ARRAY_SEPARATOR_MARKER)
+        } else {
+          // otherwise, it's a single array value!
+          productFromDB[key] = [value]
+        }
+      }
     }
   })
-
   return productFromDB
 }
 
