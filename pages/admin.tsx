@@ -6,7 +6,7 @@ import {
   Loading,
   Modal,
 } from "carbon-components-react"
-import { Checkmark20, Incomplete20 } from "@carbon/icons-react"
+import { Checkmark20, Checkbox20 } from "@carbon/icons-react"
 import {
   loadProductData,
   loadProductDataAdmin,
@@ -50,7 +50,6 @@ export default function Admin() {
   const setProductData = async () => {
     const response = await loadProductDataAdmin()
     const { data } = response
-    console.log(data)
     const scraped =
       data.scraped_data?.length > 0 ? JSON.parse(data.scraped_data) : []
     const products = data.products || []
@@ -124,14 +123,13 @@ export default function Admin() {
         }}
         onRequestSubmit={async () => {
           const payload = prepareFormStateForAPI(formState)
-          // console.log(formState, "becomes", payload)
           if (isScrapedView) {
             await APIClient.saveNewProduct(payload)
           } else {
             await APIClient.updateProduct(payload.sku, payload)
           }
 
-          loadProductData()
+          await setProductData()
           setModalOpen(false)
         }}
       >
@@ -270,11 +268,7 @@ export default function Admin() {
               return {
                 ...p,
                 id: p.full_title,
-                verified: productIsVerified(p.sku) ? (
-                  <Checkmark20 />
-                ) : (
-                  <Incomplete20 />
-                ),
+                verified: productIsVerified(p.sku) ? <Checkmark20 /> : "No",
                 COMPUTED_searchable_title: `${p.product_name}`,
                 full_title: (
                   <p style={{ whiteSpace: "nowrap" }}>{p.full_title}</p>
