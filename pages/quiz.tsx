@@ -7,7 +7,7 @@ import {
   ProgressStep,
 } from "carbon-components-react"
 import { Rocket32 } from "@carbon/icons-react"
-import styles from "../styles/Home.module.css"
+import styles from "../styles/Home.module.scss"
 import quizStyles from "../styles/Quiz.module.scss"
 
 import Questions, {

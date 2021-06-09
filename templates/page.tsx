@@ -1,11 +1,11 @@
 import Head from "next/head"
-import styles from "styles/Home.module.css"
+import styles from "styles/Home.module.scss"
 import { LogoTwitter24 } from "@carbon/icons-react"
 
 interface PageProps {
   title?: string
   children: any
-  style: any
+  style?: any
 }
 
 const Page = ({ title, children, style = {} }: PageProps) => {

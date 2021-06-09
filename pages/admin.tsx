@@ -264,7 +264,7 @@ export default function Admin() {
               },
             ]}
             rawRowData={scrapedViewProductSet}
-            rowData={scrapedViewProductSet.map(p => {
+            rowData={scrapedViewProductSet.splice(0,10).map(p => {
               return {
                 ...p,
                 id: p.full_title,
