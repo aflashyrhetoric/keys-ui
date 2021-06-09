@@ -36,9 +36,10 @@ export const prepareFormStateForAPI = formState => {
   Object.keys(f).forEach(key => {
     const value = f[key]
     if (Array.isArray(value)) {
+      console.log(value)
       const withoutSelectOne = value.filter(s => {
-        console.log(value, "CHICKEN")
-        return !s.toLowerCase().includes("select")
+        console.log(s, "CHICKEN")
+        return s.toLowerCase().includes("select")
       })
       f[key] = withoutSelectOne.join(ARRAY_SEPARATOR_MARKER)
     }

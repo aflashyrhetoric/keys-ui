@@ -41,8 +41,7 @@ export default function Configurator() {
       const rawData = response.data
       // console.log(rawData)
       // const allProducts = JSON.parse(rawData)
-      const allProducts = rawData.map(parseObject)
-      console.log(allProducts)
+      const allProducts = rawData ? rawData.map(parseObject) : []
       const productsFilteredByMultipleSelect =
         filterProductsByMultipleSelectsOnly(allProducts, prefs, questions)
       const products = filterProducts(allProducts, prefs, questions)

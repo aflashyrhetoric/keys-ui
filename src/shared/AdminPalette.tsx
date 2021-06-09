@@ -23,7 +23,7 @@ const AdminPalette: React.FC<Props> = (props: Props) => {
           kind="secondary"
           onClick={async () => {
             setLoading(true)
-            await cacheScrapedProductData(12)
+            await cacheScrapedProductData(14)
             setLoading(false)
           }}
         >

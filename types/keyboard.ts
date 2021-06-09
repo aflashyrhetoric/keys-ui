@@ -2,6 +2,7 @@ export enum KeyboardSize {
   Full = "Full Size",
   TKL = "Tenkeyless",
   Sixty = "60%",
+  SixtyFive = "65%",
   Numpad = "Numpad",
 }
 
@@ -9,6 +10,7 @@ export const KeyboardSizes = [
   KeyboardSize.Full,
   KeyboardSize.TKL,
   KeyboardSize.Sixty,
+  KeyboardSize.SixtyFive,
   KeyboardSize.Numpad,
 ]
 
