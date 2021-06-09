@@ -1,6 +1,10 @@
+import React, { useMemo } from "react"
 import Head from "next/head"
 import styles from "styles/Home.module.scss"
 import { LogoTwitter24 } from "@carbon/icons-react"
+// import { purple } from "@material-ui/core/colors"
+
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles"
 
 interface PageProps {
   title?: string
@@ -9,6 +13,33 @@ interface PageProps {
 }
 
 const Page = ({ title, children, style = {} }: PageProps) => {
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: "dark",
+    },
+  })
+  const theme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: "dark",
+          secondary: {
+            light: "#6d6d6d",
+            main: "#424242",
+            dark: "#1b1b1b",
+            contrastText: "#fff",
+          },
+          primary: {
+            light: "#8a8aff",
+            main: "#4b5dff",
+            dark: "#0033cb",
+            contrastText: "#fff",
+          },
+        },
+      }),
+    [],
+  )
+
   return (
     <div className={styles.container} style={style}>
       <Head>
@@ -28,7 +59,9 @@ const Page = ({ title, children, style = {} }: PageProps) => {
         />
       </Head>
 
-      <main className={styles.main}>{children}</main>
+      <ThemeProvider theme={theme}>
+        <main className={styles.main}>{children}</main>
+      </ThemeProvider>
 
       <footer className={styles.footer}>
         <a

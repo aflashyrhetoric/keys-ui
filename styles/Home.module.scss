@@ -27,6 +27,30 @@ $gray: #242424;
   width: 100vw;
   background-color: $gray;
   padding: 5rem;
+
+  section {
+    min-height: 200px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: gray;
+    h1,
+    h2,
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.school {
+  height: 100px;
+  transition: height 200ms ease;
+  overflow: hidden;
+  padding: 1rem;
+  background: purple;
+}
+
+.expanded {
+  height: unset !important;
 }
 
 .hero {
@@ -37,7 +61,13 @@ $gray: #242424;
   justify-content: space-between;
 
   h1 {
-    margin-bottom: 1rem;
+    font-size: 32px;
+    margin-bottom: 1.5rem;
+    user-select: none;
+  }
+
+  h2 {
+    font-size: 28px;
   }
 
   h1,
@@ -57,7 +87,8 @@ $gray: #242424;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  height: 50%;
+  height: 55%;
+  width: 60%;
   max-width: 60%;
 }
 
@@ -67,8 +98,15 @@ $gray: #242424;
 
 .heroButtons {
   display: flex;
-  width: 100%;
+  width: 70%;
+  max-width: 430px;
   justify-content: space-between;
+}
+
+.heroButton {
+  :nth-child(1) {
+    margin-right: 1rem;
+  }
 }
 
 .footer {
