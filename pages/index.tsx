@@ -40,7 +40,11 @@ export default function Home() {
               >
                 New? Take our quiz
               </Button>
-              <Button className="heroButton" style={{ color: "white" }}>
+              <Button
+                className="heroButton"
+                style={{ color: "white" }}
+                href="/configurator"
+              >
                 Or, create a build
               </Button>
             </div>
