@@ -31,7 +31,7 @@ export default function Configurator() {
       ...preferences,
     }
     setPrefs(updated)
-    setLocalPrefs(updated)
+    // setLocalPrefs(updated)
   }
 
   useEffect(() => {
