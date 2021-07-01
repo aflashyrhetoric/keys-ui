@@ -20,7 +20,8 @@ export default function Configurator() {
   ] = useState<Keyboard[]>([])
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
-  const [localPrefs, setLocalPrefs] = usePreferencesStore(localStorageKey, {})
+  // const [localPrefs, setLocalPrefs] = usePreferencesStore(localStorageKey, {})
+  const localPrefs = {}
 
   const [prefs, setPrefs] = useState(localPrefs)
 

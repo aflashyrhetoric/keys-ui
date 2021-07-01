@@ -65,7 +65,7 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
     return <>No filters</>
   }
   const tags = []
-  const sizeTags = prefs.size.map(keyboardSize => (
+  const sizeTags = prefs?.size?.map(keyboardSize => (
     <Tag key={`${keyboardSize}-keyboardSize`} type="purple">
       Size: {keyboardSize}
     </Tag>
