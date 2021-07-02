@@ -6,8 +6,8 @@ import { arrayOfStringsReducer } from "../helpers"
 export const preferenceOSSlice = createSlice({
   name: "preferenceOS",
   initialState: [],
-  reducers: arrayOfStringsReducer("OS"),
+  reducers: arrayOfStringsReducer("PrefOS"),
 })
 
-export const { addOS, removeOS, toggleOS } = preferenceOSSlice.actions
+export const { addPrefOS, removePrefOS, togglePrefOS } = preferenceOSSlice.actions
 export default preferenceOSSlice.reducer

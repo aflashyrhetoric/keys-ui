@@ -6,12 +6,12 @@ import { singletonReducer } from "../helpers"
 export const preferenceKeyboardBacklightingSlice = createSlice({
   name: "preferenceKeyboardBacklighting",
   initialState: [],
-  reducers: singletonReducer("KeyboardBacklighting"),
+  reducers: singletonReducer("PrefBacklighting"),
 })
 
 export const {
-  addKeyboardBacklighting,
-  removeKeyboardBacklighting,
-  toggleKeyboardBacklighting,
+  addPrefBacklighting,
+  removePrefBacklighting,
+  togglePrefBacklighting,
 } = preferenceKeyboardBacklightingSlice.actions
 export default preferenceKeyboardBacklightingSlice.reducer

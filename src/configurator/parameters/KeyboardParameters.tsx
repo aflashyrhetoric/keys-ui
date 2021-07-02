@@ -11,7 +11,12 @@ import {
   KeyboardSizes,
   OperatingSystem,
 } from "types/keyboard"
-import { togglePreferenceSize } from "src/store/slices/sizeSlice"
+import { togglePrefSize } from "src/store/slices/sizeSlice"
+import { togglePrefOS } from "src/store/slices/osSlice"
+import { togglePrefInterface } from "src/store/slices/interfaceSlice"
+import { togglePrefFrameColor } from "src/store/slices/frameColorSlice"
+import { togglePrefBacklighting } from "src/store/slices/keyboardBacklightingSlice"
+import { togglePrefSwitch } from "src/store/slices/switchSlice"
 
 import styles from "./parameters.module.scss"
 import { UserPreferences } from "types/app"
@@ -70,7 +75,7 @@ Props) => {
               className={styles.checkbox}
               labelText={keyboardSize}
               onChange={({ value, id, event }: CheckboxEvent) =>
-                dispatch(togglePreferenceSize(keyboardSize))
+                dispatch(togglePrefSize(keyboardSize))
               }
             />
           </>
@@ -103,7 +108,7 @@ Props) => {
               className={styles.checkbox}
               labelText={`${fc} (${amountOfProductsForCurrentFrameColor})`}
               onChange={({ value, id, event }: CheckboxEvent) =>
-                updateColor(frame_color)
+                dispatch(togglePrefFrameColor(fc))
               }
             />
           )
@@ -146,7 +151,9 @@ Props) => {
                 checked={isSelected(os)}
                 className={styles.checkbox}
                 labelText={`${os === "both" ? "Both" : os}`}
-                onChange={({ value, id, event }: CheckboxEvent) => updateOS(os)}
+                onChange={({ value, id, event }: CheckboxEvent) =>
+                  dispatch(togglePrefOS(os))
+                }
               />
             )
           })}
@@ -166,7 +173,7 @@ Props) => {
               className={styles.checkbox}
               labelText={interfaceType}
               onChange={({ value, id, event }: CheckboxEvent) =>
-                togglePresenceInArray("interfaces", interfaces, interfaceType)
+                dispatch(togglePrefInterface(interfaceType))
               }
             />
           )
@@ -187,7 +194,7 @@ Props) => {
               className={styles.checkbox}
               labelText={switchType}
               onChange={({ value, id, event }: CheckboxEvent) =>
-                togglePresenceInArray("switch_type", switch_type, switchType)
+                dispatch(togglePrefSwitch(switchType))
               }
             />
           )

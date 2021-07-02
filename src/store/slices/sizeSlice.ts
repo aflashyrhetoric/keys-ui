@@ -7,9 +7,9 @@ import { arrayOfStringsReducer } from "../helpers"
 export const preferenceSizeSlice = createSlice({
   name: "preferenceSize",
   initialState: [],
-  reducers: arrayOfStringsReducer("PreferenceSize"),
+  reducers: arrayOfStringsReducer("PrefSize"),
 })
 
-export const { addPreferenceSize, removePreferenceSize, togglePreferenceSize } =
+export const { addPrefSize, removePrefSize, togglePrefSize } =
   preferenceSizeSlice.actions
 export default preferenceSizeSlice.reducer

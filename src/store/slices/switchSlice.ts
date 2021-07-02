@@ -6,9 +6,9 @@ import { arrayOfStringsReducer } from "../helpers"
 export const preferenceSwitchSlice = createSlice({
   name: "preferenceSwitch",
   initialState: [],
-  reducers: arrayOfStringsReducer("Switch"),
+  reducers: arrayOfStringsReducer("PrefSwitch"),
 })
 
-export const { addSwitch, removeSwitch, toggleSwitch } =
+export const { addPrefSwitch, removePrefSwitch, togglePrefSwitch } =
   preferenceSwitchSlice.actions
 export default preferenceSwitchSlice.reducer

@@ -6,9 +6,9 @@ import { singletonReducer } from "../helpers"
 export const preferenceFrameColorSlice = createSlice({
   name: "preferenceFrameColor",
   initialState: [],
-  reducers: singletonReducer("FrameColor"),
+  reducers: singletonReducer("PrefFrameColor"),
 })
 
-export const { addFrameColor, removeFrameColor, toggleFrameColor } =
+export const { addPrefFrameColor, removePrefFrameColor, togglePrefFrameColor } =
   preferenceFrameColorSlice.actions
 export default preferenceFrameColorSlice.reducer

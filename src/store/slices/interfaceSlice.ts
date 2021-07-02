@@ -6,9 +6,9 @@ import { arrayOfStringsReducer } from "../helpers"
 export const preferenceInterfaceSlice = createSlice({
   name: "preferenceInterface",
   initialState: [],
-  reducers: arrayOfStringsReducer("Interface"),
+  reducers: arrayOfStringsReducer("PrefInterface"),
 })
 
-export const { addInterface, removeInterface, toggleInterface } =
+export const { addPrefInterface, removePrefInterface, togglePrefInterface } =
   preferenceInterfaceSlice.actions
 export default preferenceInterfaceSlice.reducer
