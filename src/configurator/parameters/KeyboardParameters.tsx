@@ -40,8 +40,17 @@ const KeyboardParameters: React.FC<Props> = ({
   products,
 }: // setPrefs,
 Props) => {
-  const prefs = useSelector(state => state.preferences)
-  console.log(prefs)
+  const state = useSelector(state => state.preferences)
+  const { preferences } = state
+  const {
+    size,
+    compatible_oses,
+    interfaces,
+    frame_color,
+    primary_led_color,
+    switch_type,
+  } = preferences
+
   const dispatch = useDispatch()
 
   return (
@@ -52,18 +61,19 @@ Props) => {
         label="layout / size"
         tooltipText="Keyboards come in multiple sizes, with larger keyboards offering additional features like a number pad, page up/down buttons, etc."
       >
-        {KeyboardSizes.map(size => (
-          <Checkbox
-            key={`keyboard-size-option-${size}`}
-            id={`keyboard size option ${size}`}
-            checked={prefs && prefs.size ? prefs.size.includes(size) : false}
-            className={styles.checkbox}
-            labelText={size}
-            onChange={({ value, id, event }: CheckboxEvent) =>
-              // togglePresenceInArray("size", prefs.size, size)
-              dispatch(toggleSize())
-            }
-          />
+        {KeyboardSizes.map(keyboardSize => (
+          <>
+            <Checkbox
+              key={`keyboard-size-option-${keyboardSize}`}
+              id={`keyboard size option ${keyboardSize}`}
+              checked={size.includes(keyboardSize)}
+              className={styles.checkbox}
+              labelText={keyboardSize}
+              onChange={({ value, id, event }: CheckboxEvent) =>
+                dispatch(togglePreferenceSize(keyboardSize))
+              }
+            />
+          </>
         ))}
       </SidebarSection>
 
@@ -74,7 +84,7 @@ Props) => {
         tooltipText="The frame color is the color of the base of the keyboard - the part that touches the desk and houses the internal components."
         style={{ display: "flex", flexFlow: "column wrap", height: "180px" }}
       >
-        {KeyboardFrameColors.map(frame_color => {
+        {KeyboardFrameColors.map(fc => {
           const amountOfProductsForCurrentFrameColor =
             productsFilteredByMultipleSelect.filter(
               k =>
@@ -86,14 +96,12 @@ Props) => {
 
           return (
             <Checkbox
-              key={`${frame_color}-frame-color`}
+              key={`${fc}-frame-color`}
               disabled={isEmptySet}
-              id={`keyboard color option ${frame_color}`}
-              checked={
-                prefs && prefs.frame_color === frame_color && !isEmptySet
-              }
+              id={`keyboard color option ${fc}`}
+              checked={frame_color === fc && !isEmptySet}
               className={styles.checkbox}
-              labelText={`${frame_color} (${amountOfProductsForCurrentFrameColor})`}
+              labelText={`${fc} (${amountOfProductsForCurrentFrameColor})`}
               onChange={({ value, id, event }: CheckboxEvent) =>
                 updateColor(frame_color)
               }
@@ -107,7 +115,8 @@ Props) => {
         label="Operating System"
         tooltipText="Some keyboards are Windows-only or Mac-only. Some support both. Select all that you need."
       >
-        {prefs &&
+        {compatible_oses &&
+          compatible_oses.length > 0 &&
           [
             OperatingSystem.Windows,
             OperatingSystem.macOS,
@@ -116,18 +125,18 @@ Props) => {
             const isSelected = currentOS => {
               if (currentOS === OperatingSystem.Windows) {
                 return (
-                  prefs.compatible_oses === OperatingSystem.Windows ||
-                  prefs.compatible_oses === OperatingSystem.Both
+                  compatible_oses === OperatingSystem.Windows ||
+                  compatible_oses === OperatingSystem.Both
                 )
               }
               if (currentOS === OperatingSystem.macOS) {
                 return (
-                  prefs.compatible_oses === OperatingSystem.macOS ||
-                  prefs.compatible_oses === OperatingSystem.Both
+                  compatible_oses === OperatingSystem.macOS ||
+                  compatible_oses === OperatingSystem.Both
                 )
               }
               if (currentOS === OperatingSystem.Both) {
-                return prefs.compatible_oses === OperatingSystem.Both
+                return compatible_oses === OperatingSystem.Both
               }
             }
             return (
@@ -148,25 +157,20 @@ Props) => {
         label="Ports & Interfaces"
         tooltipText="Some keyboards are wired-only, others have wireless/bluetooth, some have both."
       >
-        {prefs &&
-          KeyboardInterfaces.map(interfaceType => {
-            return (
-              <Checkbox
-                id={`keyboard interface option ${interfaceType}`}
-                key={`${interfaceType}-checkbox`}
-                checked={prefs?.interfaces?.includes(interfaceType)}
-                className={styles.checkbox}
-                labelText={interfaceType}
-                onChange={({ value, id, event }: CheckboxEvent) =>
-                  togglePresenceInArray(
-                    "interfaces",
-                    prefs.interfaces,
-                    interfaceType,
-                  )
-                }
-              />
-            )
-          })}
+        {KeyboardInterfaces.map(interfaceType => {
+          return (
+            <Checkbox
+              id={`keyboard interface option ${interfaceType}`}
+              key={`${interfaceType}-checkbox`}
+              checked={interfaces?.includes(interfaceType)}
+              className={styles.checkbox}
+              labelText={interfaceType}
+              onChange={({ value, id, event }: CheckboxEvent) =>
+                togglePresenceInArray("interfaces", interfaces, interfaceType)
+              }
+            />
+          )
+        })}
       </SidebarSection>
       <SidebarSection
         showTooltipLeft
@@ -174,25 +178,20 @@ Props) => {
         label="Available Switch Types"
         tooltipText="Keyboards most often come with switches pre-installed. Switches control the sound and feel of the keypress. Check out our Switches section to learn more."
       >
-        {prefs &&
-          SwitchTypes.map(switchType => {
-            return (
-              <Checkbox
-                id={`keyboard interface option ${switchType}`}
-                key={`${switchType}-checkbox`}
-                checked={prefs?.switch_type?.includes(switchType)}
-                className={styles.checkbox}
-                labelText={switchType}
-                onChange={({ value, id, event }: CheckboxEvent) =>
-                  togglePresenceInArray(
-                    "switch_type",
-                    prefs.switch_type,
-                    switchType,
-                  )
-                }
-              />
-            )
-          })}
+        {SwitchTypes.map(switchType => {
+          return (
+            <Checkbox
+              id={`keyboard interface option ${switchType}`}
+              key={`${switchType}-checkbox`}
+              checked={switch_type?.includes(switchType)}
+              className={styles.checkbox}
+              labelText={switchType}
+              onChange={({ value, id, event }: CheckboxEvent) =>
+                togglePresenceInArray("switch_type", switch_type, switchType)
+              }
+            />
+          )
+        })}
       </SidebarSection>
     </div>
   )

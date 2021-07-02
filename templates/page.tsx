@@ -62,9 +62,7 @@ const Page = ({ title, children, style = {} }: PageProps) => {
       </Head>
 
       <ThemeProvider theme={theme}>
-        {/* <Provider store={store}> */}
         <main className={styles.main}>{children}</main>
-        {/* </Provider> */}
       </ThemeProvider>
 
       <footer className={styles.footer}>

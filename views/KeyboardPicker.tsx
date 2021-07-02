@@ -40,8 +40,6 @@ const KeyboardPicker: React.FC<PickerProps> = ({
           <KeyboardParameters
             productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
             products={products}
-            // prefs={prefs}
-            // setPrefs={setPrefs}
           />
         }
       >
