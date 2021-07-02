@@ -14,8 +14,6 @@ export interface UserPreferences {
   interfaces: KeyboardInterface[]
   frame_color: KeyboardFrameColor
   primary_led_color: KeyboardBacklighting
-
-  // POST-QUIZ PREFERENCES
   switch_type: SwitchType[]
 }
 
@@ -33,7 +31,7 @@ export interface PickerProps {
   products: Keyboard[]
   navigate: Function
   prefs: UserPreferences
-  setPrefs: Function
+  // setPrefs: Function // Marking unused, since we use the store to set preference values now
 }
 
 export interface FilterMetadata {}

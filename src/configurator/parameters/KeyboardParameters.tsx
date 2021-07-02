@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { Checkbox } from "carbon-components-react"
+
 import {
   Keyboard,
   KeyboardFrameColor,
@@ -9,6 +11,7 @@ import {
   KeyboardSizes,
   OperatingSystem,
 } from "types/keyboard"
+import { togglePreferenceSize } from "src/store/slices/sizeSlice"
 
 import styles from "./parameters.module.scss"
 import { UserPreferences } from "types/app"
@@ -17,52 +20,29 @@ import SidebarSection from "templates/partials/SidebarSection"
 import { SwitchTypes } from "types/switch"
 
 interface KeyboardParameters {
-  frame_color: string
+  size: any
   compatible_oses: any
+  frame_color: string
   interfaces: any
   primary_led_color: string
-
-  size: any
+  // switch_type: string
 }
 
 interface Props {
   productsFilteredByMultipleSelect: Keyboard[]
   products: Keyboard[]
-  prefs: UserPreferences
-  setPrefs: Function
+  // prefs: UserPreferences
+  // setPrefs: Function
 }
 
 const KeyboardParameters: React.FC<Props> = ({
   productsFilteredByMultipleSelect,
   products,
-  prefs,
-  setPrefs,
-}: Props) => {
-  // const updateSize = (size: KeyboardSize[]) => setPrefs({ ...prefs, size })
-  const updateColor = (frame_color: KeyboardFrameColor) =>
-    setPrefs({ ...prefs, frame_color })
-  const updateOS = (compatible_oses: OperatingSystem) =>
-    setPrefs({ ...prefs, compatible_oses })
-
-  const togglePresenceInArray = (key: string, list: any[], item) => {
-    // Upsert
-    if (!list || list.length === 0) {
-      setPrefs({ ...prefs, [key]: [item] })
-      return
-    }
-
-    const updatedList = [...list]
-
-    if (list.includes(item)) {
-      const indexOfExistingSize = list.findIndex(s => s === item)
-      updatedList.splice(indexOfExistingSize, 1)
-      // updateSize(updatedList)
-      setPrefs({ ...prefs, [key]: updatedList })
-    } else {
-      // updateSize([...updatedList, item])
-      setPrefs({ ...prefs, [key]: [...updatedList, item] })
-    }
-  }
+}: // setPrefs,
+Props) => {
+  const prefs = useSelector(state => state.preferences)
+  console.log(prefs)
+  const dispatch = useDispatch()
 
   return (
     <div style={{ padding: "10px" }}>
@@ -80,7 +60,8 @@ const KeyboardParameters: React.FC<Props> = ({
             className={styles.checkbox}
             labelText={size}
             onChange={({ value, id, event }: CheckboxEvent) =>
-              togglePresenceInArray("size", prefs.size, size)
+              // togglePresenceInArray("size", prefs.size, size)
+              dispatch(toggleSize())
             }
           />
         ))}

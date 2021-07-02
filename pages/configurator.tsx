@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
 import getQuestions from "data/questions"
 import { loadProductData, parseObject } from "src/utils/api-helpers"
@@ -13,27 +14,24 @@ import {
 } from "src/shared/products"
 
 export default function Configurator() {
-  // const [filterMetadata, setFilterMetadata] = useState<FilterMetadata>([])
   const [
     productsFilteredByMultipleSelect,
     setProductsFilteredByMultipleSelect,
   ] = useState<Keyboard[]>([])
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
-  // const [localPrefs, setLocalPrefs] = usePreferencesStore(localStorageKey, {})
-  const localPrefs = {}
 
-  const [prefs, setPrefs] = useState(localPrefs)
+  // const [prefs, setPrefs] = useState(localPrefs)
+  const prefs = useSelector(state => state.preferences)
 
-  // Updates state as well as localStorage keys
-  const updatePreferences = preferences => {
-    const updated = {
-      ...localPrefs,
-      ...preferences,
-    }
-    setPrefs(updated)
-    // setLocalPrefs(updated)
-  }
+  // No longer needed, since the logic for updating the state belongs in the store, rather than using hooks.
+  // const updatePreferences = preferences => {
+  //   const updated = {
+  //     ...localPrefs,
+  //     ...preferences,
+  //   }
+  //   setPrefs(updated)
+  // }
 
   useEffect(() => {
     const setProductData = async () => {
@@ -60,7 +58,6 @@ export default function Configurator() {
     productsFilteredByMultipleSelect,
     navigate: setActiveView,
     prefs,
-    setPrefs: updatePreferences,
   }
 
   const viewMap = {

@@ -16,7 +16,6 @@ const KeyboardPicker: React.FC<PickerProps> = ({
   products,
   navigate,
   prefs,
-  setPrefs,
 }: PickerProps) => {
   const [highlightedProduct, setHighlightedProduct] = useState<Keyboard>(null)
   const [modalOpen, setModalOpen] = useState(false)
@@ -41,8 +40,8 @@ const KeyboardPicker: React.FC<PickerProps> = ({
           <KeyboardParameters
             productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
             products={products}
-            prefs={prefs}
-            setPrefs={setPrefs}
+            // prefs={prefs}
+            // setPrefs={setPrefs}
           />
         }
       >
