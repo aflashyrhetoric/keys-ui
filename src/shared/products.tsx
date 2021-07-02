@@ -7,6 +7,8 @@ export const filterProducts = (
   userPrefs: any,
   questions: any,
 ) => {
+  // TODO
+  return products
   let filteredSet = [...products]
   // console.log(filteredSet)
   Object.keys(userPrefs).forEach(preferenceKey => {
@@ -51,8 +53,9 @@ export const filterProductsByMultipleSelectsOnly = (
       //   `Filtering by ${userPrefs[preferenceKey] || "No option chosen"}...`,
       // )
       // console.log("BEFORE", filteredSet)
-      filteredSet = filteredSet.filter(product =>
-        q.filterFunction(product, userPrefs[preferenceKey] || null),
+      filteredSet = filteredSet.filter(
+        product => true,
+        // q.filterFunction(product, userPrefs[preferenceKey] || null),
       )
       // console.log("AFTER", filteredSet)
     })

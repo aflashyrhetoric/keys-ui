@@ -45,8 +45,9 @@ const KeyboardParameters: React.FC<Props> = ({
   products,
 }: // setPrefs,
 Props) => {
-  const state = useSelector(state => state.preferences)
-  const { preferences } = state
+  const preferences = useSelector(state => state)
+  console.log(preferences)
+  // const { preferences } = state
   const {
     size,
     compatible_oses,
@@ -71,7 +72,7 @@ Props) => {
             <Checkbox
               key={`keyboard-size-option-${keyboardSize}`}
               id={`keyboard size option ${keyboardSize}`}
-              checked={size.includes(keyboardSize)}
+              checked={size?.includes(keyboardSize)}
               className={styles.checkbox}
               labelText={keyboardSize}
               onChange={({ value, id, event }: CheckboxEvent) =>
@@ -97,7 +98,8 @@ Props) => {
                 k.frame_color.toLowerCase() === frame_color,
             ).length
 
-          const isEmptySet = amountOfProductsForCurrentFrameColor === 0
+          // const isEmptySet = amountOfProductsForCurrentFrameColor === 0
+          const isEmptySet = false
 
           return (
             <Checkbox

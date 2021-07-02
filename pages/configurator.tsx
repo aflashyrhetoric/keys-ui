@@ -21,17 +21,7 @@ export default function Configurator() {
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
 
-  // const [prefs, setPrefs] = useState(localPrefs)
   const prefs = useSelector(state => state.preferences)
-
-  // No longer needed, since the logic for updating the state belongs in the store, rather than using hooks.
-  // const updatePreferences = preferences => {
-  //   const updated = {
-  //     ...localPrefs,
-  //     ...preferences,
-  //   }
-  //   setPrefs(updated)
-  // }
 
   useEffect(() => {
     const setProductData = async () => {
@@ -62,7 +52,7 @@ export default function Configurator() {
 
   const viewMap = {
     [View.KeyboardPicker]: <KeyboardPicker {...sharedProps} />,
-    [View.SwitchPicker]: <SwitchPicker {...sharedProps} />,
+    // [View.SwitchPicker]: <SwitchPicker {...sharedProps} />,
     // [View.KeycapPicker]: <KeyboardPicker products={products} />,
   }
 
