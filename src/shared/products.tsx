@@ -1,6 +1,145 @@
+/*
+ * This is a list of shared helper functions for products
+ * This is NOT a React component - don't be misled by the .tsx extension :)
+ */
 import { Tag } from "carbon-components-react"
+import { typeToLowerString, typeToString } from "src/utils/type-helpers"
 import { UserPreferences } from "types/app"
-import { Keyboard } from "types/keyboard"
+import {
+  Keyboard,
+  KeyboardFrameColors,
+  KeyboardInterface,
+} from "types/keyboard"
+
+const applyFilters = (productList, filterKey, comparisonValue) => {
+  return productList.reduce(
+    (acc, val) => productFilterReducer(acc, filterKey)(val, comparisonValue),
+    productList,
+  )
+}
+
+export const productFilterReducer = (productList, filterKey) => {
+  switch (filterKey) {
+    case "size":
+      return productList.filter((product: Keyboard, cv: string) => {
+        return cv.includes(product.size)
+      })
+    case "compatible_oses":
+      return productList.filter(
+        (product: Keyboard, comparisonValue: string) => {
+          const cv = comparisonValue.toLowerCase()
+
+          if (cv === null) {
+            return true
+          }
+
+          // Since all keyboards are basically compatible with Windows by default, reflect that logic here
+          const isWindowsCompatible =
+            product.windows_compatible === null || product.windows_compatible
+          const isMacCompatible = product.mac_compatible
+          const isBoth = isWindowsCompatible && isMacCompatible
+
+          if (cv === "both") {
+            return isBoth
+          }
+          if (cv === "windows") {
+            return isWindowsCompatible
+          }
+          if (cv === "macOS".toLowerCase()) {
+            return isMacCompatible
+          }
+
+          return false
+        },
+      )
+    case "interfaces":
+      return productList.filter(
+        (product: Keyboard, value: KeyboardInterface[]) => {
+          if (!value || value.length === 0) {
+            return true
+          }
+          // TODO FIX THIS SHIT
+          // Many wired keyboards have null values, so show it if it's null but we're looking for any wired connections
+          if (
+            product.interfaces === null &&
+            [
+              KeyboardInterface.MicroUSB,
+              KeyboardInterface.PS2,
+              KeyboardInterface.MiniUSB,
+              KeyboardInterface.USB,
+              KeyboardInterface.USBC,
+            ].some(ki => value.includes(ki))
+          ) {
+            return true
+          }
+
+          if (product.interfaces === null) {
+            return false
+          }
+
+          const { interfaces } = product
+
+          const cv: string[] = value.map(typeToString)
+
+          // Iterate through each of the product's interfaces
+          // If any of them match our preferences, then include it
+          return interfaces.map(typeToString).find(productInterface => {
+            return cv.includes(typeToString(productInterface))
+          })
+        },
+      )
+    case "frame_color":
+      return productList.filter(
+        (product: Keyboard, comparisonValue: string) => {
+          const frameColor = product.frame_color
+            ? product.frame_color.toLowerCase()
+            : ""
+          const cv = comparisonValue.toLowerCase()
+
+          // console.log(frameColor)
+
+          if (!frameColor) {
+            return false
+          }
+
+          // If the data is missing, include the keyboard just in case
+          if (!frameColor || cv === "any") {
+            return true
+          }
+
+          const fc = frameColor.toLowerCase()
+
+          if (KeyboardFrameColors.map(typeToLowerString).includes(cv)) {
+            return fc === cv
+          }
+          if (cv === "colorful") {
+            return ["pink", "blue", "green", "red", "orange"].includes(fc)
+          }
+        },
+      )
+    case "primary_led_color":
+      return productList.filter(
+        (product: Keyboard, comparisonValue: string) => {
+          if (comparisonValue === "n/a") {
+            return true
+          }
+
+          const color = product.primary_led_color
+            ? product.primary_led_color.toLowerCase()
+            : "n/a"
+
+          if (comparisonValue === "rgb") {
+            return color === "rgb" || color === "full"
+          }
+          if (comparisonValue === "white") {
+            return color === "rgb" || color === "full" || color === "white"
+          }
+
+          return true
+        },
+      )
+  }
+}
 
 export const filterProducts = (
   products: Keyboard[],

@@ -12,14 +12,13 @@ import {
   OperatingSystem,
 } from "types/keyboard"
 import { togglePrefSize } from "src/store/slices/sizeSlice"
-import { togglePrefOS } from "src/store/slices/osSlice"
+import { setPrefOS } from "src/store/slices/osSlice"
 import { togglePrefInterface } from "src/store/slices/interfaceSlice"
-import { togglePrefFrameColor } from "src/store/slices/frameColorSlice"
+import { setPrefFrameColor } from "src/store/slices/frameColorSlice"
 import { togglePrefBacklighting } from "src/store/slices/keyboardBacklightingSlice"
 import { togglePrefSwitch } from "src/store/slices/switchSlice"
 
 import styles from "./parameters.module.scss"
-import { UserPreferences } from "types/app"
 import { CheckboxEvent } from "types/carbon"
 import SidebarSection from "templates/partials/SidebarSection"
 import { SwitchTypes } from "types/switch"
@@ -45,7 +44,7 @@ const KeyboardParameters: React.FC<Props> = ({
   products,
 }: // setPrefs,
 Props) => {
-  const preferences = useSelector(state => state)
+  const preferences = useSelector(state => state.preferences)
   console.log(preferences)
   // const { preferences } = state
   const {
@@ -110,7 +109,7 @@ Props) => {
               className={styles.checkbox}
               labelText={`${fc} (${amountOfProductsForCurrentFrameColor})`}
               onChange={({ value, id, event }: CheckboxEvent) =>
-                dispatch(togglePrefFrameColor(fc))
+                dispatch(setPrefFrameColor(fc))
               }
             />
           )
@@ -122,43 +121,42 @@ Props) => {
         label="Operating System"
         tooltipText="Some keyboards are Windows-only or Mac-only. Some support both. Select all that you need."
       >
-        {compatible_oses &&
-          compatible_oses.length > 0 &&
-          [
-            OperatingSystem.Windows,
-            OperatingSystem.macOS,
-            OperatingSystem.Both,
-          ].map(os => {
-            const isSelected = currentOS => {
-              if (currentOS === OperatingSystem.Windows) {
-                return (
-                  compatible_oses === OperatingSystem.Windows ||
-                  compatible_oses === OperatingSystem.Both
-                )
-              }
-              if (currentOS === OperatingSystem.macOS) {
-                return (
-                  compatible_oses === OperatingSystem.macOS ||
-                  compatible_oses === OperatingSystem.Both
-                )
-              }
-              if (currentOS === OperatingSystem.Both) {
-                return compatible_oses === OperatingSystem.Both
-              }
+        {[
+          OperatingSystem.Windows,
+          OperatingSystem.macOS,
+          OperatingSystem.Both,
+        ].map(os => {
+          const isSelected = currentOS => {
+            if (currentOS === OperatingSystem.Windows) {
+              return (
+                compatible_oses === OperatingSystem.Windows ||
+                compatible_oses === OperatingSystem.Both
+              )
             }
-            return (
-              <Checkbox
-                key={os}
-                id={`keyboard color option ${os}`}
-                checked={isSelected(os)}
-                className={styles.checkbox}
-                labelText={`${os === "both" ? "Both" : os}`}
-                onChange={({ value, id, event }: CheckboxEvent) =>
-                  dispatch(togglePrefOS(os))
-                }
-              />
-            )
-          })}
+            if (currentOS === OperatingSystem.macOS) {
+              return (
+                compatible_oses === OperatingSystem.macOS ||
+                compatible_oses === OperatingSystem.Both
+              )
+            }
+            if (currentOS === OperatingSystem.Both) {
+              return compatible_oses === OperatingSystem.Both
+            }
+          }
+          return (
+            <Checkbox
+              key={os}
+              id={`keyboard color option ${os}`}
+              checked={isSelected(os)}
+              className={styles.checkbox}
+              labelText={`${os === "both" ? "Both" : os}`}
+              onChange={({ value, id, event }: CheckboxEvent) => {
+                console.log(os)
+                dispatch(setPrefOS(os))
+              }}
+            />
+          )
+        })}
       </SidebarSection>
       <SidebarSection
         showTooltipLeft
