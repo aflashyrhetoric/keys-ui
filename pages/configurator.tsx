@@ -34,7 +34,6 @@ export default function Configurator() {
         allProducts,
       )
 
-      // setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
       setProducts(products)
     }
 
