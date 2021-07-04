@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
 import getQuestions from "data/questions"
 import { loadProductData, parseObject } from "src/utils/api-helpers"
@@ -6,48 +7,34 @@ import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
-import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
-import {
-  filterProducts,
-  filterProductsByMultipleSelectsOnly,
-} from "src/shared/products"
+// import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
+import { applyPreferenceFilter } from "src/shared/products"
 
 export default function Configurator() {
-  // const [filterMetadata, setFilterMetadata] = useState<FilterMetadata>([])
-  const [
-    productsFilteredByMultipleSelect,
-    setProductsFilteredByMultipleSelect,
-  ] = useState<Keyboard[]>([])
+  // const [
+  //   productsFilteredByMultipleSelect,
+  //   setProductsFilteredByMultipleSelect,
+  // ] = useState<Keyboard[]>([])
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
-  const [localPrefs, setLocalPrefs] = usePreferencesStore(localStorageKey, {})
 
-  const [prefs, setPrefs] = useState(localPrefs)
-
-  // Updates state as well as localStorage keys
-  const updatePreferences = preferences => {
-    const updated = {
-      ...localPrefs,
-      ...preferences,
-    }
-    setPrefs(updated)
-    // setLocalPrefs(updated)
-  }
+  const prefs = useSelector(state => state.preferences)
 
   useEffect(() => {
     const setProductData = async () => {
-      const questions = getQuestions()
+      // const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      // console.log(rawData)
-      // const allProducts = JSON.parse(rawData)
-      const allProducts = rawData ? rawData.map(parseObject) : []
-      const productsFilteredByMultipleSelect =
-        filterProductsByMultipleSelectsOnly(allProducts, prefs, questions)
-      const products = filterProducts(allProducts, prefs, questions)
 
-      // setFilterMetadata(computeFilterMetadata(allProducts))
-      setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
+      const allProducts = rawData ? rawData.map(parseObject) : []
+
+      const products = Object.keys(prefs).reduce(
+        (acc, preferenceKey) =>
+          applyPreferenceFilter(acc, preferenceKey, prefs[preferenceKey]),
+        allProducts,
+      )
+
+      // setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
       setProducts(products)
     }
 
@@ -56,15 +43,13 @@ export default function Configurator() {
 
   const sharedProps = {
     products,
-    productsFilteredByMultipleSelect,
     navigate: setActiveView,
     prefs,
-    setPrefs: updatePreferences,
   }
 
   const viewMap = {
     [View.KeyboardPicker]: <KeyboardPicker {...sharedProps} />,
-    [View.SwitchPicker]: <SwitchPicker {...sharedProps} />,
+    // [View.SwitchPicker]: <SwitchPicker {...sharedProps} />,
     // [View.KeycapPicker]: <KeyboardPicker products={products} />,
   }
 

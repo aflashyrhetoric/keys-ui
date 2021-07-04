@@ -1,11 +1,13 @@
 import Head from "next/head"
 import styles from "styles/UIShell.module.scss"
+import AppHeader from "./partials/app-header"
+import AdminPalette from "src/shared/AdminPalette"
+
 // import { Button } from "carbon-components-react";
 // import { LogoTwitter24 } from "@carbon/icons-react"
-import AppHeader from "./partials/app-header"
 // import { UserPreferences } from "types/app"
 // import { loadProductData } from "src/utils/api-helpers"
-import AdminPalette from "src/shared/AdminPalette"
+
 interface PageProps {
   title?: string
   navigate?: Function // a function that changes a view in the parent
@@ -33,9 +35,9 @@ const UIShellPage = ({ title, navigate, children, parameters }: PageProps) => {
           href="//unpkg.com/carbon-components/css/carbon-components.css"
         />
       </Head>
-
       <main className={styles.main}>
         <AppHeader navigate={navigate} parameters={parameters} />
+
         {children}
       </main>
 

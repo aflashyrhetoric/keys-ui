@@ -1,10 +1,12 @@
 import React, { useMemo } from "react"
 import Head from "next/head"
-import styles from "styles/Home.module.scss"
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles"
+import store from "src/store"
+import { Provider } from "react-redux"
 import { LogoTwitter24 } from "@carbon/icons-react"
 // import { purple } from "@material-ui/core/colors"
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles"
+import styles from "styles/Home.module.scss"
 
 interface PageProps {
   title?: string
