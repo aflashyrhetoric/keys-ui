@@ -33,19 +33,19 @@ interface KeyboardParameters {
 }
 
 interface Props {
-  productsFilteredByMultipleSelect: Keyboard[]
+  // productsFilteredByMultipleSelect: Keyboard[]
   products: Keyboard[]
   // prefs: UserPreferences
   // setPrefs: Function
 }
 
 const KeyboardParameters: React.FC<Props> = ({
-  productsFilteredByMultipleSelect,
+  // productsFilteredByMultipleSelect,
   products,
 }: // setPrefs,
 Props) => {
   const preferences = useSelector(state => state.preferences)
-  console.log(preferences)
+  // console.log(preferences)
   // const { preferences } = state
   const {
     size,
@@ -90,15 +90,18 @@ Props) => {
         style={{ display: "flex", flexFlow: "column wrap", height: "180px" }}
       >
         {KeyboardFrameColors.map(fc => {
-          const amountOfProductsForCurrentFrameColor =
-            productsFilteredByMultipleSelect.filter(
-              k =>
-                k.frame_color !== null &&
-                k.frame_color.toLowerCase() === frame_color,
-            ).length
+          // TODO
+          const amountOfProductsForCurrentFrameColor = ""
+          const isEmptySet = false
+
+          // const amountOfProductsForCurrentFrameColor =
+          //   productsFilteredByMultipleSelect.filter(
+          //     k =>
+          //       k.frame_color !== null &&
+          //       k.frame_color.toLowerCase() === frame_color,
+          //   ).length
 
           // const isEmptySet = amountOfProductsForCurrentFrameColor === 0
-          const isEmptySet = false
 
           return (
             <Checkbox
@@ -107,7 +110,8 @@ Props) => {
               id={`keyboard color option ${fc}`}
               checked={frame_color === fc && !isEmptySet}
               className={styles.checkbox}
-              labelText={`${fc} (${amountOfProductsForCurrentFrameColor})`}
+              // labelText={`${fc} (${amountOfProductsForCurrentFrameColor})`}
+              labelText={fc}
               onChange={({ value, id, event }: CheckboxEvent) =>
                 dispatch(setPrefFrameColor(fc))
               }
@@ -151,7 +155,6 @@ Props) => {
               className={styles.checkbox}
               labelText={`${os === "both" ? "Both" : os}`}
               onChange={({ value, id, event }: CheckboxEvent) => {
-                console.log(os)
                 dispatch(setPrefOS(os))
               }}
             />

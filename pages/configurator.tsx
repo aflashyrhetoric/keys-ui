@@ -9,15 +9,17 @@ import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
 import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
 import {
-  filterProducts,
-  filterProductsByMultipleSelectsOnly,
+  applyFilters,
+  applyPreferenceFilter,
+  // filterProducts,
+  // filterProductsByMultipleSelectsOnly,
 } from "src/shared/products"
 
 export default function Configurator() {
-  const [
-    productsFilteredByMultipleSelect,
-    setProductsFilteredByMultipleSelect,
-  ] = useState<Keyboard[]>([])
+  // const [
+  //   productsFilteredByMultipleSelect,
+  //   setProductsFilteredByMultipleSelect,
+  // ] = useState<Keyboard[]>([])
   const [products, setProducts] = useState<Keyboard[]>([])
   const [activeView, setActiveView] = useState(View.KeyboardPicker)
 
@@ -25,18 +27,20 @@ export default function Configurator() {
 
   useEffect(() => {
     const setProductData = async () => {
-      const questions = getQuestions()
+      // const questions = getQuestions()
       const response = await loadProductData()
       const rawData = response.data
-      // console.log(rawData)
-      // const allProducts = JSON.parse(rawData)
+
       const allProducts = rawData ? rawData.map(parseObject) : []
-      const productsFilteredByMultipleSelect =
-        filterProductsByMultipleSelectsOnly(allProducts, prefs, questions)
-      const products = filterProducts(allProducts, prefs, questions)
+
+      const products = Object.keys(prefs).reduce((acc, preferenceKey) => {
+        console.log(acc, preferenceKey)
+        return applyPreferenceFilter(acc, preferenceKey, prefs[preferenceKey])
+      }, allProducts)
+      console.log(products)
 
       // setFilterMetadata(computeFilterMetadata(allProducts))
-      setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
+      // setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
       setProducts(products)
     }
 
@@ -45,7 +49,7 @@ export default function Configurator() {
 
   const sharedProps = {
     products,
-    productsFilteredByMultipleSelect,
+    // productsFilteredByMultipleSelect,
     navigate: setActiveView,
     prefs,
   }

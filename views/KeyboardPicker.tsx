@@ -12,7 +12,7 @@ import { PickerProps } from "types/app"
 import { userPreferencesToTags } from "src/shared/products"
 
 const KeyboardPicker: React.FC<PickerProps> = ({
-  productsFilteredByMultipleSelect,
+  // productsFilteredByMultipleSelect,
   products,
   navigate,
   prefs,
@@ -38,7 +38,7 @@ const KeyboardPicker: React.FC<PickerProps> = ({
         navigate={navigate}
         parameters={
           <KeyboardParameters
-            productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
+            // productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
             products={products}
           />
         }

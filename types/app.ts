@@ -27,7 +27,7 @@ export const defaultUserPreferences: UserPreferences = {
 }
 
 export interface PickerProps {
-  productsFilteredByMultipleSelect: Keyboard[]
+  // productsFilteredByMultipleSelect: Keyboard[]
   products: Keyboard[]
   navigate: Function
   prefs: UserPreferences
