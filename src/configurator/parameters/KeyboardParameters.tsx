@@ -52,6 +52,7 @@ const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
   return (
     <div style={{ padding: "10px" }}>
       <SidebarSection
+        key="size-section"
         showTooltipLeft
         listContent
         label="layout / size"
@@ -74,6 +75,7 @@ const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
       </SidebarSection>
 
       <SidebarSection
+        key="frame-color-section"
         showTooltipLeft
         listContent
         label="frame color"
@@ -111,6 +113,7 @@ const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
         })}
       </SidebarSection>
       <SidebarSection
+        key="os-section"
         showTooltipLeft
         listContent
         label="Operating System"
@@ -153,6 +156,7 @@ const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
         })}
       </SidebarSection>
       <SidebarSection
+        key="ports-section"
         showTooltipLeft
         listContent
         label="Ports & Interfaces"
@@ -174,6 +178,7 @@ const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
         })}
       </SidebarSection>
       <SidebarSection
+        key="switch-section"
         showTooltipLeft
         listContent
         label="Available Switch Types"

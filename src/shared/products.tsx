@@ -186,10 +186,18 @@ export const userPreferencesToTags = (prefs: UserPreferences): JSX.Element => {
 
   return (
     <>
-      {sizeTags}
-      <Tag type="blue">Frame Color: {prefs.frame_color}</Tag>
-      <Tag type="teal">LED Backlighting: {prefs.primary_led_color}</Tag>
-      {portTags}
+      {prefs && (
+        <>
+          {sizeTags}
+          {prefs.frame_color && (
+            <Tag type="blue">Frame Color: {prefs.frame_color}</Tag>
+          )}
+          {prefs.primary_led_color?.length > 0 && (
+            <Tag type="teal">LED Backlighting: {prefs.primary_led_color}</Tag>
+          )}
+          {portTags}
+        </>
+      )}
     </>
   )
 }

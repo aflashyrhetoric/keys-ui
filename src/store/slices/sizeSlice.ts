@@ -10,6 +10,6 @@ export const preferenceSizeSlice = createSlice({
   reducers: arrayOfStringsReducer("PrefSize"),
 })
 
-export const { addPrefSize, removePrefSize, togglePrefSize } =
+export const { addPrefSize, removePrefSize, togglePrefSize, setPrefSize } =
   preferenceSizeSlice.actions
 export default preferenceSizeSlice.reducer

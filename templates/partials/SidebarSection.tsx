@@ -23,7 +23,6 @@ const SidebarSection: React.FC<Props> = ({
   listContent = false,
   children,
   navigate,
-
   showTooltipLeft = false,
   style = {},
 }: Props) => {

@@ -11,6 +11,7 @@ export const arrayOfStringsReducer = (item: string) => ({
     state.splice(indexOfExistingSize, 1)
     return state
   },
+  [`set${item}`]: (state: any, action: any) => action.payload,
   [`toggle${item}`]: (state: any, action: any) =>
     toggleInArray(state, action.payload),
 })
