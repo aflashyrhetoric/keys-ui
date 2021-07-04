@@ -7,13 +7,8 @@ import { Keyboard } from "types/keyboard"
 import KeyboardPicker from "views/KeyboardPicker"
 import SwitchPicker from "views/SwitchPicker"
 import { View } from "types/views"
-import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
-import {
-  applyFilters,
-  applyPreferenceFilter,
-  // filterProducts,
-  // filterProductsByMultipleSelectsOnly,
-} from "src/shared/products"
+// import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
+import { applyPreferenceFilter } from "src/shared/products"
 
 export default function Configurator() {
   // const [
@@ -33,13 +28,12 @@ export default function Configurator() {
 
       const allProducts = rawData ? rawData.map(parseObject) : []
 
-      const products = Object.keys(prefs).reduce((acc, preferenceKey) => {
-        console.log(acc, preferenceKey)
-        return applyPreferenceFilter(acc, preferenceKey, prefs[preferenceKey])
-      }, allProducts)
-      console.log(products)
+      const products = Object.keys(prefs).reduce(
+        (acc, preferenceKey) =>
+          applyPreferenceFilter(acc, preferenceKey, prefs[preferenceKey]),
+        allProducts,
+      )
 
-      // setFilterMetadata(computeFilterMetadata(allProducts))
       // setProductsFilteredByMultipleSelect(productsFilteredByMultipleSelect)
       setProducts(products)
     }
@@ -49,7 +43,6 @@ export default function Configurator() {
 
   const sharedProps = {
     products,
-    // productsFilteredByMultipleSelect,
     navigate: setActiveView,
     prefs,
   }

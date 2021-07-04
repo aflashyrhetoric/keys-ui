@@ -33,20 +33,11 @@ interface KeyboardParameters {
 }
 
 interface Props {
-  // productsFilteredByMultipleSelect: Keyboard[]
   products: Keyboard[]
-  // prefs: UserPreferences
-  // setPrefs: Function
 }
 
-const KeyboardParameters: React.FC<Props> = ({
-  // productsFilteredByMultipleSelect,
-  products,
-}: // setPrefs,
-Props) => {
+const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
   const preferences = useSelector(state => state.preferences)
-  // console.log(preferences)
-  // const { preferences } = state
   const {
     size,
     compatible_oses,

@@ -12,7 +12,6 @@ import { PickerProps } from "types/app"
 import { userPreferencesToTags } from "src/shared/products"
 
 const KeyboardPicker: React.FC<PickerProps> = ({
-  // productsFilteredByMultipleSelect,
   products,
   navigate,
   prefs,
