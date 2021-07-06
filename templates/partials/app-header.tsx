@@ -21,6 +21,7 @@ import { View } from "types/views"
 import { Search20, Notification20, AppSwitcher20 } from "@carbon/icons-react"
 import SidebarSection from "./SidebarSection"
 import usePreferencesStore, { localStorageKey } from "src/utils/local-storage"
+import KeyboardParameters from "src/configurator/parameters/KeyboardParameters"
 
 interface Props {
   navigate?: Function // pass-through fn to change a view somewhere in the parent (probably configurator.tsx)
@@ -114,6 +115,13 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
                     <li>Holy Pandas: Yellow</li>
                   </ul>
                 </SidebarSection>
+                <hr
+                  style={{
+                    border: "3px solid black",
+                    margin: "1rem",
+                  }}
+                />
+                <KeyboardParameters />
                 {/* <SideNavLink renderIcon={Fade16} href="#">
                   Link
                 </SideNavLink> */}

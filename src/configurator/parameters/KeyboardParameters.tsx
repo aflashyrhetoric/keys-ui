@@ -32,11 +32,7 @@ interface KeyboardParameters {
   // switch_type: string
 }
 
-interface Props {
-  products: Keyboard[]
-}
-
-const KeyboardParameters: React.FC<Props> = ({ products }: Props) => {
+const KeyboardParameters: React.FC = () => {
   const preferences = useSelector(state => state.preferences)
   const {
     size,
