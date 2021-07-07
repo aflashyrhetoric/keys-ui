@@ -127,13 +127,14 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
                 </SideNavLink> */}
               </SideNavItems>
             </SideNav>
-            <HeaderPanel aria-label="Header Panel" expanded>
-              {parameters || (
+
+            {parameters && (
+              <HeaderPanel aria-label="Header Panel" expanded>
                 <div>
                   <h1>NO PARAMETERS</h1>
                 </div>
-              )}
-            </HeaderPanel>
+              </HeaderPanel>
+            )}
           </Header>
         </>
       )}

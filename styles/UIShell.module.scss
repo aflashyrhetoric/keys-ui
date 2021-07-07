@@ -5,7 +5,7 @@ $_actualPagePadding: 1rem;
 .container {
   min-height: 100vh;
   padding-left: $sidebarWidth;
-  padding-right: $sidebarWidth;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
 }

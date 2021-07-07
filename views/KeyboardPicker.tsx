@@ -49,13 +49,14 @@ const KeyboardPicker: React.FC<PickerProps> = ({
   return (
     <>
       <UIShellPage
-        title="Keyboard Picker"
+        title="browse keyboards"
         navigate={navigate}
         parameters={
-          <KeyboardParameters
-            // productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
-            products={products}
-          />
+          null
+          // <KeyboardParameters
+          //   // productsFilteredByMultipleSelect={productsFilteredByMultipleSelect}
+          //   products={products}
+          // />
         }
       >
         <Modal
@@ -74,47 +75,52 @@ const KeyboardPicker: React.FC<PickerProps> = ({
           )}
         </Modal>
         <PageContent
-          title="keyboard picker"
+          title="keyboards"
           subtitle={userPreferencesToTags(prefs)}
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "flex-start",
-          }}
         >
-          <InputLabel id="demo-mutiple-name-label">Name</InputLabel>
-          <Select
-            labelId="demo-mutiple-name-label"
-            id="demo-mutiple-name"
-            multiple
-            value={prefs.size}
-            onChange={e => dispatch(setPrefSize(e.target.value))}
-            input={<Input />}
-            // MenuProps={MenuProps}
+          {/* <div style={{ marginBottom: "1rem" }}>
+            <InputLabel id="select-size-label">Name</InputLabel>
+            <Select
+              value={prefs.size}
+              onChange={e => dispatch(setPrefSize(e.target.value))}
+              input={<Input />}
+              labelId="select-size-label"
+              id="select-size"
+              multiple
+              // MenuProps={MenuProps}
+            >
+              {KeyboardSizes.map(keyboardSize => (
+                <MenuItem
+                  key={keyboardSize}
+                  value={keyboardSize}
+                  // style={getStyles(name, personName, theme)}
+                >
+                  {keyboardSize}
+                </MenuItem>
+              ))}
+            </Select>
+          </div> */}
+          {/* <hr /> */}
+          <div
+            style={{
+              display: "flex",
+              flexFlow: "row wrap",
+              justifyContent: "flex-start",
+            }}
           >
-            {KeyboardSizes.map(keyboardSize => (
-              <MenuItem
-                key={keyboardSize}
-                value={keyboardSize}
-                // style={getStyles(name, personName, theme)}
-              >
-                {keyboardSize}
-              </MenuItem>
-            ))}
-          </Select>
-          <br />
-          {products.length === 0 && "Select a size to get started"}
-          {products &&
-            products.map(p => (
-              <ProductCard
-                key={p.full_title}
-                product={p}
-                onClick={() => {
-                  setHighlightedProduct(p)
-                  setModalOpen(true)
-                }}
-              />
-            ))}
+            {products.length === 0 && "Select a size to get started"}
+            {products &&
+              products.map(p => (
+                <ProductCard
+                  key={p.full_title}
+                  product={p}
+                  onClick={() => {
+                    setHighlightedProduct(p)
+                    setModalOpen(true)
+                  }}
+                />
+              ))}
+          </div>
         </PageContent>
       </UIShellPage>
     </>
