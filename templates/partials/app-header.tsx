@@ -67,13 +67,13 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
               >
                 <Notification20 />
               </HeaderGlobalAction>
-              <HeaderGlobalAction
+              {/* <HeaderGlobalAction
                 aria-label="App Switcher"
                 onClick={action("app-switcher click")}
                 tooltipAlignment="end"
               >
                 <AppSwitcher20 />
-              </HeaderGlobalAction>
+              </HeaderGlobalAction> */}
             </HeaderGlobalBar>
             <SideNav
               className={styles.SideNav}
@@ -89,6 +89,7 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
                 </HeaderSideNavItems>
                 <SidebarSection
                   large
+                  key="base keyboard"
                   label="base keyboard"
                   tooltipText="This will be your base keyboard. The majority of keyboards come pre-assembled with a starter set of switches and keycaps"
                   navigate={() => navigate(View.KeyboardPicker)}
@@ -97,16 +98,18 @@ const AppHeader: React.FC<Props> = ({ navigate, parameters }: Props) => {
                 </SidebarSection>
                 <SidebarSection
                   listContent
+                  key="extra switches"
                   label="extra switches"
                   tooltipText="If you have a hot-swappable keyboard, you can change the switches. Click to explore available switch variations"
                   navigate={() => navigate(View.SwitchPicker)}
                 >
                   <ul>
-                    <li>Holy Pandas: Yellow</li>
+                    <li key="example">Holy Pandas: Yellow</li>
                   </ul>
                 </SidebarSection>
                 <SidebarSection
                   listContent
+                  key="extra keycaps"
                   label="extra keycaps"
                   tooltipText="Browse according to colorway, profile (aka shape of the keycaps), materials, and more"
                   navigate={() => navigate(View.KeycapPicker)}
